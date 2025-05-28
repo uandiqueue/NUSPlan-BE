@@ -1,8 +1,12 @@
 import type { Module } from "../types/nusmods-types";
+import dotenv from "dotenv";
+dotenv.config();
 
-const BASE_URL = "https://api.nusmods.com/v2/2024-2025";
+const BASE_URL = process.env.NUSMODS_BASE_URL!;
 
-export async function fetchModuleList(): Promise<Module> {
+if (!BASE_URL) throw new Error("Missing NUSMODS_BASE_URL in .env");
+
+export async function fetchModuleList(): Promise<Module[]> {
     const res = await fetch(`${BASE_URL}/moduleList.json`);
     if (!res.ok) throw new Error("Failed to fetch module list");
     return res.json();
