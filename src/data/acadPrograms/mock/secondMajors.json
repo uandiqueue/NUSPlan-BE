@@ -1,0 +1,21 @@
+{
+    "Second Major in Life Sciences": {
+        "coreModules": ["LSM1111", "LSM2105", "LSM2106", "LSM2107"],
+        "electives": {
+        "LSM21XX_or_22XX": {
+            "minUnits": 4,
+            "excluded": ["LSM2288", "LSM2289"]
+        },
+        "LSM32XX_or_42XX_or_3991_or_4991": {
+            "minUnits": 16,
+            "excluded": ["LSM3289", "LSM4288"]
+        },
+        "LSM22XX_or_32XX_or_42XX": {
+            "minUnits": 4
+        },
+        "LSM3991_or_4991": {
+            "maxUnits": 4
+        }
+        }
+    }
+}

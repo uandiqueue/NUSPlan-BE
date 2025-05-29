@@ -1,0 +1,18 @@
+{
+    "Minor in Life Sciences": {
+        "coreModules": ["LSM1111"],
+        "electives": {
+        "LSM21XX_or_22XX": {
+            "minUnits": 4,
+            "excluded": ["LSM2288", "LSM2289"]
+        },
+        "LSM32XX_or_42XX": {
+            "minUnits": 8,
+            "excluded": ["LSM3289", "LSM4288"]
+        },
+        "LSM22XX_or_32XX_or_42XX": {
+            "minUnits": 4
+        }
+        }
+    }
+}

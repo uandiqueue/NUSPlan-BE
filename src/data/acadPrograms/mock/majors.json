@@ -1,0 +1,24 @@
+{
+    "Life Sciences": {
+        "coreModules": ["LSM1111", "LSM2105", "LSM2106", "LSM2107", "LSM2191"],
+        "electives": {
+        "LSM22XX": {
+            "included": true,
+            "excluded": ["LSM2289", "LSM2289R"],
+            "maxUnits": 12
+        },
+        "LSM32XX": {
+            "included": true,
+            "excluded": [],
+            "note": "Some modules may be part of specialisation"
+        }
+        },
+        "researchRequirement": [
+        "LSM4288",
+        "LSM2288",
+        "LSM3288",
+        "ZB3288",
+        "LSM UPIP (subject to approval)"
+        ]
+    }
+}
