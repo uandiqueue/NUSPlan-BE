@@ -2,7 +2,7 @@ export type GeneralModuleCode =
     | { type: "exact"; code: string }             // e.g. "CS2100"
     | { type: "wildcard"; prefix: string }        // e.g. "LSM22" => matches LSM22xx
     | { type: "variant"; baseCode: string }       // e.g. "CS1010" => matches CS1010S/T/X
-    | { type: "special"; code: string;            // e.g. "UPIP"
+    | { type: "other"; code: string;            // e.g. "UPIP"
         requiresApproval: true };
 
 // Leaf: modules required
@@ -18,6 +18,7 @@ export interface ModuleRequirementGroup {
     name?: string;
     logic: "AND" | "OR";
     children: (ModuleRequirementGroup | ModuleRequirement)[];
+    required?: boolean; // defaults to true when undefined
     note?: string;
 }
 

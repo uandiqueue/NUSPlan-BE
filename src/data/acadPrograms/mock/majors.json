@@ -1,213 +1,121 @@
 {
-  "programs": [
-    {
-      "type": "major",
-      "honours": true,
-      "name": "Life Sciences",
-      "requirements": {
-        "coreEssentials": [
-          "LSM1111",
-          "LSM2105",
-          "LSM2106",
-          "LSM2107",
-          "LSM2191X"
-        ],
-        "coreElectives": [
-          {
-            "name": "Life Sciences Core Electives",
-            "type": "min",
-            "value": 40,
-            "note": "Pass 40 Units of LSM22XX/32XX/42XX/3991/4991 excluding LSM2289, LSM2289R, LSM3289, LSM3289R",
-            "nested": [
-              {
-                "name": "Level-2000 Cap",
-                "type": "max",
-                "value": 12,
-                "modules": [
-                  "LSM22XX"
-                ]
-              },
-              {
-                "name": "Level-4000 Depth Requirement",
-                "type": "min",
-                "value": 12,
-                "modules": [
-                  "LSM42XX",
-                  "LSM4991"
-                ]
-              },
-              {
-                "name": "Exchange Enrichment Cap",
-                "type": "max",
-                "value": 4,
-                "modules": [
-                  "LSM3991",
-                  "LSM4991"
-                ]
-              },
-              {
-                "name": "Excluded Modules",
-                "type": "max",
-                "value": 0,
-                "modules": [
-                  "LSM2289",
-                  "LSM2289R",
-                  "LSM3289",
-                  "LSM3289R"
-                ]
-              }
-            ]
-          }
-        ],
-        "coreSpecials": [
-          {
-            "name": "Research Track",
-            "type": "min",
-            "value": 4,
-            "modules": [
-                "LSM4288X",
-              "LSM2288",
-              "LSM2288R",
-              "LSM3288",
-              "LSM3288R",
-              "ZB3288",
-              "LSM_UPIP"
-            ]
-          }
-        ],
-        "coreOthers": [
-          {
-            "name": "Research Experiential Requirement",
-            "type": "min",
-            "value": 4,
-            "modules": [
-              "LSM4288X",
-              "LSM2288",
-              "LSM3288",
-              "ZB3288",
-              "LSM_UPIP"
-            ]
-          }
-        ]
-      }
+  "meta": {
+    "name": "Life Sciences",
+    "type": "major",
+    "honours": true,
+    "requiredUnits": 160,
+    "doubleCountCap": 0,
+    "nusTaughtFraction": 0.6
+  },
+  "requirements": {
+    "coreEssentials": [
+      { "type": "exact", "code": "LSM1111" },
+      { "type": "exact", "code": "LSM2105" },
+      { "type": "exact", "code": "LSM2106" },
+      { "type": "exact", "code": "LSM2107" },
+      { "type": "variant", "baseCode": "LSM2191"}
+    ],
+    "coreElectives": {
+      "name": "Core Electives",
+      "logic": "AND",
+      "children": [
+        {
+          "type": "min",
+          "value": 40,
+          "modules": [
+            { "type": "wildcard", "prefix": "LSM22" },
+            { "type": "wildcard", "prefix": "LSM32" },
+            { "type": "wildcard", "prefix": "LSM42" },
+            { "type": "exact", "code": "LSM3991" },
+            { "type": "exact", "code": "LSM4991" }
+          ]
+        },
+        {
+          "type": "max",
+          "value": 12,
+          "modules": [{ "type": "wildcard", "prefix": "LSM22" }],
+          "name": "Level-2000 Cap"
+        },
+        {
+          "name": "Level-4000 Depth Requirement",
+          "logic": "OR",
+          "children": [
+            {
+              "name": "including LSM4288",
+              "logic": "AND",
+              "children": [
+                {
+                  "type": "min",
+                  "value": 8,
+                  "modules": [{ "type": "exact", "code": "LSM4288" }]
+                },
+                {
+                  "type": "min",
+                  "value": 4,
+                  "modules": [
+                    { "type": "wildcard", "prefix": "LSM42" },
+                    { "type": "exact", "code": "LSM4991" }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "excluding LSM4288",
+              "logic": "AND",
+              "children": [
+                {
+                  "type": "min",
+                  "value": 12,
+                  "modules": [
+                    { "type": "wildcard", "prefix": "LSM42" },
+                    { "type": "exact", "code": "LSM4991" }
+                  ]
+                },
+                {
+                  "type": "max",
+                  "value": 0,
+                  "modules": [{ "type": "exact", "code": "LSM4288" }]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "max",
+          "value": 4,
+          "name": "Exchange Enrichment Cap",
+          "modules": [
+            { "type": "exact", "code": "LSM3991" },
+            { "type": "exact", "code": "LSM4991" }
+          ]
+        },
+        {
+          "type": "max",
+          "value": 0,
+          "name": "Excluded UROPS Modules",
+          "modules": [
+            { "type": "variant", "baseCode": "LSM2289" },
+            { "type": "variant", "baseCode": "LSM3289" }
+          ]
+        }
+      ]
     },
-    {
-      "type": "secondMajor",
-      "name": "Life Sciences",
-      "requirements": {
-        "coreEssentials": [
-          "LSM1111",
-          "LSM2105",
-          "LSM2106",
-          "LSM2107"
-        ],
-        "coreElectives": [
-          {
-            "name": "Electives",
-            "type": "min",
-            "value": 24,
-            "nested": [
-              {
-                "name": "Level-2000 Requirement",
-                "type": "min",
-                "value": 4,
-                "modules": [
-                  "LSM21XX",
-                  "LSM22XX"
-                ]
-              },
-              {
-                "name": "Level-3000+ Requirement",
-                "type": "min",
-                "value": 16,
-                "modules": [
-                  "LSM32XX",
-                  "LSM42XX",
-                  "LSM3991",
-                  "LSM4991"
-                ]
-              },
-              {
-                "name": "Research Module Cap",
-                "type": "max",
-                "value": 4,
-                "modules": [
-                  "LSM3991",
-                  "LSM4991"
-                ]
-              },
-              {
-                "name": "Excluded Modules",
-                "type": "min",
-                "value": 0,
-                "modules": [
-                  "LSM2288",
-                  "LSM2289",
-                  "LSM3289",
-                  "LSM4288"
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "type": "minor",
-      "name": "Life Sciences",
-      "requirements": {
-        "coreEssentials": [
-          "LSM1111"
-        ],
-        "coreElectives": [
-          {
-            "name": "Electives",
-            "type": "min",
-            "value": 20,
-            "nested": [
-              {
-                "name": "Level-2000 Requirement",
-                "type": "min",
-                "value": 4,
-                "modules": [
-                  "LSM21XX",
-                  "LSM22XX"
-                ]
-              },
-              {
-                "name": "Level-3000+ Requirement",
-                "type": "min",
-                "value": 8,
-                "modules": [
-                  "LSM32XX",
-                  "LSM42XX"
-                ]
-              },
-              {
-                "name": "Extra Requirement",
-                "type": "min",
-                "value": 4,
-                "modules": [
-                  "LSM22XX",
-                  "LSM32XX",
-                  "LSM42XX"
-                ]
-              },
-              {
-                "name": "Excluded Modules",
-                "type": "min",
-                "value": 0,
-                "modules": [
-                  "LSM2288",
-                  "LSM2289",
-                  "LSM3289",
-                  "LSM4288"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+    "coreOthers": {
+      "name": "Research Experiential Requirement",
+      "logic": "AND",
+      "children": [
+        {
+          "type": "min",
+          "value": 4,
+          "modules": [
+            { "type": "exact", "code": "LSM4288" },
+            { "type": "variant", "baseCode": "LSM2288" },
+            { "type": "variant", "baseCode": "LSM3288" },
+            { "type": "variant", "baseCode": "ZB3288" },
+            { "type": "other", "code": "LSM_UPIP", "requiresApproval": true }
+          ]
+        }
+      ]
     }
-  ]
+  }
 }

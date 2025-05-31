@@ -1,18 +1,69 @@
 {
-    "Minor in Life Sciences": {
-        "coreModules": ["LSM1111"],
-        "electives": {
-        "LSM21XX_or_22XX": {
-            "minUnits": 4,
-            "excluded": ["LSM2288", "LSM2289"]
-        },
-        "LSM32XX_or_42XX": {
-            "minUnits": 8,
-            "excluded": ["LSM3289", "LSM4288"]
-        },
-        "LSM22XX_or_32XX_or_42XX": {
-            "minUnits": 4
-        }
+    "meta": {
+        "name": "Life Sciences",
+        "type": "minor",
+        "requiredUnits": 20,
+        "doubleCountCap": 8,
+        "nusTaughtFraction": 0.6
+    },
+    "requirements": {
+        "coreEssentials": [
+            { "type": "exact", "code": "LSM1111" }
+        ],
+        "coreElectives": {
+            "name": "Core Electives",
+            "logic": "AND",
+            "children": [
+                {
+                    "type": "min",
+                    "value": 16,
+                    "modules": [
+                        { "type": "wildcard", "prefix": "LSM21" },
+                        { "type": "wildcard", "prefix": "LSM22" },
+                        { "type": "wildcard", "prefix": "LSM32" },
+                        { "type": "wildcard", "prefix": "LSM42" }
+                    ]
+                },
+                {
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "wildcard", "prefix": "LSM21" },
+                        { "type": "wildcard", "prefix": "LSM22" }
+                    ],
+                    "name": "Level-2000 Cap"
+                },
+                {
+                    "type": "min",
+                    "value": 8,
+                    "modules": [
+                        { "type": "wildcard", "prefix": "LSM32" },
+                        { "type": "wildcard", "prefix": "LSM42" }
+                    ],
+                    "name": "Level-3000+ Requirement"
+                },
+                {
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "wildcard", "prefix": "LSM22" },
+                        { "type": "wildcard", "prefix": "LSM32" },
+                        { "type": "wildcard", "prefix": "LSM42" }
+                    ],
+                    "name": "X2XX Requirement"
+                },
+                {
+                    "type": "max",
+                    "value": 0,
+                    "name": "Excluded UROPS Modules",
+                    "modules": [
+                        { "type": "variant", "baseCode": "LSM2288" },
+                        { "type": "variant", "baseCode": "LSM4288" },
+                        { "type": "variant", "baseCode": "LSM2289" },
+                        { "type": "variant", "baseCode": "LSM3289" }
+                    ]
+                }
+            ]
         }
     }
 }
