@@ -1,3 +1,5 @@
+import { ModuleCondensed } from "./nusmods-types";
+
 export type GeneralModuleCode =
     | { type: "exact"; code: string }             // e.g. "CS2100"
     | { type: "wildcard"; prefix: string }        // e.g. "LSM22" => matches LSM22xx
@@ -66,33 +68,21 @@ export interface ProgramMeta {
     nusTaughtFraction: 0.6; // Minimum units that must be NUS-taught: 60% of total
 }
 
-// Represents an academic program, such as a Major, Second Major, or Minor.
-export class AcadProgram {
-    meta: ProgramMeta;
-    requirement: ProgramRequirement;
+export interface CategorisedModules {
+    commonCore?: ModuleCondensed[];
+    unrestrictedElectives?: ModuleCondensed[];
+    coreEssentials?: ModuleCondensed[]; 
+    coreElectives?: ModuleCondensed[];
+    coreSpecials?: ModuleCondensed[];
+    coreOthers?: ModuleCondensed[];
 
-    constructor(meta: ProgramMeta, requirement: ProgramRequirement) {
-        this.meta = meta;
-        this.requirement = requirement;
-    }
-
-    getProgramType(): ProgramType {
-        return this.meta.type;
-    }
-
-    getMinRequiredUnits(): number {
-        return this.meta.requiredUnits;
-    }
-
-    getMaxDoubleCountUnits(): number {
-        return this.meta.doubleCountCap;
-    }
-
-    getMinNUSUnits(): number {
-        return Math.ceil(this.meta.requiredUnits * this.meta.nusTaughtFraction);
-    }
+    constraints?: {
+        doubleCountModules?: ModuleCondensed[];
+        level1000Modules?: ModuleCondensed[];
+        level2000Modules?: ModuleCondensed[];
+        nonNUSModules?: ModuleCondensed[];
+        nonUniqueModules?: ModuleCondensed[];
+    };
 }
-
-
 
 

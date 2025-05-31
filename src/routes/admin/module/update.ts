@@ -12,4 +12,5 @@ router.get("/update-module-list", async (_, res) => {
         res.status(500).json({ error: (err as Error).message });
     }
 });
+
 export default router;
