@@ -1,4 +1,4 @@
-import type { Module } from "../types/nusmods-types";
+import type { Module , ModuleCondensed, ModuleInformation } from "../types/nusmods-types";
 import dotenv from "dotenv";
 
 // Load .env variables
@@ -8,14 +8,14 @@ dotenv.config();
 const BASE_URL = process.env.NUSMODS_BASE_URL! || "https://api.nusmods.com/v2/2024-2025";
 
 // Get summaries of all modules
-export async function fetchModuleList(): Promise<Module[]> {
+export async function fetchModuleList(): Promise<ModuleCondensed[]> {
     const res = await fetch(`${BASE_URL}/moduleList.json`);
     if (!res.ok) throw new Error("Failed to fetch module list");
     return res.json();
 }
 
 // Get detailed information about all modules
-export async function fetchDetailedModuleList(): Promise<Module[]> {
+export async function fetchDetailedModuleList(): Promise<ModuleInformation[]> {
     const res = await fetch(`${BASE_URL}/moduleInfo.json`);
     if (!res.ok) throw new Error("Failed to fetch detailed module list");
     return res.json();

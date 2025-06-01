@@ -17,3 +17,6 @@
 
 # Ignore Firebase Admin SDK service account key
 nusplan-80b88-firebase-adminsdk-fbsvc-e48de645a5.json
+
+# Ignore Past Version
+past_vers
