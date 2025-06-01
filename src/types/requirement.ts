@@ -69,6 +69,12 @@ export interface ProgramMeta {
     nusTaughtFraction: 0.6; // Minimum units that must be NUS-taught: 60% of total
 }
 
+// Expect the request body to have the following structure
+export interface Programme {
+    name: string;
+    type: ProgramType;
+}
+
 export interface CategorisedModules {
     commonCore?: ModuleCondensed[];
     unrestrictedElectives?: ModuleCondensed[];

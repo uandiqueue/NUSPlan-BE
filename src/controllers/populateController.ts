@@ -3,12 +3,7 @@ import path from "path";
 import fs from "node:fs/promises";
 import { AcadProgram } from "../model/acadProgram";
 import { categoriseModulesByRequirement } from "../services/categoriseModulesByRequirement";
-
-// Expect the request body to have the following structure
-interface Programme {
-  name: string;
-  type: "major" | "secondMajor" | "minor";
-}
+import { Programme } from "../types/requirement";
 
 // Populate requested programme with categorised modules
 export const populateProgrammes: RequestHandler = async (req, res, next) => {
@@ -32,6 +27,8 @@ export const populateProgrammes: RequestHandler = async (req, res, next) => {
             const prog  = new AcadProgram(meta, requirement);
             const cats  = await categoriseModulesByRequirement(prog);
 
+            // Testing
+            console.log(`Populated ${name} (${type})`);
             return { name, type, categorised: cats };
         })
     );
