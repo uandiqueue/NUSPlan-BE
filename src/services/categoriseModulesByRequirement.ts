@@ -66,7 +66,6 @@ function flattenRequirements(
     if ("children" in node) {
         return node.children.flatMap(flattenRequirements);
     }
-    console.log("Flattening leaf node:", node.modules);
     return node.modules ?? []; // if it's a leaf node, return the modules directly
 }
 
