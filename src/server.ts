@@ -1,17 +1,21 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 
 // Load .env variables
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
 // Import and use routers
 import nusmodsRoutes from "./routes/nusmods-routes";
 import adminModuleUpdateRoutes from "./routes/admin/module/update";
 import populateRoutes from "./routes/populate";
 
+app.use(cors({
+  origin: "http://localhost:3000", // allow frontend to access backend
+}));
 app.use(express.json()); 
 app.use("/api/module", nusmodsRoutes);
 app.use("/api/admin/module", adminModuleUpdateRoutes);
