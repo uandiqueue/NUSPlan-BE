@@ -6,7 +6,7 @@
         "doubleCountCap": 8,
         "nusTaughtFraction": 0.6
     },
-    "requirements": {
+    "requirement": {
         "coreEssentials": [
             { "type": "exact", "code": "LSM1111" }
         ],
