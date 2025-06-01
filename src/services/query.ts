@@ -1,14 +1,18 @@
 import fs from "node:fs/promises";
 import path from "path";
 import { ModuleCondensed } from "../types/nusmods-types";
+import type { ModuleRequirementGroup } from "../types/requirement";
 
+// NUSMods module list loader
+let cache: ModuleCondensed[] | undefined;
 
 // Internal function to load the module list from file
 async function loadAll(): Promise<ModuleCondensed[]> {
-    let data: ModuleCondensed[] = [];
-    const filePath = path.join(__dirname, "../data/moduleList.json");
+    if (cache !== undefined) return cache; // Return cached data if available
+    const filePath = path.join(__dirname, "../data/NUSMods/moduleList.json");
     const raw = await fs.readFile(filePath, "utf-8");
-    data = JSON.parse(raw);
+    const data: ModuleCondensed[] = JSON.parse(raw);
+    cache = data;
     return data;
 }
 
@@ -27,4 +31,13 @@ export async function findExact(code: string): Promise<ModuleCondensed | undefin
 // Get all modules
 export async function getAllModules(): Promise<ModuleCondensed[]> {
     return loadAll();
+}
+
+
+// commonCore data loader
+export async function loadCommonCore(fac: string): Promise<ModuleRequirementGroup> {
+    const filePath = path.join(__dirname, `../data/commonCore/${fac}.json`);
+    const raw = await fs.readFile(filePath, "utf-8");
+    const data: ModuleRequirementGroup = JSON.parse(raw);
+    return data;
 }

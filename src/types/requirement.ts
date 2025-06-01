@@ -12,6 +12,7 @@ export interface ModuleRequirement {
     type: "min" | "max";
     value: number; // units
     modules: GeneralModuleCode[];
+    exclude?: GeneralModuleCode[]; // special cases
     note?: string;
 }
 

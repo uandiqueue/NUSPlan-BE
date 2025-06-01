@@ -1,0 +1,192 @@
+{
+    "meta": {
+        "name": "Business Analytics",
+        "type": "major",
+        "honours": true,
+        "requiredUnits": 160,
+        "doubleCountCap": 0,
+        "nusTaughtFraction": 0.6
+    },
+    "requirement": {
+        "commonCore": {
+            "name": "BizA Common Core",
+            "logic": "AND",
+            "children": [
+                {
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "wildcard", "baseCode": "GEX" }
+                    ],
+                    "note": "Critique and Expression (GEX) is not specified for BizA, but specified for other SoC majors"
+                },
+                {
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "exact", "code": "CS1010A" }
+                    ],
+                    "note": "Digital Literacy (GEI) - BizA Must take CS1010A"
+                },
+                {
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "other", "code": "common-soc" }
+                    ],
+                    "note": "GEC, GESS, GEN, Computing Ethics, ID, and CD for SoC students"
+                },
+                {
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "exact", "code": "BT1101" }
+                    ],
+                    "note": "Data Literacy (GEA) - BizA Must take BT1101"
+                }
+            ]
+        },
+        "unrestrictedElectives": {
+            "name": "Unrestricted Electives",
+            "logic": "AND",
+            "children": [
+                {
+                    "type": "min",
+                    "value": 40,
+                    "modules": [
+                        { "type": "wildcard", "prefix": "" }
+                    ],
+                    "note": "Unrestricted Elective modules (any discipline) to bring total to 160 Units"
+                }
+            ]
+        },
+        "coreEssentials": [
+            { "type": "exact", "code": "MA1521" },
+            { "type": "exact", "code": "MA1522" },
+            { "type": "exact", "code": "BT2101" },
+            { "type": "exact", "code": "BT2102" },
+            { "type": "exact", "code": "CS2030" },
+            { "type": "exact", "code": "CS2040" },
+            { "type": "exact", "code": "IS2101" },
+            { "type": "exact", "code": "ST2334" },
+            { "type": "exact", "code": "BT3103" },
+            { "type": "exact", "code": "IS3103" },
+            { "type": "exact", "code": "BT4103" }
+        ],
+        "coreElectives": {
+            "name": "Programme Electives (PE)",
+            "logic": "AND",
+            "children": [
+                {
+                    "type": "min",
+                    "value": 20,
+                    "modules": [
+                        { "type": "exact", "code": "IS4102" },
+                        { "type": "exact", "code": "IE3120" },
+                        { "type": "exact", "code": "IS3150" },
+                        { "type": "exact", "code": "IS3240" },
+                        { "type": "exact", "code": "BT4013" },
+                        { "type": "exact", "code": "BT4016" },
+                        { "type": "exact", "code": "BT4211" },
+                        { "type": "exact", "code": "BT4212" },
+                        { "type": "exact", "code": "DBA4811" },
+                        { "type": "exact", "code": "IS4241" },
+                        { "type": "exact", "code": "IS4242" },
+                        { "type": "exact", "code": "IS4250" },
+                        { "type": "exact", "code": "IS4262" },
+                        { "type": "exact", "code": "BT3017" },
+                        { "type": "exact", "code": "BT3102" },
+                        { "type": "exact", "code": "BT3104" },
+                        { "type": "exact", "code": "CS3243" },
+                        { "type": "exact", "code": "CS3244" },
+                        { "type": "exact", "code": "CS4248" },
+                        { "type": "exact", "code": "BT4012" },
+                        { "type": "exact", "code": "BT4015" },
+                        { "type": "exact", "code": "BT4221" },
+                        { "type": "exact", "code": "BT4222" },
+                        { "type": "exact", "code": "BT4240" },
+                        { "type": "exact", "code": "BT4241" },
+                        { "type": "exact", "code": "IS4241" },
+                        { "type": "exact", "code": "ST4245" },
+                        { "type": "exact", "code": "IS3107" },
+                        { "type": "exact", "code": "IS3221" },
+                        { "type": "exact", "code": "BT4014" },
+                        { "type": "exact", "code": "BT4301" },
+                        { "type": "exact", "code": "IS4226" },
+                        { "type": "exact", "code": "IS4228" },
+                        { "type": "exact", "code": "IS4234" },
+                        { "type": "exact", "code": "IS4246" },
+                        { "type": "exact", "code": "IS4302" },
+                        { "type": "exact", "code": "IS4303" }
+                    ]
+                },
+                {
+                    "type": "min",
+                    "value": 12,
+                    "modules": [
+                        { "type": "exact", "code": "IS4102" },
+                        { "type": "exact", "code": "BT4013" },
+                        { "type": "exact", "code": "BT4016" },
+                        { "type": "exact", "code": "BT4211" },
+                        { "type": "exact", "code": "BT4212" },
+                        { "type": "exact", "code": "DBA4811" },
+                        { "type": "exact", "code": "IS4241" },
+                        { "type": "exact", "code": "IS4242" },
+                        { "type": "exact", "code": "IS4250" },
+                        { "type": "exact", "code": "IS4262" },
+                        { "type": "exact", "code": "CS4248" },
+                        { "type": "exact", "code": "BT4012" },
+                        { "type": "exact", "code": "BT4015" },
+                        { "type": "exact", "code": "BT4221" },
+                        { "type": "exact", "code": "BT4222" },
+                        { "type": "exact", "code": "BT4240" },
+                        { "type": "exact", "code": "BT4241" },
+                        { "type": "exact", "code": "IS4241" },
+                        { "type": "exact", "code": "ST4245" },
+                        { "type": "exact", "code": "BT4014" },
+                        { "type": "exact", "code": "BT4301" },
+                        { "type": "exact", "code": "IS4226" },
+                        { "type": "exact", "code": "IS4228" },
+                        { "type": "exact", "code": "IS4234" },
+                        { "type": "exact", "code": "IS4246" },
+                        { "type": "exact", "code": "IS4302" },
+                        { "type": "exact", "code": "IS4303" }
+                    ],
+                    "note": "Level-4000 Requirement"
+                },
+                {
+                    "type": "min",
+                    "value": 12,
+                    "modules": [
+                        { "type": "wildcard", "prefix": "BT" }
+                    ],
+                    "note": "BT-coded Requirement"
+                }
+            ]
+        },
+        "coreOthers": {
+            "name": "B.Sc. Dissertation or Industry Experience Requirement",
+            "logic": "OR",
+            "children": [
+                {
+                    "type": "min",
+                    "value": 12,
+                    "modules": [
+                        { "type": "exact", "code": "IS4010" },
+                        { "type": "exact", "code": "CP3880" },
+                        { "type": "other", "code": "SOC_NOC"}
+                    ],
+                    "note": "Industry Experience"
+                },
+                {
+                    "type": "min",
+                    "value": 12,
+                    "modules": [
+                        { "type": "exact", "code": "BT4101" }
+                    ],
+                    "note": "B.Sc. Dissertation (BT4101)"
+                }
+            ]
+        }
+    }
+}

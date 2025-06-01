@@ -7,7 +7,20 @@
     "doubleCountCap": 0,
     "nusTaughtFraction": 0.6
   },
-  "requirements": {
+  "requirement": {
+    "commonCore": {},
+    "unrestrictedElectives": {
+      "name": "Unrestricted Electives",
+      "logic": "AND",
+      "children": [
+        {
+          "type": "min",
+          "value": 40,
+          "modules": [ {"type": "wildcard", "prefix": "" } ],
+          "note": "Unrestricted Elective modules (any discipline) to bring total to 160 Units"
+        }
+      ]
+    },
     "coreEssentials": [
       { "type": "exact", "code": "LSM1111" },
       { "type": "exact", "code": "LSM2105" },

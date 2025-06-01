@@ -1,6 +1,7 @@
 import {
   getModulesByPrefix,
   findExact,
+  loadCommonCore
 } from "./query";
 import type { ModuleCondensed } from "../types/nusmods-types";
 import type { 
@@ -13,19 +14,30 @@ import type { AcadProgram } from "../model/acadProgram";
 
 // Matching one GeneralModuleCode to modules
 async function matchGeneralCode(gmc: GeneralModuleCode): Promise<ModuleCondensed[]> {
-  switch (gmc.type) {
-    case "exact": {
-        const m = await findExact(gmc.code);
-        return m ? [m] : [];
+    switch (gmc.type) {
+        case "exact": {
+            const m = await findExact(gmc.code);
+            return m ? [m] : [];
+        }
+        case "wildcard":
+            return getModulesByPrefix(gmc.prefix);
+        case "variant":
+            return getModulesByPrefix(gmc.baseCode);
+        case "other": {
+            // case for commonCore codes, e.g. "common-soc"
+            const m = gmc.code.match(/^common-(.+)$/);
+            if (m) {
+                const fac = m[1];
+                const codes = await loadCommonCore(fac);
+                const flattened = await Promise.all(
+                    flattenRequirements(codes).map(matchGeneralCode)
+                );
+                return flattened.flat();
+            }
+            // non-common “other” tokens (UPIP, etc.) ignored for now
+            return [];
+        }
     }
-    case "wildcard":
-        return getModulesByPrefix(gmc.prefix);
-    case "variant":
-        return getModulesByPrefix(gmc.baseCode);
-    default:
-        // "other" modules usually aren’t in NUSMods (UPIP etc.).  Ignore for now.
-        return [];
-  }
 }
 
 // Guarantees the same module never appears twice in the resulting array, 
@@ -54,6 +66,7 @@ function flattenRequirements(
     if ("children" in node) {
         return node.children.flatMap(flattenRequirements);
     }
+    console.log("Flattening leaf node:", node.modules);
     return node.modules ?? []; // if it's a leaf node, return the modules directly
 }
 
@@ -62,57 +75,44 @@ export async function categoriseModulesByRequirement(
     program: AcadProgram
 ): Promise<CategorisedModules> {
     const cat: CategorisedModules = {};
+    // If the module is a core essential, it will not be in any other category.
+    const essentials = new Set<string>();
 
     // For each section in requirement, extract its modules
     // (if the section is present), flatten, and store them in the output object.
     if (program.requirement.coreEssentials) {
         cat.coreEssentials = await collect(program.requirement.coreEssentials);
+        // Add core essentials to the set of essentials
+        cat.coreEssentials.forEach(m => essentials.add(m.moduleCode));
     }
     if (program.requirement.coreElectives) {
         const codes = flattenRequirements(program.requirement.coreElectives);
         cat.coreElectives = await collect(codes);
+        // Filter out core essentials from core electives
+        // keep only modules NOT seen before
+        cat.coreElectives = cat.coreElectives.filter(m => !essentials.has(m.moduleCode));
     }
     if (program.requirement.coreSpecials) {
         const codes = flattenRequirements(program.requirement.coreSpecials);
         cat.coreSpecials = await collect(codes);
+        cat.coreSpecials = cat.coreSpecials.filter(m => !essentials.has(m.moduleCode));
     }
     if (program.requirement.coreOthers) {
         const codes = flattenRequirements(program.requirement.coreOthers);
         cat.coreOthers = await collect(codes);
+        cat.coreOthers = cat.coreOthers.filter(m => !essentials.has(m.moduleCode));
     }
     if (program.requirement.commonCore) {
         const codes = flattenRequirements(program.requirement.commonCore);
         cat.commonCore = await collect(codes);
+        cat.commonCore = cat.commonCore.filter(m => !essentials.has(m.moduleCode));
     }
 
     // Unrestricted electives stay empty until the user picks modules
     cat.unrestrictedElectives = [];
 
-    if (program.requirement.constraints) {
-        cat.constraints = {};
-        const c = program.requirement.constraints;
+    // Ignore for now
+    cat.constraints = undefined;
 
-        if (c.doubleCountModules?.length) {
-            const codes = c.doubleCountModules.flatMap(flattenRequirements);
-            cat.constraints.doubleCountModules = await collect(codes);
-        }
-        if (c.level1000Modules?.length) {
-            const codes = c.level1000Modules.flatMap(flattenRequirements);
-            cat.constraints.level1000Modules = await collect(codes);
-        }
-        if (c.level2000Modules?.length) {
-            const codes = c.level2000Modules.flatMap(flattenRequirements);
-            cat.constraints.level2000Modules = await collect(codes);
-        }
-        if (c.nonNUSModules?.length) {
-            const codes = c.nonNUSModules.flatMap(flattenRequirements);
-            cat.constraints.nonNUSModules = await collect(codes);
-        }
-        if (c.nonUniqueModules?.length) {
-            const codes = c.nonUniqueModules.flatMap(flattenRequirements);
-            cat.constraints.nonUniqueModules = await collect(codes);
-        }
-    }
-
-  return cat;
+    return cat;
 }

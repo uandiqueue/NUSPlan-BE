@@ -27,9 +27,9 @@ export const populateProgrammes: RequestHandler = async (req, res, next) => {
                 __dirname, `../data/acadPrograms/mock/${type}/${name}.json`
             );
             const raw = await fs.readFile(filePath, "utf-8");
-            const { meta, requirements } = JSON.parse(raw);
+            const { meta, requirement } = JSON.parse(raw);
 
-            const prog  = new AcadProgram(meta, requirements);
+            const prog  = new AcadProgram(meta, requirement);
             const cats  = await categoriseModulesByRequirement(prog);
 
             return { name, type, categorised: cats };
