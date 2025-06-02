@@ -1,4 +1,4 @@
-**![NUSPlan Logo](assets\nusplan-logo.png)**
+**![NUSPlan Logo](assets/nusplan-logo.png)**
 
 # **Orbital \- Milestone 1**
 
@@ -183,7 +183,7 @@ By Milestone 1, we have:
 
 * Populated NUSMods module list locally on the developer tools’ console via backend fetch (Developer tools can be opened by pressing “F12” on the keyboard, then navigating to console). However, we realised that the NusMods API does not contain the programme requirement for each major, as such this caused the list of mods that are returned to be inaccurate.
 
-![Result Screenshot](assets\milestone_1_result.png)
+![Result Screenshot](assets/milestone_1_result.png)
 
 Part of the list of possible elective mods for Computer Science as a primary major obtained from NUSMods API based on requirement data in the local database.
 
