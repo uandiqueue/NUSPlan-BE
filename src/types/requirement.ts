@@ -1,5 +1,3 @@
-import { ModuleCondensed } from "./nusmods-types";
-
 export type GeneralModuleCode =
     | { type: "exact"; code: string }             // e.g. "CS2100"
     | { type: "wildcard"; prefix: string }        // e.g. "LSM22" => matches LSM22xx
@@ -7,18 +5,32 @@ export type GeneralModuleCode =
     | { type: "other"; code: string;            // e.g. "UPIP"
         requiresApproval: true };
 
+export type RequirementGroupType =
+    | "commonCore"
+    | "unrestrictedElectives"
+    | "coreEssentials"
+    | "coreElectives"
+    | "coreSpecials"
+    | "coreOthers"
+    | "constraints"
+
 // Leaf: modules required
 export interface ModuleRequirement {
-    type: "min" | "max";
+    // rawTagName is used in the tagging system to track requirements
+    // and will be processed in frontend to be more user-friendly
+    // format: camelCase, e.g. "coreEssentials", "level3000+", "industry"
+    rawTagName?: string;
+
+    type: "min" | "max" | "general"; // "general" for the minimum units for a requirement block (logic follows min)
     value: number; // units
     modules: GeneralModuleCode[];
     exclude?: GeneralModuleCode[]; // special cases
-    note?: string;
+    note?: string; 
 }
 
 // Branching: groups of requirements
 export interface ModuleRequirementGroup {
-    name?: string;
+    rawTagName?: string; // for frontend tracking and UI (pre-processed)
     logic: "AND" | "OR";
     children: (ModuleRequirementGroup | ModuleRequirement)[];
     required?: boolean; // defaults to true when undefined
@@ -68,28 +80,4 @@ export interface ProgramMeta {
     doubleCountCap: number;
     nusTaughtFraction: 0.6; // Minimum units that must be NUS-taught: 60% of total
 }
-
-// Expect the request body to have the following structure
-export interface Programme {
-    name: string;
-    type: ProgramType;
-}
-
-export interface CategorisedModules {
-    commonCore?: ModuleCondensed[];
-    unrestrictedElectives?: ModuleCondensed[];
-    coreEssentials?: ModuleCondensed[]; 
-    coreElectives?: ModuleCondensed[];
-    coreSpecials?: ModuleCondensed[];
-    coreOthers?: ModuleCondensed[];
-
-    constraints?: {
-        doubleCountModules?: ModuleCondensed[];
-        level1000Modules?: ModuleCondensed[];
-        level2000Modules?: ModuleCondensed[];
-        nonNUSModules?: ModuleCondensed[];
-        nonUniqueModules?: ModuleCondensed[];
-    };
-}
-
 
