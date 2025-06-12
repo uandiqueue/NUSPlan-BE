@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "path";
 import type { ModuleCondensed , Module } from "../types/nusmods-types";
 import type { ModuleRequirementGroup } from "../types/requirement";
-import type { CourseInfo } from "../types/payloads";
+import type { CourseInfo } from "../types/populator";
 
 /* commonCore data loader */
 export async function loadCommonCore(fac: string): Promise<ModuleRequirementGroup> {

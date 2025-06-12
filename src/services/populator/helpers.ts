@@ -3,7 +3,7 @@ import {
   findExactCourseInfo,
   loadCommonCore
 } from "../query";
-import type { CourseInfo, ExactBox, DropdownBox, CapRule } from "../../types/payloads";
+import type { CourseInfo, ExactBox, DropdownBox, CapRule } from "../../types/populator";
 import type { 
     GeneralModuleCode, 
     ModuleRequirementGroup,

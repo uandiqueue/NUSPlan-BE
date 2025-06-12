@@ -12,7 +12,7 @@ import type {
     CourseBox, 
     RequirementSection,
     AltPathBox
-} from "../../types/payloads";
+} from "../../types/populator";
 import { AcadProgram } from "../../model/acadProgram";
 
 import { 
