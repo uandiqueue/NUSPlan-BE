@@ -22,12 +22,12 @@ export interface CourseTag {
 export type TagMeta =
     | {
         type: "doubleCount";
-        visibleUI: boolean;
-        programs: string[]; // e.g. ["LifeSciences-secondMajor", "DataScience-major"]
+        programs: string[]; // e.g. ["life_sciences-second_major", "data_science-major"]
+        visibleUI: boolean; // for UI display (D)
         }
     | {
         type: "requirementKeys";
-        requirementKeys: string[]; // e.g. ["LS_Elective_3000Plus", "GE_GEX"]
+        requirementKeys: string[]; // e.g. ["life_sciences-second_major-core_essentials-lsm1111"]
         count: number; // for UI display
         };
 
@@ -73,13 +73,19 @@ export interface RequirementSection {
 
     // Unique identifier for this requirement block 
     // Different from rawTagName as requirementKey is for general requirements, not just requirement grpups
-    // e.g. "lifeSciences_coreElectives"
+    // e.g. "life_sciences-core_electives"
     requirementKey: string;
 
-    requiredAU: number; // Total AU required for this section
+    requiredUnits: number; // Total AU required for this section
     label: string; // UI label, e.g. "Core Electives"
     boxes: CourseBox[]; // Initial course selection boxes for this requirement
     note?: string;
+}
+
+export interface CapRule { 
+    tag: string; // e.g. "life_sciences-core_electives-level_1000_cap-..."
+    maxUnits: number; 
+    courses: string[] // Course code
 }
 
 export interface PopulatedProgramPayload {
@@ -87,7 +93,6 @@ export interface PopulatedProgramPayload {
     requirements: RequirementSection[]; // UI info for each requirement block
     moduleTags: CourseTag[]; // Tagging info
 }
-
 
 // For requirement fulfilment indicator UI
 export interface BlockProgress {

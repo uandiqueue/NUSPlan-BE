@@ -12,16 +12,15 @@ export type RequirementGroupType =
     | "coreElectives"
     | "coreSpecials"
     | "coreOthers"
-    | "constraints"
 
 // Leaf: modules required
 export interface ModuleRequirement {
     // rawTagName is used in the tagging system to track requirements
     // and will be processed in frontend to be more user-friendly
-    // format: camelCase, e.g. "coreEssentials", "level3000+", "industry"
-    rawTagName?: string;
+    // format: snake_case, e.g. "core_essentials", "level3000+", "industry"
+    rawTagName: string;
 
-    type: "min" | "max" | "general"; // "general" for the minimum units for a requirement block (logic follows min)
+    type: "min" | "max"; // "min" for minimum required, "max" for maximum allowed
     value: number; // units
     modules: GeneralModuleCode[];
     exclude?: GeneralModuleCode[]; // special cases
@@ -30,7 +29,7 @@ export interface ModuleRequirement {
 
 // Branching: groups of requirements
 export interface ModuleRequirementGroup {
-    rawTagName?: string; // for frontend tracking and UI (pre-processed)
+    rawTagName: string; // for frontend tracking and UI (pre-processed)
     logic: "AND" | "OR";
     children: (ModuleRequirementGroup | ModuleRequirement)[];
     required?: boolean; // defaults to true when undefined
@@ -51,22 +50,7 @@ export interface ProgramRequirement {
     coreSpecials?: ModuleRequirementGroup;
     // Core modules that are not part of the above categories
     coreOthers?: ModuleRequirementGroup;
-
-    // Optional: additional constraints on module selection
-    constraints?: {
-        // Limit double counting of modules
-        doubleCountModules?: ModuleRequirementGroup[];
-        // Limit level-1000 modules
-        level1000Modules?: ModuleRequirementGroup[];
-        // Limit level-2000 modules
-        level2000Modules?: ModuleRequirementGroup[];
-        // Limit modules that are not NUS-taught
-        nonNUSModules?: ModuleRequirementGroup[];
-        // Limit modules that are not unique to the program
-        // e.g. modules listed in another program's course list
-        nonUniqueModules?: ModuleRequirementGroup[];
-    };
-}
+};
 
 // Represents the type of an academic program, such as Major, Second Major, or Minor.
 export type ProgramType = "major" | "secondMajor" | "minor";

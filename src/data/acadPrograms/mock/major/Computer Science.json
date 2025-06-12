@@ -30,7 +30,7 @@
                 },
                 {
                     "type": "min",
-                    "value": 4,
+                    "value": 28,
                     "modules": [
                         { "type": "other", "code": "common-soc" }
                     ],
