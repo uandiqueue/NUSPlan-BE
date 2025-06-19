@@ -61,6 +61,7 @@
                     "logic": "OR",
                     "children": [
                         {
+                            "rawTagName": "path_with_zb2201",
                             "type": "min",
                             "value": 4,
                             "modules": [
@@ -68,6 +69,7 @@
                             ]
                         },
                         {
+                            "rawTagName": "path_with_cs1010_or_cs1101s",
                             "type": "min",
                             "value": 4,
                             "modules": [
