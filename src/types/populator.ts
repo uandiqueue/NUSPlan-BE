@@ -1,4 +1,5 @@
 import { ProgramType, RequirementGroupType, ProgramMeta } from "./requirement";
+import { LookupPayload } from "./validator";
 
 /* 
 Page 1, Program Selection
@@ -18,6 +19,7 @@ export interface PopulatedProgramPayload {
     metadata: ProgramMeta; // For a single program, multiple payloads will be sent if multiple programs selected
     requirements: RequirementSection[]; // UI info for each requirement block
     moduleTags: CourseTag[]; // Tagging info
+    lookup: LookupPayload; // For efficient frontend lookup
 }
 
 // A single section within a program, a program will have multiple sections

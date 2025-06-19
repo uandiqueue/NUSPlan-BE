@@ -11,6 +11,7 @@ const PORT = process.env.PORT || 4000;
 // Import and use routers
 import nusmodsRoutes from "./routes/nusmods-routes";
 import adminModuleUpdateRoutes from "./routes/admin/module/update";
+import adminMapCacheRebuildRoutes from "./routes/admin/mapCacheRebuild";
 import populateRoutes from "./routes/populate";
 
 app.use(cors({
@@ -19,6 +20,7 @@ app.use(cors({
 app.use(express.json()); 
 app.use("/api/module", nusmodsRoutes);
 app.use("/api/admin/module", adminModuleUpdateRoutes);
+app.use("/api/admin/map", adminMapCacheRebuildRoutes);
 app.use("/api/populate", populateRoutes);
 
 // GLOBAL ERROR HANDLER

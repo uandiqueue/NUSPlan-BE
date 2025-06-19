@@ -3,6 +3,7 @@ import path from "path";
 import fs from "node:fs/promises";
 import { AcadProgram } from "../model/acadProgram";
 import { buildPopulatedProgramPayload } from "../services/populator/transform";
+import { validatePopulatedPayload } from "../services/validator/courseValidator";
 import { Programme } from "../types/populator";
 
 // Populate requested programme with categorised modules
@@ -26,6 +27,7 @@ export const populateProgrammes: RequestHandler = async (req, res, next) => {
 
             const prog  = new AcadProgram(meta, requirement);
             const populatedPayload = await buildPopulatedProgramPayload(prog);
+            await validatePopulatedPayload([populatedPayload]);
 
             // Testing
             console.log(`Populated ${populatedPayload.metadata.name} (${populatedPayload.metadata.type})`);
