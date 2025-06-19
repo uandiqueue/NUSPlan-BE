@@ -1,0 +1,83 @@
+{
+    "meta": {
+        "name": "Bioinformatics",
+        "type": "minor",
+        "requiredUnits": 20,
+        "doubleCountCap": 8,
+        "nusTaughtFraction": 0.6
+    },
+    "requirement": {
+        "coreEssentials": [
+            { "type": "exact", "code": "ZB2101" },
+            { "type": "exact", "code": "ZB3101" }
+        ],
+        "coreElectives": {
+            "rawTagName": "core_electives",
+            "logic": "AND",
+            "children": [
+                {
+                    "rawTagName": "core_electives_minimum",
+                    "type": "min",
+                    "value": 12,
+                    "modules": [
+                        { "type": "exact", "code": "ZB2201" },
+                        { "type": "variant", "baseCode": "CS1010" },
+                        { "type": "exact", "code": "CS1101S" },
+                        { "type": "exact", "code": "ZB3288" },
+                        { "type": "exact", "code": "ZB4171" },
+                        { "type": "variant", "baseCode": "CS2040" },
+                        { "type": "exact", "code": "CS4220" },
+                        { "type": "exact", "code": "MA3259" },
+                        { "type": "exact", "code": "LSM4231" },
+                        { "type": "exact", "code": "LSM4241" }
+                    ]
+                },
+                {
+                    "rawTagName": "level_3000_or_4000_minimum",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "exact", "code": "ZB3288" },
+                        { "type": "exact", "code": "ZB4171" },
+                        { "type": "exact", "code": "CS4220" },
+                        { "type": "exact", "code": "MA3259" },
+                        { "type": "exact", "code": "LSM4231" },
+                        { "type": "exact", "code": "LSM4241" }
+                    ]
+                },
+                {
+                    "rawTagName": "cs_module_cap",
+                    "type": "max",
+                    "value": 8,
+                    "modules": [
+                        { "type": "variant", "baseCode": "CS1010" },
+                        { "type": "exact", "code": "CS1101S" },
+                        { "type": "variant", "baseCode": "CS2040" },
+                        { "type": "exact", "code": "CS4220" }
+                    ]
+                },
+                {
+                    "rawTagName": "require_zb2201_or_cs1010",
+                    "logic": "OR",
+                    "children": [
+                        {
+                            "type": "min",
+                            "value": 4,
+                            "modules": [
+                                { "type": "exact", "code": "ZB2201" }
+                            ]
+                        },
+                        {
+                            "type": "min",
+                            "value": 4,
+                            "modules": [
+                                { "type": "variant", "baseCode": "CS1010" },
+                                { "type": "exact", "code": "CS1101S" }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
