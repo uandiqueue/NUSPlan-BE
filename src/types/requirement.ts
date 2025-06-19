@@ -23,7 +23,7 @@ export interface ModuleRequirement {
     type: "min" | "max"; // "min" for minimum required, "max" for maximum allowed
     value: number; // units
     modules: GeneralModuleCode[];
-    exclude?: GeneralModuleCode[]; // special cases
+    exclude?: GeneralModuleCode[]; // special cases (not yet implemented)
     note?: string; 
 }
 
@@ -32,7 +32,7 @@ export interface ModuleRequirementGroup {
     rawTagName: string; // for frontend tracking and UI (pre-processed)
     logic: "AND" | "OR";
     children: (ModuleRequirementGroup | ModuleRequirement)[];
-    required?: boolean; // defaults to true when undefined
+    required?: boolean; // defaults to true when undefined (not yet implemented)
     note?: string;
 }
 

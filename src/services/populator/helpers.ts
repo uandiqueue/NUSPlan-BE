@@ -117,6 +117,7 @@ export function formDropdownBox(
 
 // Prettify a string by adding spaces between snake_case or camelCase words and capitalizing the first letter
 export function prettify(str: string): string {
+    if (!str) console.log(str);
     return str
     .replace(/_/g, " ")
     .replace(/([a-z])([A-Z])/g, "$1 $2")

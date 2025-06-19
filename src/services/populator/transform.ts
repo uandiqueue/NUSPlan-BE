@@ -183,8 +183,15 @@ export async function buildPopulatedProgramPayload(
             coreOthers: "Others"
         };
         const sectionLabel = sectionLabels[sectionType]
-        const sectionKeyChain = [convertToID(program.meta.name), convertToID(sectionType)]
-        const sectionKeyString = `${convertToID(program.meta.name)}-${convertToID(sectionType)}`;  // unique identifier for section
+        let sectionKeyChain: string[];
+        let sectionKeyString: string;
+        if (sectionType === "coreEssentials") {
+            sectionKeyChain = [convertToID(program.meta.name), convertToID(sectionType)];
+            sectionKeyString = `${convertToID(program.meta.name)}-${convertToID(sectionType)}`;  // unique identifier for section
+        } else {
+            sectionKeyChain = [convertToID(program.meta.name)];
+            sectionKeyString = convertToID(program.meta.name);  // unique identifier for section
+        }
         const sectionNote = (!Array.isArray(sectionData) && sectionData.note) ? sectionData.note : undefined;
         const sectionBoxes: CourseBox[] = [];
         let sectionRequiredUnits = 0;

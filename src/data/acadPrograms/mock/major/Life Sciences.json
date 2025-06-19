@@ -1,134 +1,155 @@
 {
-  "meta": {
-    "name": "Life Sciences",
-    "type": "major",
-    "honours": true,
-    "requiredUnits": 160,
-    "doubleCountCap": 0,
-    "nusTaughtFraction": 0.6
-  },
-  "requirement": {
-    "commonCore": {},
-    "unrestrictedElectives": {
-      "name": "Unrestricted Electives",
-      "logic": "AND",
-      "children": [
-        {
-          "type": "min",
-          "value": 40,
-          "modules": [ {"type": "wildcard", "prefix": "" } ],
-          "note": "Unrestricted Elective modules (any discipline) to bring total to 160 Units"
-        }
-      ]
+    "meta": {
+        "name": "Life Sciences",
+        "type": "major",
+        "honours": true,
+        "requiredUnits": 160,
+        "doubleCountCap": 0,
+        "nusTaughtFraction": 0.6
     },
-    "coreEssentials": [
-      { "type": "exact", "code": "LSM1111" },
-      { "type": "exact", "code": "LSM2105" },
-      { "type": "exact", "code": "LSM2106" },
-      { "type": "exact", "code": "LSM2107" },
-      { "type": "variant", "baseCode": "LSM2191"}
-    ],
-    "coreElectives": {
-      "name": "Core Electives",
-      "logic": "AND",
-      "children": [
-        {
-          "type": "min",
-          "value": 40,
-          "modules": [
-            { "type": "wildcard", "prefix": "LSM22" },
-            { "type": "wildcard", "prefix": "LSM32" },
-            { "type": "wildcard", "prefix": "LSM42" },
-            { "type": "exact", "code": "LSM3991" },
-            { "type": "exact", "code": "LSM4991" }
-          ]
-        },
-        {
-          "type": "max",
-          "value": 12,
-          "modules": [{ "type": "wildcard", "prefix": "LSM22" }],
-          "name": "Level-2000 Cap"
-        },
-        {
-          "name": "Level-4000 Depth Requirement",
-          "logic": "OR",
-          "children": [
-            {
-              "name": "including LSM4288",
-              "logic": "AND",
-              "children": [
+    "requirement": {
+        "commonCore": {
+            "rawTagName": "common_core",
+            "logic": "AND",
+            "children": [
                 {
-                  "type": "min",
-                  "value": 8,
-                  "modules": [{ "type": "exact", "code": "LSM4288" }]
+                    "rawTagName": "other_common_fos",
+                    "type": "min",
+                    "value": 52,
+                    "modules": [
+                        { "type": "other", "code": "common-fos" }
+                    ],
+                    "note": "CHS Common Curriculum for Faculty of Science students"
+                }
+            ]                
+        },
+        "unrestrictedElectives": {
+            "rawTagName": "unrestricted_electives",
+            "logic": "AND",
+            "children": [
+                {
+                    "rawTagName": "unrestricted_electives_courses",
+                    "type": "min",
+                    "value": 40,
+                    "modules": [ { "type": "wildcard", "prefix": "" } ],
+                    "note": "Unrestricted Elective modules (any discipline) to bring total to 160 Units"
+                }
+            ]
+        },
+        "coreEssentials": [
+            { "type": "exact", "code": "LSM1111" },
+            { "type": "exact", "code": "LSM2105" },
+            { "type": "exact", "code": "LSM2106" },
+            { "type": "exact", "code": "LSM2107" },
+            { "type": "variant", "baseCode": "LSM2191"}
+        ],
+        "coreElectives": {
+            "rawTagName": "core_electives",
+            "logic": "AND",
+            "children": [
+                {
+                    "rawTagName": "core_electives_minimum",
+                    "type": "min",
+                    "value": 40,
+                    "modules": [
+                        { "type": "wildcard", "prefix": "LSM22" },
+                        { "type": "wildcard", "prefix": "LSM32" },
+                        { "type": "wildcard", "prefix": "LSM42" },
+                        { "type": "exact", "code": "LSM3991" },
+                        { "type": "exact", "code": "LSM4991" }
+                    ]
                 },
                 {
-                  "type": "min",
-                  "value": 4,
-                  "modules": [
-                    { "type": "wildcard", "prefix": "LSM42" },
-                    { "type": "exact", "code": "LSM4991" }
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "excluding LSM4288",
-              "logic": "AND",
-              "children": [
-                {
-                  "type": "min",
-                  "value": 12,
-                  "modules": [
-                    { "type": "wildcard", "prefix": "LSM42" },
-                    { "type": "exact", "code": "LSM4991" }
-                  ]
+                    "rawTagName": "level_2000_cap",
+                    "type": "max",
+                    "value": 12,
+                    "modules": [ { "type": "wildcard", "prefix": "LSM22" } ]
                 },
                 {
-                  "type": "max",
-                  "value": 0,
-                  "modules": [{ "type": "exact", "code": "LSM4288" }]
+                    "rawTagName": "level_4000_requirement",
+                    "logic": "OR",
+                    "children": [
+                        {
+                            "rawTagName": "path_with_lsm4288",
+                            "logic": "AND",
+                            "children": [
+                                {
+                                    "rawTagName": "lsm4288",
+                                    "type": "min",
+                                    "value": 8,
+                                    "modules": [ { "type": "exact", "code": "LSM4288" } ]
+                                },
+                                {
+                                    "rawTagName": "other_level_4000",
+                                    "type": "min",
+                                    "value": 4,
+                                    "modules": [
+                                        { "type": "wildcard", "prefix": "LSM42" },
+                                        { "type": "exact", "code": "LSM4991" }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "rawTagName": "path_without_lsm4288",
+                            "logic": "AND",
+                            "children": [
+                                {
+                                    "rawTagName": "other_level_4000",
+                                    "type": "min",
+                                    "value": 12,
+                                    "modules": [
+                                        { "type": "wildcard", "prefix": "LSM42" },
+                                        { "type": "exact", "code": "LSM4991" }
+                                    ]
+                                },
+                                {
+                                    "rawTagName": "no_lsm4288",
+                                    "type": "max",
+                                    "value": 0,
+                                    "modules": [ { "type": "exact", "code": "LSM4288" } ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "rawTagName": "exchange_enrichment_cap",
+                    "type": "max",
+                    "value": 4,
+                    "modules": [
+                        { "type": "exact", "code": "LSM3991" },
+                        { "type": "exact", "code": "LSM4991" }
+                    ]
+                },
+                {
+                    "rawTagName": "excluded_urops_modules",
+                    "type": "max",
+                    "value": 0,
+                    "modules": [
+                        { "type": "variant", "baseCode": "LSM2289" },
+                        { "type": "variant", "baseCode": "LSM3289" }
+                    ]
                 }
-              ]
-            }
-          ]
+            ]
         },
-        {
-          "type": "max",
-          "value": 4,
-          "name": "Exchange Enrichment Cap",
-          "modules": [
-            { "type": "exact", "code": "LSM3991" },
-            { "type": "exact", "code": "LSM4991" }
-          ]
-        },
-        {
-          "type": "max",
-          "value": 0,
-          "name": "Excluded UROPS Modules",
-          "modules": [
-            { "type": "variant", "baseCode": "LSM2289" },
-            { "type": "variant", "baseCode": "LSM3289" }
-          ]
+        "coreOthers": {
+            "rawTagName": "core_others",
+            "logic": "AND",
+            "children": [
+                {
+                    "rawTagName": "research_experiential_requirement",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "exact", "code": "LSM4288" },
+                        { "type": "variant", "baseCode": "LSM2288" },
+                        { "type": "variant", "baseCode": "LSM3288" },
+                        { "type": "variant", "baseCode": "ZB3288" },
+                        { "type": "other", "code": "LSM_UPIP", "requiresApproval": true }
+                    ]
+                }
+            ]
         }
-      ]
-    },
-    "coreOthers": {
-      "name": "Research Experiential Requirement",
-      "logic": "AND",
-      "children": [
-        {
-          "type": "min",
-          "value": 4,
-          "modules": [
-            { "type": "exact", "code": "LSM4288" },
-            { "type": "variant", "baseCode": "LSM2288" },
-            { "type": "variant", "baseCode": "LSM3288" },
-            { "type": "variant", "baseCode": "ZB3288" },
-            { "type": "other", "code": "LSM_UPIP", "requiresApproval": true }
-          ]
-        }
-      ]
     }
-  }
 }

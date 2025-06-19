@@ -2,8 +2,8 @@ import { RequestHandler } from "express";
 import path from "path";
 import fs from "node:fs/promises";
 import { AcadProgram } from "../model/acadProgram";
-import { categoriseModulesByRequirement } from "../services/categoriseModulesByRequirement";
-import { Programme } from "../types/requirement";
+import { buildPopulatedProgramPayload } from "../services/populator/transform";
+import { Programme } from "../types/populator";
 
 // Populate requested programme with categorised modules
 export const populateProgrammes: RequestHandler = async (req, res, next) => {
@@ -25,11 +25,11 @@ export const populateProgrammes: RequestHandler = async (req, res, next) => {
             const { meta, requirement } = JSON.parse(raw);
 
             const prog  = new AcadProgram(meta, requirement);
-            const cats  = await categoriseModulesByRequirement(prog);
+            const populatedPayload = await buildPopulatedProgramPayload(prog);
 
             // Testing
-            console.log(`Populated ${name} (${type})`);
-            return { name, type, categorised: cats };
+            console.log(`Populated ${populatedPayload.metadata.name} (${populatedPayload.metadata.type})`);
+            return { populatedPayload };
         })
     );
 

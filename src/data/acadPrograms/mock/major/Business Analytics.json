@@ -9,10 +9,11 @@
     },
     "requirement": {
         "commonCore": {
-            "name": "BizA Common Core",
+            "rawTagName": "common_core",
             "logic": "AND",
             "children": [
                 {
+                    "rawTagName": "gex_critique_and_expression",
                     "type": "min",
                     "value": 4,
                     "modules": [
@@ -21,6 +22,7 @@
                     "note": "Critique and Expression (GEX) is not specified for BizA, but specified for other SoC majors"
                 },
                 {
+                    "rawTagName": "gei_digital_literacy",
                     "type": "min",
                     "value": 4,
                     "modules": [
@@ -29,6 +31,7 @@
                     "note": "Digital Literacy (GEI) - BizA Must take CS1010A"
                 },
                 {
+                    "rawTagName": "other_common_soc",
                     "type": "min",
                     "value": 4,
                     "modules": [
@@ -37,6 +40,7 @@
                     "note": "GEC, GESS, GEN, Computing Ethics, ID, and CD for SoC students"
                 },
                 {
+                    "rawTagName": "gea_data_literacy",
                     "type": "min",
                     "value": 4,
                     "modules": [
@@ -47,10 +51,11 @@
             ]
         },
         "unrestrictedElectives": {
-            "name": "Unrestricted Electives",
+            "rawTagName": "unrestricted_electives",
             "logic": "AND",
             "children": [
                 {
+                    "rawTagName": "unrestricted_electives_courses",
                     "type": "min",
                     "value": 40,
                     "modules": [
@@ -74,10 +79,11 @@
             { "type": "exact", "code": "BT4103" }
         ],
         "coreElectives": {
-            "name": "Programme Electives (PE)",
+            "rawTagName": "core_electives",
             "logic": "AND",
             "children": [
                 {
+                    "rawTagName": "pe_programme_electives",
                     "type": "min",
                     "value": 20,
                     "modules": [
@@ -121,6 +127,7 @@
                     ]
                 },
                 {
+                    "rawTagName": "pe_level_4000_requirement",
                     "type": "min",
                     "value": 12,
                     "modules": [
@@ -155,6 +162,7 @@
                     "note": "Level-4000 Requirement"
                 },
                 {
+                    "rawTagName": "pe_bt_coded_requirement",
                     "type": "min",
                     "value": 12,
                     "modules": [
@@ -165,10 +173,11 @@
             ]
         },
         "coreOthers": {
-            "name": "B.Sc. Dissertation or Industry Experience Requirement",
+            "rawTagName": "b_sc_dissertation_or_industry_experience",
             "logic": "OR",
             "children": [
                 {
+                    "rawTagName": "industry_experience",
                     "type": "min",
                     "value": 12,
                     "modules": [
@@ -179,6 +188,7 @@
                     "note": "Industry Experience"
                 },
                 {
+                    "rawTagName": "b_sc_dissertation",
                     "type": "min",
                     "value": 12,
                     "modules": [
