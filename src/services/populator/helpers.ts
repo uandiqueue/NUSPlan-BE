@@ -1,7 +1,7 @@
 import {
-  getCourseInfoByPrefix,
-  findExactCourseInfo,
-  loadCommonCore
+    getCourseInfoByPrefix,
+    findExactCourseInfo,
+    loadCommonCore
 } from "../query";
 import type { CourseInfo, ExactBox, DropdownBox, CapRule } from "../../types/populator";
 import type { 
@@ -94,7 +94,7 @@ export function formExactBox(
 ): ExactBox {
     return {
         kind: "exact",
-        boxKey: `${keyChain}-${course.courseCode}`,
+        boxKey: `${keyChain}`,
         course: course,
         UILabel: `${course.courseCode} - ${course.title}`,
         readonly: isReadonly

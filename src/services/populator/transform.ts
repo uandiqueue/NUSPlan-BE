@@ -13,6 +13,7 @@ import type {
     RequirementSection,
     AltPathBox
 } from "../../types/populator";
+import type { PrereqMap, PreclusionMap, TagMap, UnitMap } from "../../types/validator";
 import { AcadProgram } from "../../model/acadProgram";
 
 import { 
@@ -25,6 +26,7 @@ import {
     computeRequiredUnits,
     collectCapRules
 } from "./helpers";
+import { fetchPrereqMap, fetchPreclusionMap } from "../query";
 
 
 export async function buildPopulatedProgramPayload(
@@ -35,12 +37,20 @@ export async function buildPopulatedProgramPayload(
     const payload: PopulatedProgramPayload = {
         metadata: program.meta,
         requirements: [],
-        moduleTags: []
+        moduleTags: [],
+        lookup: {
+            tags: {},
+            units: {},
+            prereqs: {},
+            preclusions: {},
+            selected: [], // Initially empty, will be filled with pre-selected courses
+            version: 0 // Initial version, will be updated later
+        }
     };
 
     // Data structures for accumulating tags and selection info
     const tagsMap: Map<string, Set<string>> = new Map(); // moduleCode -> tags (just strings, not yet parsed into TagMeta)
-    const unitsMap: Record<string, number> = {}; // moduleCode -> units (non-dynamic, just for easier query)
+    const unitsMap: UnitMap = {}; // moduleCode -> units (non-dynamic, just for easier query)
     const preSelected = new Set<string>(); // courses that are fixed/selected by default (e.g. core essentials)
     const capRules: CapRule[] = []; // to enforce cap (max) rules: strip tags from unselected courses if cap reached
 
@@ -186,11 +196,11 @@ export async function buildPopulatedProgramPayload(
         let sectionKeyChain: string[];
         let sectionKeyString: string;
         if (sectionType === "coreEssentials") {
-            sectionKeyChain = [convertToID(program.meta.name), convertToID(sectionType)];
-            sectionKeyString = `${convertToID(program.meta.name)}-${convertToID(sectionType)}`;  // unique identifier for section
+            sectionKeyChain = [convertToID(program.meta.name), convertToID(program.meta.type), convertToID(sectionType)];
+            sectionKeyString = `${convertToID(program.meta.name)}-${convertToID(program.meta.type)}-${convertToID(sectionType)}`;  // unique identifier for section
         } else {
-            sectionKeyChain = [convertToID(program.meta.name)];
-            sectionKeyString = convertToID(program.meta.name);  // unique identifier for section
+            sectionKeyChain = [convertToID(program.meta.name), convertToID(program.meta.type)];
+            sectionKeyString = `${convertToID(program.meta.name)}-${convertToID(program.meta.type)}`;  // unique identifier for section
         }
         const sectionNote = (!Array.isArray(sectionData) && sectionData.note) ? sectionData.note : undefined;
         const sectionBoxes: CourseBox[] = [];
@@ -333,6 +343,25 @@ export async function buildPopulatedProgramPayload(
         };
         payload.moduleTags.push({ moduleCode: moduleCode, tags: [tagMeta] });
     }
+
+    // Convert tagsMap (Map<string, Set<string>>) to TagMap (Record<string, string[]>)
+    const tagMapObj: TagMap = {};
+    for (const [moduleCode, tagSet] of tagsMap.entries()) {
+        tagMapObj[moduleCode] = Array.from(tagSet);
+    }
+
+    // Populate lookup payload with tags, units, prereqs, and preclusions
+    const prereqsMap: PrereqMap = await fetchPrereqMap();
+    const preclusionsMap: PreclusionMap = await fetchPreclusionMap();
+
+    payload.lookup = {
+        tags: tagMapObj,
+        units: unitsMap,
+        prereqs: prereqsMap,
+        preclusions: preclusionsMap,
+        selected: Array.from(preSelected),
+        version: 1
+    };
 
     return payload;
 }

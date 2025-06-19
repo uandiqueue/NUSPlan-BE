@@ -3,6 +3,7 @@ import path from "path";
 import type { ModuleCondensed , Module } from "../types/nusmods-types";
 import type { ModuleRequirementGroup } from "../types/requirement";
 import type { CourseInfo } from "../types/populator";
+import type { PrereqMap, PreclusionMap } from "../types/validator";
 
 /* commonCore data loader */
 export async function loadCommonCore(fac: string): Promise<ModuleRequirementGroup> {
@@ -16,6 +17,8 @@ export async function loadCommonCore(fac: string): Promise<ModuleRequirementGrou
 /* NUSMods module list loader */
 let cache: ModuleCondensed[] | undefined;
 let largeCache: Module[] | undefined;
+let prereqMapCache: PrereqMap | undefined;
+let preclusionMapCache: PreclusionMap | undefined;
 
 // ULTRA DETAILED MODULE LIST
 // Internal function to load the ultra-detailed module list from file
@@ -96,4 +99,27 @@ export async function findExactCourseInfo(code: string): Promise<CourseInfo | un
         units: parseInt(found.moduleCredit, 10)
     }
     : undefined;
+}
+
+
+/* Maps data loader */
+// Load prerequisite map from file
+// Fetch prerequisite map
+export async function fetchPrereqMap(): Promise<PrereqMap> {
+    if (prereqMapCache !== undefined) return prereqMapCache; // Return cached data if available
+    const filePath = path.join(__dirname, "../data/maps/prereqMap.json");
+    const raw = await fs.readFile(filePath, "utf-8");
+    const data: PrereqMap = JSON.parse(raw);
+    prereqMapCache = data;
+    return data;
+}
+
+// Fetch preclusion map
+export async function fetchPreclusionMap(): Promise<PreclusionMap> {
+    if (preclusionMapCache !== undefined) return preclusionMapCache; // Return cached data if available
+    const filePath = path.join(__dirname, "../data/maps/preclusionMap.json");
+    const raw = await fs.readFile(filePath, "utf-8");
+    const data: PreclusionMap = JSON.parse(raw);
+    preclusionMapCache = data;
+    return data;
 }
