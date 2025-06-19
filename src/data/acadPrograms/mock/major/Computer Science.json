@@ -9,10 +9,11 @@
     },
     "requirement": {
         "commonCore": {
-            "name": "CS Common Core",
+            "rawTagName": "common_core",
             "logic": "AND",
             "children": [
                 {
+                    "rawTagName": "gex_critique_and_expression",
                     "type": "min",
                     "value": 4,
                     "modules": [
@@ -21,6 +22,7 @@
                     "note": "Critique and Expression (GEX) - Computer Science Must take ES2660"
                 },
                 {
+                    "rawTagName": "gei_digital_literacy",
                     "type": "min",
                     "value": 4,
                     "modules": [
@@ -29,14 +31,16 @@
                     "note": "Digital Literacy (GEI) - Computer Science Must take CS1101S"
                 },
                 {
+                    "rawTagName": "other_common_soc",
                     "type": "min",
-                    "value": 4,
+                    "value": 28,
                     "modules": [
                         { "type": "other", "code": "common-soc" }
                     ],
                     "note": "GEC, GESS, GEN, Computing Ethics, ID, and CD for SoC students"
                 },
                 {
+                    "rawTagName": "gea_data_literacy",
                     "type": "min",
                     "value": 4,
                     "modules": [
@@ -54,10 +58,11 @@
             ]
         },
         "unrestrictedElectives": {
-            "name": "Unrestricted Electives",
+            "rawTagName": "unrestricted_electives",
             "logic": "AND",
             "children": [
                 {
+                    "rawTagName": "unrestricted_electives_courses",
                     "type": "min",
                     "value": 40,
                     "modules": [
@@ -78,21 +83,24 @@
             { "type": "exact", "code": "CS3230" }
         ],
         "coreElectives": {
-            "name": "Core Electives",
+            "rawTagName": "core_electives",
             "logic": "AND",
             "children": [
                 {
-                    "name": "Mathematics and Science",
+                    "rawTagName": "mathematics_and_statistics",
                     "logic": "AND",
                     "children": [
                         {
+                            "rawTagName": "calculus",
                             "type": "min",
                             "value": 4,
                             "modules": [
-                                { "type": "exact", "code": "MA1521" }
+                                { "type": "exact", "code": "MA1521" },
+                                { "type": "exact", "code": "MA2002" }
                             ]
                         },
                         {
+                            "rawTagName": "linear_algebra",
                             "type": "min",
                             "value": 4,
                             "modules": [
@@ -100,19 +108,36 @@
                             ]
                         },
                         {
-                            "type": "min",
-                            "value": 4,
-                            "modules": [
-                                { "type": "exact", "code": "ST2334" }
+                            "rawTagName": "probability_and_statistics",
+                            "logic": "OR",
+                            "children": [
+                                {
+                                    "rawTagName": "computing_students_requirement",
+                                    "type": "min",
+                                    "value": 4,
+                                    "modules": [
+                                        { "type": "exact", "code": "ST2334" }
+                                    ]
+                                },
+                                {
+                                    "rawTagName": "maths_cs_ddp_students_requirement",
+                                    "type": "min",
+                                    "value": 8,
+                                    "modules": [
+                                        { "type": "exact", "code": "ST2131" },
+                                        { "type": "exact", "code": "ST2132" }
+                                    ]
+                                }
                             ]
                         }
                     ]
                 },
                 {
-                    "name": "CS Breadth and Depth",
+                    "rawTagName": "cs_breadth_and_depth",
                     "logic": "AND",
                     "children": [
                         {
+                            "rawTagName": "breath_and_depth_minimum",
                             "type": "min",
                             "value": 32,
                             "modules": [
@@ -127,15 +152,16 @@
                             ]
                         },
                         {
-                            "name": "CS Focus Areas",
+                            "rawTagName": "cs_focus_areas",
                             "logic": "OR",
                             "note": "Satisfy at least one CS Focus Area by completing 3 courses in the Area Primaries with at least one course at Level-4000 or above for that focus area.",
                             "children": [
                                 {
-                                    "name": "Algorithms & Theory",
+                                    "rawTagName": "algorithms_and_theory",
                                     "logic": "AND",
                                     "children": [
                                         {
+                                            "rawTagName": "minimum_requirement",
                                             "type": "min",
                                             "value": 12,
                                             "modules": [
@@ -148,6 +174,7 @@
                                             ]
                                         },
                                         {
+                                            "rawTagName": "level_4000_requirement",
                                             "type": "min",
                                             "value": 4,
                                             "modules": [
@@ -159,10 +186,11 @@
                                     ]
                                 },
                                 {
-                                    "name": "Artificial Intelligence",
+                                    "rawTagName": "artificial_intelligence",
                                     "logic": "AND",
                                     "children": [
                                         {
+                                            "rawTagName": "minimum_requirement",
                                             "type": "min",
                                             "value": 12,
                                             "modules": [
@@ -178,6 +206,7 @@
                                             ]
                                         },
                                         {
+                                            "rawTagName": "level_4000_requirement",
                                             "type": "min",
                                             "value": 4,
                                             "modules": [
@@ -190,10 +219,11 @@
                                     ]
                                 },
                                 {
-                                    "name": "Computer Graphics and Games",
+                                    "rawTagName": "computer_graphics_and_games",
                                     "logic": "AND",
                                     "children": [
                                         {
+                                            "rawTagName": "minimum_requirement",
                                             "type": "min",
                                             "value": 12,
                                             "modules": [
@@ -205,6 +235,7 @@
                                             ]
                                         },
                                         {
+                                            "rawTagName": "level_4000_requirement",
                                             "type": "min",
                                             "value": 4,
                                             "modules": [
@@ -215,10 +246,11 @@
                                     ]
                                 },
                                 {
-                                    "name": "Computer Security",
+                                    "rawTagName": "computer_security",
                                     "logic": "AND",
                                     "children": [
                                         {
+                                            "rawTagName": "minimum_requirement",
                                             "type": "min",
                                             "value": 12,
                                             "modules": [
@@ -231,6 +263,7 @@
                                             ]
                                         },
                                         {
+                                            "rawTagName": "level_4000_requirement",
                                             "type": "min",
                                             "value": 4,
                                             "modules": [
@@ -243,10 +276,11 @@
                                     ]
                                 },
                                 {
-                                    "name": "Database Systems",
+                                    "rawTagName": "database_systems",
                                     "logic": "AND",
                                     "children": [
                                         {
+                                            "rawTagName": "minimum_requirement",
                                             "type": "min",
                                             "value": 12,
                                             "modules": [
@@ -258,6 +292,7 @@
                                             ]
                                         },
                                         {
+                                            "rawTagName": "level_4000_requirement",
                                             "type": "min",
                                             "value": 4,
                                             "modules": [
@@ -269,10 +304,11 @@
                                     ]
                                 },
                                 {
-                                    "name": "Multimedia Information Retrieval",
+                                    "rawTagName": "multimedia_information_retrieval",
                                     "logic": "AND",
                                     "children": [
                                         {
+                                            "rawTagName": "minimum_requirement",
                                             "type": "min",
                                             "value": 12,
                                             "modules": [
@@ -284,6 +320,7 @@
                                             ]
                                         },
                                         {
+                                            "rawTagName": "level_4000_requirement",
                                             "type": "min",
                                             "value": 4,
                                             "modules": [
@@ -295,10 +332,11 @@
                                     ]
                                 },
                                 {
-                                    "name": "Networking and Distributed Systems",
+                                    "rawTagName": "networking_and_distributed_systems",
                                     "logic": "AND",
                                     "children": [
                                         {
+                                            "rawTagName": "minimum_requirement",
                                             "type": "min",
                                             "value": 12,
                                             "modules": [
@@ -310,6 +348,7 @@
                                             ]
                                         },
                                         {
+                                            "rawTagName": "level_4000_requirement",
                                             "type": "min",
                                             "value": 4,
                                             "modules": [
@@ -321,10 +360,11 @@
                                     ]
                                 },
                                 {
-                                    "name": "Parallel Computing",
+                                    "rawTagName": "parallel_computing",
                                     "logic": "AND",
                                     "children": [
                                         {
+                                            "rawTagName": "minimum_requirement",
                                             "type": "min",
                                             "value": 12,
                                             "modules": [
@@ -335,6 +375,7 @@
                                             ]
                                         },
                                         {
+                                            "rawTagName": "level_4000_requirement",
                                             "type": "min",
                                             "value": 4,
                                             "modules": [
@@ -345,10 +386,12 @@
                                     ]
                                 },
                                 {
+                                    "rawTagName": "programming_languages",
                                     "name": "Programming Languages",
                                     "logic": "AND",
                                     "children": [
                                         {
+                                            "rawTagName": "minimum_requirement",
                                             "type": "min",
                                             "value": 12,
                                             "modules": [
@@ -359,6 +402,7 @@
                                             ]
                                         },
                                         {
+                                            "rawTagName": "level_4000_requirement",
                                             "type": "min",
                                             "value": 4,
                                             "modules": [
@@ -369,10 +413,11 @@
                                     ]
                                 },
                                 {
-                                    "name": "Software Engineering",
+                                    "rawTagName": "software_engineering",
                                     "logic": "AND",
                                     "children": [
                                         {
+                                            "rawTagName": "minimum_requirement",
                                             "type": "min",
                                             "value": 12,
                                             "modules": [
@@ -385,6 +430,7 @@
                                             ]
                                         },
                                         {
+                                            "rawTagName": "level_4000_requirement",
                                             "type": "min",
                                             "value": 4,
                                             "modules": [
@@ -400,6 +446,7 @@
                     ]
                 },
                 {
+                    "rawTagName": "level_4000_requirement",
                     "type": "min",
                     "value": 12,
                     "modules": [
@@ -411,6 +458,7 @@
                     "note": "Level-4000 Requirement"
                 },
                 {
+                    "rawTagName": "industrial_experience",
                     "type": "min",
                     "value": 6,
                     "modules": [
@@ -429,6 +477,7 @@
                     "note": "Industrial Experience Requirement (minimum 6 Units)"
                 },
                 {
+                    "rawTagName": "industrial_experience_maximum",
                     "type": "max",
                     "value": 12,
                     "modules": [
@@ -447,6 +496,7 @@
                     "note": "Industrial Experience Requirement (maximum 12 Units)"
                 },
                 {
+                    "rawTagName": "cp_modules_maximum",
                     "type": "max",
                     "value": 12,
                     "modules": [

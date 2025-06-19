@@ -14,10 +14,11 @@
             { "type": "exact", "code": "LSM2107" }
         ],
         "coreElectives": {
-            "name": "Core Electives",
+            "rawTagName": "core_electives",
             "logic": "AND",
             "children": [
                 {
+                    "rawTagName": "core_electives_minimum",
                     "type": "min",
                     "value": 24,
                     "modules": [
@@ -30,15 +31,16 @@
                     ]
                 },
                 {
+                    "rawTagName": "level_2000_cap",
                     "type": "min",
                     "value": 4,
                     "modules": [
                         { "type": "wildcard", "prefix": "LSM21" },
                         { "type": "wildcard", "prefix": "LSM22" }
-                    ],
-                    "name": "Level-2000 Cap"
+                    ]
                 },
                 {
+                    "rawTagName": "level_3000+_requirement",
                     "type": "min",
                     "value": 16,
                     "modules": [
@@ -46,32 +48,31 @@
                         { "type": "wildcard", "prefix": "LSM42" },
                         { "type": "exact", "code": "LSM3991" },
                         { "type": "exact", "code": "LSM4991" }
-                    ],
-                    "name": "Level-3000+ Requirement"
+                    ]
                 },
                 {
+                    "rawTagName": "x2xx_Requirement",
                     "type": "min",
                     "value": 4,
                     "modules": [
                         { "type": "wildcard", "prefix": "LSM22" },
                         { "type": "wildcard", "prefix": "LSM32" },
                         { "type": "wildcard", "prefix": "LSM42" }
-                    ],
-                    "name": "X2XX Requirement"
+                    ]
                 },
                 {
+                    "rawTagName": "exchange_enrichment_cap",
                     "type": "max",
                     "value": 4,
-                    "name": "Exchange Enrichment Cap",
                     "modules": [
                         { "type": "exact", "code": "LSM3991" },
                         { "type": "exact", "code": "LSM4991" }
                     ]
                 },
                 {
+                    "rawTagName": "excluded_urops_modules",
                     "type": "max",
                     "value": 0,
-                    "name": "Excluded UROPS Modules",
                     "modules": [
                         { "type": "variant", "baseCode": "LSM2289" },
                         { "type": "variant", "baseCode": "LSM3289" }

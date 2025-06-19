@@ -1,8 +1,9 @@
 {
-  "name": "Communities & Engagement",
+  "rawTagName": "other_common_soc",
   "logic": "AND",
   "children": [
     {
+        "rawTagName": "gen_communities_and_engagement",
         "type": "min",
         "value": 4,
         "note": "Complete ANY ONE 4-unit module to fulfil the C&E pillar requirement.",
@@ -22,6 +23,7 @@
         ]
     },
     {
+        "rawTagName": "id_interdisciplinary_courses",
         "type": "min",
         "value": 8,
         "note": "Interdisciplinary (ID) Courses",
@@ -54,6 +56,7 @@
         ]
     },
     {
+        "rawTagName": "cd_cross_disciplinary_courses_max_limit",
         "type": "max",
         "value": 4,
         "note": "Cross-Disciplinary (CD) Courses",
@@ -83,6 +86,7 @@
         ]
     },
     {
+        "rawTagName": "gec_cultures_and_connections",
         "type": "min",
         "value": 4,
         "modules": [
@@ -91,12 +95,21 @@
         ]
     },
     {
+        "rawTagName": "gess_singapore_studies",
         "type": "min",
         "value": 4,
         "modules": [
             { "type": "wildcard", "code": "GESS" },
             { "type": "exact", "code": "CDE2501" },
             { "type": "exact", "code": "HSS1000" }
+        ]
+    },
+    {
+        "rawTagName": "computing_ethics",
+        "type": "min",
+        "value": 4,
+        "modules": [
+            { "type": "exact", "code": "IS1108" }
         ]
     }
     ]

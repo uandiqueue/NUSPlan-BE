@@ -1,5 +1,3 @@
-import { ModuleCondensed } from "./nusmods-types";
-
 export type GeneralModuleCode =
     | { type: "exact"; code: string }             // e.g. "CS2100"
     | { type: "wildcard"; prefix: string }        // e.g. "LSM22" => matches LSM22xx
@@ -7,21 +5,34 @@ export type GeneralModuleCode =
     | { type: "other"; code: string;            // e.g. "UPIP"
         requiresApproval: true };
 
+export type RequirementGroupType =
+    | "commonCore"
+    | "unrestrictedElectives"
+    | "coreEssentials"
+    | "coreElectives"
+    | "coreSpecials"
+    | "coreOthers"
+
 // Leaf: modules required
 export interface ModuleRequirement {
-    type: "min" | "max";
+    // rawTagName is used in the tagging system to track requirements
+    // and will be processed in frontend to be more user-friendly
+    // format: snake_case, e.g. "core_essentials", "level3000+", "industry"
+    rawTagName: string;
+
+    type: "min" | "max"; // "min" for minimum required, "max" for maximum allowed
     value: number; // units
     modules: GeneralModuleCode[];
-    exclude?: GeneralModuleCode[]; // special cases
-    note?: string;
+    exclude?: GeneralModuleCode[]; // special cases (not yet implemented)
+    note?: string; 
 }
 
 // Branching: groups of requirements
 export interface ModuleRequirementGroup {
-    name?: string;
+    rawTagName: string; // for frontend tracking and UI (pre-processed)
     logic: "AND" | "OR";
     children: (ModuleRequirementGroup | ModuleRequirement)[];
-    required?: boolean; // defaults to true when undefined
+    required?: boolean; // defaults to true when undefined (not yet implemented)
     note?: string;
 }
 
@@ -39,22 +50,7 @@ export interface ProgramRequirement {
     coreSpecials?: ModuleRequirementGroup;
     // Core modules that are not part of the above categories
     coreOthers?: ModuleRequirementGroup;
-
-    // Optional: additional constraints on module selection
-    constraints?: {
-        // Limit double counting of modules
-        doubleCountModules?: ModuleRequirementGroup[];
-        // Limit level-1000 modules
-        level1000Modules?: ModuleRequirementGroup[];
-        // Limit level-2000 modules
-        level2000Modules?: ModuleRequirementGroup[];
-        // Limit modules that are not NUS-taught
-        nonNUSModules?: ModuleRequirementGroup[];
-        // Limit modules that are not unique to the program
-        // e.g. modules listed in another program's course list
-        nonUniqueModules?: ModuleRequirementGroup[];
-    };
-}
+};
 
 // Represents the type of an academic program, such as Major, Second Major, or Minor.
 export type ProgramType = "major" | "secondMajor" | "minor";
@@ -68,28 +64,4 @@ export interface ProgramMeta {
     doubleCountCap: number;
     nusTaughtFraction: 0.6; // Minimum units that must be NUS-taught: 60% of total
 }
-
-// Expect the request body to have the following structure
-export interface Programme {
-    name: string;
-    type: ProgramType;
-}
-
-export interface CategorisedModules {
-    commonCore?: ModuleCondensed[];
-    unrestrictedElectives?: ModuleCondensed[];
-    coreEssentials?: ModuleCondensed[]; 
-    coreElectives?: ModuleCondensed[];
-    coreSpecials?: ModuleCondensed[];
-    coreOthers?: ModuleCondensed[];
-
-    constraints?: {
-        doubleCountModules?: ModuleCondensed[];
-        level1000Modules?: ModuleCondensed[];
-        level2000Modules?: ModuleCondensed[];
-        nonNUSModules?: ModuleCondensed[];
-        nonUniqueModules?: ModuleCondensed[];
-    };
-}
-
 
