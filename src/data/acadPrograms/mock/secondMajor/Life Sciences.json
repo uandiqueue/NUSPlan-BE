@@ -31,7 +31,7 @@
                     ]
                 },
                 {
-                    "rawTagName": "level_2000_cap",
+                    "rawTagName": "level_2000_requirement",
                     "type": "min",
                     "value": 4,
                     "modules": [
@@ -51,7 +51,7 @@
                     ]
                 },
                 {
-                    "rawTagName": "x2xx_Requirement",
+                    "rawTagName": "x2xx_requirement",
                     "type": "min",
                     "value": 4,
                     "modules": [

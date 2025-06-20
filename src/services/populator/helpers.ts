@@ -26,32 +26,31 @@ export async function matchGeneralCode(
     switch (gmc.type) {
         case "exact": {
             // Exact code: find the specific module
+            console.info(`Finding exact module: ${gmc.code}`);
             const m = await findExactCourseInfo(gmc.code);
+            console.info(`Found exact module: ${m?.courseCode}`);
             return m ? [m] : [];
         }
         case "wildcard": {
             // Wildcard prefix: get all modules starting with prefix
             // only base code (if contains variants, e.g. only "CS1010" not "CS1010S")
+            console.info(`Finding wildcard modules with prefix: ${gmc.prefix}`);
             const m = await getCourseInfoByPrefix(gmc.prefix);
+            console.info(`Found ${m.length} modules with prefix: ${gmc.prefix}`);
             return m.filter(m => !/[A-Z]$/.test(m.courseCode));
         }
         case "variant": {
             // Variant base code: get base and all variant modules for that base code
+            console.info(`Finding variant modules for base code: ${gmc.baseCode}`);
             return getCourseInfoByPrefix(gmc.baseCode)
         }
         case "other": {
-            // case for commonCore codes, e.g. "common-soc"
-            const m = gmc.code.match(/^common-(.+)$/);
-            if (m) {
-                const fac = m[1];
-                const codes = await loadCommonCore(fac);
-                const flattened = await Promise.all(
-                    flatten(codes).map(matchGeneralCode)
-                );
-                return flattened.flat();
-            }
-            // non-common “other” tokens (UPIP, etc.) ignored for now
-            return [];
+            // non-common “other” tokens (UPIP, etc.)
+            return [{
+                courseCode: gmc.code,
+                title: "Undefined - Please check relevant website",
+                units: 4 // Default units for undefined modules
+            }];
         }
     }
 }
@@ -117,7 +116,7 @@ export function formDropdownBox(
 
 // Prettify a string by adding spaces between snake_case or camelCase words and capitalizing the first letter
 export function prettify(str: string): string {
-    if (!str) console.log(str);
+    if (!str) console.warn(`Prettify called with ${str}`);
     return str
     .replace(/_/g, " ")
     .replace(/([a-z])([A-Z])/g, "$1 $2")

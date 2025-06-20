@@ -14,6 +14,7 @@ import type {
     AltPathBox
 } from "../../types/populator";
 import type { PrereqMap, PreclusionMap, TagMap, UnitMap } from "../../types/validator";
+import type { ModuleCode } from "../../types/nusmods-types";
 import { AcadProgram } from "../../model/acadProgram";
 
 import { 
@@ -26,12 +27,14 @@ import {
     computeRequiredUnits,
     collectCapRules
 } from "./helpers";
-import { fetchPrereqMap, fetchPreclusionMap } from "../query";
+import { fetchPrereqMap, fetchPreclusionMap, loadUltraList } from "../query";
 
 
 export async function buildPopulatedProgramPayload(
     program: AcadProgram
 ): Promise<PopulatedProgramPayload> {
+    // Ensure the ultra-detailed module list is loaded as cache before proceeding
+    await loadUltraList(); 
 
     // Initialise output payload structure
     const payload: PopulatedProgramPayload = {
@@ -43,15 +46,16 @@ export async function buildPopulatedProgramPayload(
             units: {},
             prereqs: {},
             preclusions: {},
+            maxRequirements: {}, 
             selected: [], // Initially empty, will be filled with pre-selected courses
             version: 0 // Initial version, will be updated later
         }
     };
 
     // Data structures for accumulating tags and selection info
-    const tagsMap: Map<string, Set<string>> = new Map(); // moduleCode -> tags (just strings, not yet parsed into TagMeta)
+    const tagsMap: Map<ModuleCode, Set<string>> = new Map(); // moduleCode -> tags (just strings, not yet parsed into TagMeta)
     const unitsMap: UnitMap = {}; // moduleCode -> units (non-dynamic, just for easier query)
-    const preSelected = new Set<string>(); // courses that are fixed/selected by default (e.g. core essentials)
+    const preSelected = new Set<ModuleCode>(); // courses that are fixed/selected by default (e.g. core essentials)
     const capRules: CapRule[] = []; // to enforce cap (max) rules: strip tags from unselected courses if cap reached
 
     /* 
@@ -70,10 +74,25 @@ export async function buildPopulatedProgramPayload(
             // "OR" logic: create an AltPathBox with multiple paths
             const paths: AltPathBox["paths"] = [];
 
+            // Track courses that are added in this OR group to avoid adding them to preSelected
+            const orGroupCourses = new Set<ModuleCode>();
+
             for (const child of group.children) {
                 // For "OR", group's name is NOT added to the tag chain (tag is added by chosen path)
                 const childTagChain = [...tagChain];
+                const before = new Set(preSelected);
                 const childBoxes = await buildRequirementBoxes(child, childTagChain);
+
+                // Find new courses added to preSelected by this child, and remove them
+                for (const code of preSelected) {
+                    if (!before.has(code)) {
+                        orGroupCourses.add(code);
+                    }
+                }
+                // Remove only the courses added in this OR group from preSelected
+                for (const code of orGroupCourses) {
+                    preSelected.delete(code);
+                }
 
                 paths.push({ 
                     id: child.rawTagName, 
@@ -150,28 +169,35 @@ export async function buildPopulatedProgramPayload(
             if (moduleList.length === 0) {
                 return boxes; 
             }
-            // Only one possible course: ExactBox
-            if (moduleList.length === 1) {
-                const mod = moduleList[0];
-                boxes.push(formExactBox(
-                    mod, 
-                    `${tagString}-${convertToID(mod.courseCode)}`, 
-                    false
-                ));
-                // Mark this course as pre-selected
-                preSelected.add(mod.courseCode);
-            } 
-            // Multiple choices available: DropdownBox
-            else {
-                const options: CourseInfo[] = moduleList;
-                // Determine a user-friendly label for the dropdown
-                let dropdownLabel = prettify(req.rawTagName) || "Choose course";
-                boxes.push(formDropdownBox(
-                    dropdownLabel, 
-                    options, 
-                    tagString, 
-                    false
-                ));
+            // Calculate total units of all modules in moduleList
+            const totalUnits = moduleList.reduce((sum, mod) => sum + mod.units, 0);
+            // If total units equals the "min" value, form all ExactBox
+            if (totalUnits === req.value) {
+                for (const mod of moduleList) {
+                    boxes.push(formExactBox(
+                        mod,
+                        `${tagString}-${convertToID(mod.courseCode)}`,
+                        false
+                    ));
+                    preSelected.add(mod.courseCode);
+                }
+            } else {
+                // Form DropdownBoxes, each for 4 units, total number of dropdowns * 4 === req.value
+                const unitsPerDropdown = 4;
+                if (req.value % unitsPerDropdown !== 0) {
+                    console.error(`"min" value (${req.value}) in ${tagString} is not a multiple of ${unitsPerDropdown}; proceeding with floor division.`);
+                }
+                const numDropdowns = Math.floor(req.value / unitsPerDropdown);
+                // Each dropdown contains all modules as options (user picks one per dropdown)
+                for (let i = 0; i < numDropdowns; i++) {
+                    let dropdownLabel = `${prettify(req.rawTagName) || "Choose course"} (${i + 1})`;
+                    boxes.push(formDropdownBox(
+                        dropdownLabel,
+                        moduleList,
+                        `${tagString}-dropdown-${i + 1}`,
+                        false
+                    ));
+                }
             }
         }
 
@@ -299,7 +325,7 @@ export async function buildPopulatedProgramPayload(
     // Apply cap rule: if selected courses already fulfill the max, remove tag from other courses in that pool
     for (const cap of capRules) {
         let usedUnits = 0;
-        const affectedCodes: string[] = [];
+        const affectedCodes: ModuleCode[] = [];
         // Identify all courses tagged under this cap rule
         for (const [courseCode, tagSet] of tagsMap.entries()) {
             for (const tag of tagSet) {
@@ -312,6 +338,13 @@ export async function buildPopulatedProgramPayload(
         cap.courses = affectedCodes
         // Calculate total units from this group that are already selected
         for (const code of affectedCodes) {
+            // Add this course code to the MaxMap for lookup
+            if (!payload.lookup.maxRequirements[code]) {
+                payload.lookup.maxRequirements[code] = [cap.tag];
+            } else {
+                payload.lookup.maxRequirements[code].push(cap.tag);
+            }
+            // If this course is pre-selected, count its units
             if (preSelected.has(code)) {
                 usedUnits += unitsMap[code] || 0;
             }
@@ -359,6 +392,7 @@ export async function buildPopulatedProgramPayload(
         units: unitsMap,
         prereqs: prereqsMap,
         preclusions: preclusionsMap,
+        maxRequirements: payload.lookup.maxRequirements, // already populated
         selected: Array.from(preSelected),
         version: 1
     };

@@ -8,6 +8,7 @@ import type { PrereqMap, PreclusionMap } from "../types/validator";
 /* commonCore data loader */
 export async function loadCommonCore(fac: string): Promise<ModuleRequirementGroup> {
     const filePath = path.join(__dirname, `../data/commonCore/${fac}.json`);
+    console.info(`Loading common core for faculty: ${fac} from ${filePath}`);
     const raw = await fs.readFile(filePath, "utf-8");
     const data: ModuleRequirementGroup = JSON.parse(raw);
     return data;
@@ -21,8 +22,8 @@ let prereqMapCache: PrereqMap | undefined;
 let preclusionMapCache: PreclusionMap | undefined;
 
 // ULTRA DETAILED MODULE LIST
-// Internal function to load the ultra-detailed module list from file
-async function loadUltraList(): Promise<Module[]> {
+// Function to load the ultra-detailed module list from file
+export async function loadUltraList(): Promise<Module[]> {
     if (largeCache !== undefined) return largeCache; // Return cached data if available
     const filePath = path.join(__dirname, "../data/NUSMods/ultraDetailedModuleList.json");
     const raw = await fs.readFile(filePath, "utf-8");
@@ -87,18 +88,22 @@ export async function getCourseInfoByPrefix(prefix: string): Promise<CourseInfo[
     }));
 }
 // Get CourseInfo by its code
-export async function findExactCourseInfo(code: string): Promise<CourseInfo | undefined> {
+export async function findExactCourseInfo(code: string): Promise<CourseInfo> {
     const mods = await loadUltraList();
     const found = mods.find((m) => m.moduleCode === code);
 
-    // Convert the found module to a CourseInfo
+    // Convert the found module to a CourseInfo, or return default if not found
     return found
-    ? {
-        courseCode: found.moduleCode,
-        title: found.title,
-        units: parseInt(found.moduleCredit, 10)
-    }
-    : undefined;
+        ? {
+            courseCode: found.moduleCode,
+            title: found.title,
+            units: parseInt(found.moduleCredit, 10)
+        }
+        : {
+            courseCode: code,
+            title: "Undefined - Please check relevant website",
+            units: 4
+        };
 }
 
 

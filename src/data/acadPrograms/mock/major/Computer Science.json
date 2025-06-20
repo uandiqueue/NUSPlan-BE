@@ -31,13 +31,114 @@
                     "note": "Digital Literacy (GEI) - Computer Science Must take CS1101S"
                 },
                 {
-                    "rawTagName": "other_common_soc",
+                    "rawTagName": "gen_communities_and_engagement",
                     "type": "min",
-                    "value": 28,
+                    "value": 4,
+                    "note": "Complete ANY ONE 4-unit module to fulfil the C&E pillar requirement.",
                     "modules": [
-                        { "type": "other", "code": "common-soc" }
-                    ],
-                    "note": "GEC, GESS, GEN, Computing Ethics, ID, and CD for SoC students"
+                        { "type": "wildcard", "prefix": "GEN" },
+                        { "type": "exact", "code": "BN4102" },
+                        { "type": "exact", "code": "BN4103" },
+                        { "type": "exact", "code": "CLC1101" },
+                        { "type": "exact", "code": "CLC2204" },
+                        { "type": "exact", "code": "CLC3303" },
+                        { "type": "exact", "code": "CLC3304A" },
+                        { "type": "exact", "code": "CLC3307" },
+                        { "type": "exact", "code": "SE3216" },
+                        { "type": "exact", "code": "SE3226" },
+                        { "type": "exact", "code": "CP3107" },
+                        { "type": "exact", "code": "CP3110" }
+                    ]
+                },
+                {
+                    "rawTagName": "id_interdisciplinary_courses",
+                    "type": "min",
+                    "value": 8,
+                    "note": "Interdisciplinary (ID) Courses",
+                    "modules": [
+                        { "type": "variant", "baseCode": "CDE2501" },
+                        { "type": "variant", "baseCode": "EG2501" },
+                        { "type": "exact", "code": "DTK1234" },
+                        { "type": "exact", "code": "EG1311" },
+                        { "type": "exact", "code": "IE2141" },
+                        { "type": "exact", "code": "PF1101" },
+                        { "type": "exact", "code": "IS1128" },
+                        { "type": "exact", "code": "IS2218" },
+                        { "type": "exact", "code": "IS2238" },
+                        { "type": "exact", "code": "HSH1000" },
+                        { "type": "exact", "code": "HSS1000" },
+                        { "type": "exact", "code": "HSA1000" },
+                        { "type": "exact", "code": "HSI1000" },
+                        { "type": "exact", "code": "HSI2001" },
+                        { "type": "exact", "code": "HSI2002" },
+                        { "type": "exact", "code": "HSI2003" },
+                        { "type": "exact", "code": "HSI2004" },
+                        { "type": "exact", "code": "HSI2005" },
+                        { "type": "exact", "code": "HSI2007" },
+                        { "type": "exact", "code": "HSI2008" },
+                        { "type": "exact", "code": "HSI2009" },
+                        { "type": "exact", "code": "HSI2010" },
+                        { "type": "exact", "code": "HSI2011" },
+                        { "type": "exact", "code": "HSI2013" },
+                        { "type": "exact", "code": "HSI2014" }
+                    ]
+                },
+                {
+                    "rawTagName": "cd_cross_disciplinary_courses_max_limit",
+                    "type": "max",
+                    "value": 4,
+                    "note": "Cross-Disciplinary (CD) Courses",
+                    "modules": [
+                        { "type": "exact", "code": "ACC1701X" },
+                        { "type": "exact", "code": "DAO2703" },
+                        { "type": "exact", "code": "MNO1706X" },
+                        { "type": "exact", "code": "SC1101E" },
+                        { "type": "exact", "code": "EL1101E" },
+                        { "type": "exact", "code": "PE2101P" },
+                        { "type": "exact", "code": "GE2103" },
+                        { "type": "exact", "code": "XD3103" },
+                        { "type": "exact", "code": "GE3253" },
+                        { "type": "exact", "code": "GE3255" },
+                        { "type": "exact", "code": "GE3256" },
+                        { "type": "exact", "code": "SPH2002" },
+                        { "type": "exact", "code": "SC2226" },
+                        { "type": "exact", "code": "NUR1113A" },
+                        { "type": "exact", "code": "CDE2300" },
+                        { "type": "exact", "code": "CDE2310" },
+                        { "type": "exact", "code": "EG2201A" },
+                        { "type": "exact", "code": "EG2310" },
+                        { "type": "wildcard", "prefix": "PC" },
+                        { "type": "wildcard", "prefix": "CM" },
+                        { "type": "wildcard", "prefix": "LSM" },
+                        { "type": "wildcard", "prefix": "ZB" }
+                    ]
+                },
+                {
+                    "rawTagName": "gec_cultures_and_connections",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "wildcard", "prefix": "GEC" },
+                        { "type": "exact", "code": "HSA1000" }
+                    ]
+                },
+                {
+                    "rawTagName": "gess_singapore_studies",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "wildcard", "code": "GESS" },
+                        { "type": "exact", "code": "CDE2501" },
+                        { "type": "exact", "code": "HSS1000" }
+                    ]
+                },
+                {
+                    "rawTagName": "computing_ethics",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "exact", "code": "IS1108" }
+                    ]
                 },
                 {
                     "rawTagName": "gea_data_literacy",
