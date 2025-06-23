@@ -1,7 +1,6 @@
 import {
     getCourseInfoByPrefix,
     findExactCourseInfo,
-    loadCommonCore
 } from "../query";
 import type { CourseInfo, ExactBox, DropdownBox, CapRule } from "../../types/populator";
 import type { 
@@ -9,15 +8,6 @@ import type {
     ModuleRequirementGroup,
     ModuleRequirement
 } from "../../types/requirement";
-
-// Flatten requirement tree
-function flatten(
-    node: ModuleRequirementGroup | ModuleRequirement
-): GeneralModuleCode[] {
-    return "children" in node
-    ? node.children.flatMap(flatten)
-    : node.modules ?? [];
-}
 
 // Matching one GeneralModuleCode to modules
 export async function matchGeneralCode(

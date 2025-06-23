@@ -47,6 +47,7 @@ export async function buildPopulatedProgramPayload(
             prereqs: {},
             preclusions: {},
             maxRequirements: {}, 
+            minRequirements: {}, 
             selected: [], // Initially empty, will be filled with pre-selected courses
             version: 0 // Initial version, will be updated later
         }
@@ -123,6 +124,19 @@ export async function buildPopulatedProgramPayload(
             }
         }
 
+        // Aggregate units required for AND-groups for fulfilment indicator
+        if (group.logic === "AND") {
+            const groupTagString = [...tagChain, group.rawTagName].join("-");
+
+            // Sum the targets of every DIRECT child that already has a min recorded
+            const childTargets = group.children.map(
+                child => payload.lookup.minRequirements[[...tagChain, child.rawTagName].join("-")] || 0
+            ).filter(Boolean);
+
+            if (childTargets.length) {
+                payload.lookup.minRequirements[groupTagString] = childTargets.reduce((sum, n) => sum + n, 0);
+            }
+        }
         return boxes;
     }
 
@@ -164,6 +178,8 @@ export async function buildPopulatedProgramPayload(
 
         // "min" requirement: render as CourseBox(es)
         else if (req.type === "min") {
+            // Record the units required for this specific requirement key
+            payload.lookup.minRequirements[tagString] = req.value;
             // Minimum units required from this set of modules
             // No courses available (should not happen in valid data)
             if (moduleList.length === 0) {
@@ -393,6 +409,7 @@ export async function buildPopulatedProgramPayload(
         prereqs: prereqsMap,
         preclusions: preclusionsMap,
         maxRequirements: payload.lookup.maxRequirements, // already populated
+        minRequirements: payload.lookup.minRequirements, // already populated
         selected: Array.from(preSelected),
         version: 1
     };

@@ -7,6 +7,7 @@ export interface LookupPayload {
     prereqs: PrereqMap;
     preclusions: PreclusionMap;
     maxRequirements: MaxMap;
+    minRequirements: Record<string, number>;
     selected: ModuleCode[]; // Selected modules by default or user
     version: number;
 }
@@ -25,6 +26,9 @@ export interface PreclusionMap {
 }
 export interface MaxMap {
     [moduleCode: ModuleCode]: string[]; // moduleCode -> list of max requirementKeys/maxRuleTags
+}
+export interface MinMap {
+    [tagString: string]: number; // tagString -> minimum required units
 }
 
 // For requirement fulfilment indicator UI
