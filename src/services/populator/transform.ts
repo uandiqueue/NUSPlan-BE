@@ -115,7 +115,7 @@ export async function buildPopulatedProgramPayload(
             // "AND" logic: all children must be fulfilled (but group itself is not explicitly rendered)
             // rawTagName will be included in tag chain
             let currentTagChain = [...tagChain];
-            if (group.rawTagName && tagChain.length > 0) {
+            if (group.rawTagName && currentTagChain.at(-1) !== group.rawTagName) {
                 currentTagChain.push(group.rawTagName);
             }
             for (const child of group.children) {
@@ -156,7 +156,7 @@ export async function buildPopulatedProgramPayload(
 
         // Determine tag chain
         let reqTagChain = [...tagChain];
-        reqTagChain.push(req.rawTagName);
+        reqTagChain.push(`${req.type === "max" ? "max" : "min"}_${req.rawTagName}`);
         // Tag chain only converts to string at the leaf level
         const tagString = reqTagChain.join("-");
 
@@ -168,14 +168,12 @@ export async function buildPopulatedProgramPayload(
             // Map course to respective units for easier query
             unitsMap[mod.courseCode] = mod.units
         }
-
         // "max" requirement: not rendered in UI, just a constraint
         if (req.type === "max") {
             // Collect "max" constraints and store in capRules
             collectCapRules(capRules, req, tagString);
             return boxes;
         }
-
         // "min" requirement: render as CourseBox(es)
         else if (req.type === "min") {
             // Record the units required for this specific requirement key
@@ -241,8 +239,8 @@ export async function buildPopulatedProgramPayload(
             sectionKeyChain = [convertToID(program.meta.name), convertToID(program.meta.type), convertToID(sectionType)];
             sectionKeyString = `${convertToID(program.meta.name)}-${convertToID(program.meta.type)}-${convertToID(sectionType)}`;  // unique identifier for section
         } else {
-            sectionKeyChain = [convertToID(program.meta.name), convertToID(program.meta.type)];
-            sectionKeyString = `${convertToID(program.meta.name)}-${convertToID(program.meta.type)}`;  // unique identifier for section
+            sectionKeyChain = [convertToID(program.meta.name), convertToID(program.meta.type), convertToID(sectionType)];
+            sectionKeyString = `${convertToID(program.meta.name)}-${convertToID(program.meta.type)}-${convertToID(sectionType)}`;  // unique identifier for section
         }
         const sectionNote = (!Array.isArray(sectionData) && sectionData.note) ? sectionData.note : undefined;
         const sectionBoxes: CourseBox[] = [];
@@ -338,7 +336,7 @@ export async function buildPopulatedProgramPayload(
     }
 
 
-    // Apply cap rule: if selected courses already fulfill the max, remove tag from other courses in that pool
+    // Apply cap rule: add in selected course units into CapRule
     for (const cap of capRules) {
         let usedUnits = 0;
         const affectedCodes: ModuleCode[] = [];
@@ -355,28 +353,10 @@ export async function buildPopulatedProgramPayload(
         // Calculate total units from this group that are already selected
         for (const code of affectedCodes) {
             // Add this course code to the MaxMap for lookup
-            if (!payload.lookup.maxRequirements[code]) {
-                payload.lookup.maxRequirements[code] = [cap.tag];
-            } else {
-                payload.lookup.maxRequirements[code].push(cap.tag);
-            }
+            (payload.lookup.maxRequirements[code] ||= []).push(cap);
             // If this course is pre-selected, count its units
             if (preSelected.has(code)) {
                 usedUnits += unitsMap[code] || 0;
-            }
-        }
-        // If cap reached or exceeded, strip this cap's tags from all unselected modules in the group
-        if (usedUnits >= cap.maxUnits) {
-            for (const code of affectedCodes) {
-                if (!preSelected.has(code)) {
-                    const newTags = new Set<string>();
-                    tagsMap.get(code)?.forEach(tag => {
-                        if (!(tag === cap.tag)) {
-                            newTags.add(tag);
-                        }
-                    });
-                    tagsMap.set(code, newTags);
-                }
             }
         }
     }

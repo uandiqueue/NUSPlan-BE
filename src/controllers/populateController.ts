@@ -31,7 +31,7 @@ export const populateProgrammes: RequestHandler = async (req, res, next) => {
 
             // Testing
             console.info(`Populated ${populatedPayload.metadata.name} (${populatedPayload.metadata.type})`);
-            return { populatedPayload };
+            return populatedPayload;
         })
     );
 

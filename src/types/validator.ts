@@ -1,4 +1,5 @@
 import type { PrereqTree, ModuleCode } from "./nusmods-types";
+import type { CapRule } from "./populator";
 
 // For efficient lookup on frontend
 export interface LookupPayload {
@@ -25,7 +26,7 @@ export interface PreclusionMap {
     [moduleCode: ModuleCode]: ModuleCode[]; // moduleCode -> list of precluded moduleCodes
 }
 export interface MaxMap {
-    [moduleCode: ModuleCode]: string[]; // moduleCode -> list of max requirementKeys/maxRuleTags
+    [moduleCode: ModuleCode]: CapRule[]; // moduleCode -> list of max requirementKeys/maxRuleTags
 }
 export interface MinMap {
     [tagString: string]: number; // tagString -> minimum required units
