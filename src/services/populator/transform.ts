@@ -208,7 +208,7 @@ export async function buildPopulatedProgramPayload(
                     boxes.push(formDropdownBox(
                         dropdownLabel,
                         moduleList,
-                        `${tagString}-dropdown-${i + 1}`,
+                        `${tagString}-dropdown_${i + 1}`,
                         false
                     ));
                 }

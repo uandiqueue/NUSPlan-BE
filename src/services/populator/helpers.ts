@@ -97,7 +97,7 @@ export function formDropdownBox(
 ): DropdownBox {
     return {
         kind: "dropdown",
-        boxKey: `${keyChain}-dropdown`,
+        boxKey: `${keyChain}`,
         options: options,
         UILabel: UILabel,
         readonly: isReadonly
@@ -129,34 +129,26 @@ export function convertToID(str: string): string {
 
 // Compute the total required units for a requirement group
 export function computeRequiredUnits(
-    node: ModuleRequirementGroup | ModuleRequirement
+    node: ModuleRequirementGroup | ModuleRequirement,
 ): number {
-    if ("children" in node) {
-        // Separate children into leaves (ModuleRequirement) and groups (ModuleRequirementGroup)
-        const leaves = node.children.filter((child) => !("children" in child));
-        const groups = node.children.filter((child) => "children" in child);
-
-        // Case 1: There are leaves in the children - required units is sum of the "min" values of leaves
-        if (leaves.length > 0) {
-            return leaves.reduce((sum, leaf) => {
-                if (!("type" in leaf)) return sum;
-                return leaf.type === "min" ? sum + leaf.value : sum;
-            }, 0);
-        }
-
-        // Case 2: All children are groups - recursively compute each group’s required units
-        if (leaves.length === 0 && groups.length === node.children.length) {
-            return node.children.reduce(
-                (sum, childGroup) => sum + computeRequiredUnits(childGroup), 
-                0
-            );
-        }
-
-        // Case 3: No rule applies (e.g. "OR" group), return 0.
-        return 0;
-    } else {
-        // For leaf requirements, return the value if it's a "min" requirement
+    // Leaf: min value
+    if (!("children" in node)) {
         return node.type === "min" ? node.value : 0;
+    }
+
+    // Helper to obtain the min units required of one direct child
+    const needOf = (child: ModuleRequirementGroup | ModuleRequirement) =>
+        "children" in child ? computeRequiredUnits(child)
+                            : child.type === "min" ? child.value 
+                            : 0;
+
+    // AND: sum of min values,  OR: minimum of min values
+    if (node.logic === "AND") {
+        return node.children.reduce((sum, ch) => sum + needOf(ch), 0);
+    } else {
+        return node.children
+                   .map(needOf)
+                   .reduce((min, n) => Math.min(min, n), Infinity);
     }
 }
 
