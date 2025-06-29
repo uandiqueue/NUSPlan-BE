@@ -256,6 +256,7 @@
             "children": [
                 {
                     "rawTagName": "core_electives_minimum",
+                    "overall": true,
                     "type": "min",
                     "value": 40,
                     "modules": [
@@ -337,13 +338,7 @@
                         { "type": "variant", "baseCode": "LSM2289" },
                         { "type": "variant", "baseCode": "LSM3289" }
                     ]
-                }
-            ]
-        },
-        "coreOthers": {
-            "rawTagName": "core_others",
-            "logic": "AND",
-            "children": [
+                },
                 {
                     "rawTagName": "research_experiential_requirement",
                     "type": "min",

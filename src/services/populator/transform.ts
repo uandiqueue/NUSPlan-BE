@@ -394,5 +394,7 @@ export async function buildPopulatedProgramPayload(
         version: 1
     };
 
+    console.log("FINAL SELECTED COURSES:", Array.from(preSelected)); // DEBUG
+
     return payload;
 }

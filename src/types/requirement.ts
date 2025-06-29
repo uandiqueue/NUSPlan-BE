@@ -19,7 +19,7 @@ export interface ModuleRequirement {
     // and will be processed in frontend to be more user-friendly
     // format: snake_case, e.g. "core_essentials", "level3000+", "industry"
     rawTagName: string;
-
+    overall?: boolean; // if true, the values of this requirement becomes a section requirement units
     type: "min" | "max"; // "min" for minimum required, "max" for maximum allowed
     value: number; // units
     modules: GeneralModuleCode[];

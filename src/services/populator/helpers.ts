@@ -131,6 +131,19 @@ export function convertToID(str: string): string {
 export function computeRequiredUnits(
     node: ModuleRequirementGroup | ModuleRequirement,
 ): number {
+    // Check for an `overall: true` override in a direct child
+    if ("children" in node) {
+        for (const child of node.children) {
+            if (
+                "type" in child &&
+                child.type === "min" &&
+                (child as any).overall === true
+            ) {
+                return child.value;
+            }
+        }
+    }
+
     // Leaf: min value
     if (!("children" in node)) {
         return node.type === "min" ? node.value : 0;
