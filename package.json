@@ -17,6 +17,8 @@
     "firebase-admin": "^13.4.0"
   },
   "scripts": {
-    "dev": "tsx watch src/server.ts"
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc && xcopy src\\\\data dist\\\\data /E /I /Y",
+    "start": "node dist/server.js"
   }
 }

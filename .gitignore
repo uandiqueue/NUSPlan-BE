@@ -12,7 +12,9 @@
 #!.yarn/cache
 .pnp.*
 
-# Ignore node_modules
+# Output folders
+dist/
+build/
 node_modules/
 
 # Ignore .env files
