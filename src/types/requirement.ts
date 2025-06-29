@@ -1,8 +1,8 @@
 export type GeneralModuleCode =
-    | { type: "exact"; code: string }             // e.g. "CS2100"
-    | { type: "wildcard"; prefix: string }        // e.g. "LSM22" => matches LSM22xx
-    | { type: "variant"; baseCode: string }       // e.g. "CS1010" => matches CS1010S/T/X
-    | { type: "other"; code: string;            // e.g. "UPIP"
+    | { type: "exact"; code: string } // eg: "CS2100"
+    | { type: "wildcard"; prefix: string } // eg: "LSM22" => matches LSM22xx
+    | { type: "variant"; baseCode: string } // eg: "CS1010" => matches CS1010S/T/X
+    | { type: "other"; code: string; // eg: "UPIP"
         requiresApproval: true };
 
 export type RequirementGroupType =
@@ -59,9 +59,9 @@ export type ProgramType = "major" | "secondMajor" | "minor";
 export interface ProgramMeta {
     name: string;
     type: ProgramType;
-    honours?: boolean;
+    honours?: boolean; // Default to true
     requiredUnits: number;
     doubleCountCap: number;
-    nusTaughtFraction: 0.6; // Minimum units that must be NUS-taught: 60% of total
+    nusTaughtFraction: 0.6; // Minimum units that must be NUS-taught: 60% of total (Not yet implemented)
 }
 
