@@ -172,7 +172,7 @@
                     "type": "min",
                     "value": 4,
                     "modules": [
-                        { "type": "wildcard", "code": "GESS" },
+                        { "type": "wildcard", "prefix": "GESS" },
                         { "type": "exact", "code": "CDE2501" },
                         { "type": "exact", "code": "HSS1000" }
                     ]
