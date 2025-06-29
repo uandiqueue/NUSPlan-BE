@@ -15,7 +15,7 @@ import adminMapCacheRebuildRoutes from "./routes/admin/mapCacheRebuild";
 import populateRoutes from "./routes/populate";
 
 app.use(cors({
-  origin: "http://nusplan-fe.s3-website-ap-southeast-2.amazonaws.com/", // allow frontend to access backend
+  origin: "http://nusplan-fe.s3-website-ap-southeast-2.amazonaws.com", // allow frontend to access backend
 }));
 app.use(express.json()); 
 app.use("/api/module", nusmodsRoutes);
