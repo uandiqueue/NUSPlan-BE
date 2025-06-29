@@ -6,7 +6,7 @@ import cors from "cors";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = Number(process.env.PORT) || 4000;
 
 // Import and use routers
 import nusmodsRoutes from "./routes/nusmods-routes";
@@ -31,6 +31,6 @@ app.use((err: any, _req: express.Request, res: express.Response, _next: express.
     });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`server listening on ${PORT}`);
 });
