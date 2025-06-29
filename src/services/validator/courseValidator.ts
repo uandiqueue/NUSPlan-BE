@@ -59,7 +59,7 @@ export async function validatePopulatedPayload(
     // Should not happen if data is correct
     for (const selected of globalSelected) {
         for (const pre of preclusionMap[selected] ?? []) {
-            if (globalSelected.has(pre)) {
+            if (globalSelected.has(pre) && pre !== selected) {
                 throw new Error(
                     `Programme selection impossible: selected module ${selected} precludes selected module ${pre}`
                 );

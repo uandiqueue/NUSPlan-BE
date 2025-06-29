@@ -1,7 +1,6 @@
 import {
     getCourseInfoByPrefix,
     findExactCourseInfo,
-    loadCommonCore
 } from "../query";
 import type { CourseInfo, ExactBox, DropdownBox, CapRule } from "../../types/populator";
 import type { 
@@ -10,15 +9,6 @@ import type {
     ModuleRequirement
 } from "../../types/requirement";
 
-// Flatten requirement tree
-function flatten(
-    node: ModuleRequirementGroup | ModuleRequirement
-): GeneralModuleCode[] {
-    return "children" in node
-    ? node.children.flatMap(flatten)
-    : node.modules ?? [];
-}
-
 // Matching one GeneralModuleCode to modules
 export async function matchGeneralCode(
     gmc: GeneralModuleCode
@@ -26,32 +16,31 @@ export async function matchGeneralCode(
     switch (gmc.type) {
         case "exact": {
             // Exact code: find the specific module
+            console.info(`Finding exact module: ${gmc.code}`);
             const m = await findExactCourseInfo(gmc.code);
+            console.info(`Found exact module: ${m?.courseCode}`);
             return m ? [m] : [];
         }
         case "wildcard": {
             // Wildcard prefix: get all modules starting with prefix
             // only base code (if contains variants, e.g. only "CS1010" not "CS1010S")
+            console.info(`Finding wildcard modules with prefix: ${gmc.prefix}`);
             const m = await getCourseInfoByPrefix(gmc.prefix);
+            console.info(`Found ${m.length} modules with prefix: ${gmc.prefix}`);
             return m.filter(m => !/[A-Z]$/.test(m.courseCode));
         }
         case "variant": {
             // Variant base code: get base and all variant modules for that base code
+            console.info(`Finding variant modules for base code: ${gmc.baseCode}`);
             return getCourseInfoByPrefix(gmc.baseCode)
         }
         case "other": {
-            // case for commonCore codes, e.g. "common-soc"
-            const m = gmc.code.match(/^common-(.+)$/);
-            if (m) {
-                const fac = m[1];
-                const codes = await loadCommonCore(fac);
-                const flattened = await Promise.all(
-                    flatten(codes).map(matchGeneralCode)
-                );
-                return flattened.flat();
-            }
-            // non-common “other” tokens (UPIP, etc.) ignored for now
-            return [];
+            // non-common “other” tokens (UPIP, etc.)
+            return [{
+                courseCode: gmc.code,
+                title: "Undefined - Please check relevant website",
+                units: 4 // Default units for undefined modules
+            }];
         }
     }
 }
@@ -108,7 +97,7 @@ export function formDropdownBox(
 ): DropdownBox {
     return {
         kind: "dropdown",
-        boxKey: `${keyChain}-dropdown`,
+        boxKey: `${keyChain}`,
         options: options,
         UILabel: UILabel,
         readonly: isReadonly
@@ -117,7 +106,7 @@ export function formDropdownBox(
 
 // Prettify a string by adding spaces between snake_case or camelCase words and capitalizing the first letter
 export function prettify(str: string): string {
-    if (!str) console.log(str);
+    if (!str) console.warn(`Prettify called with ${str}`);
     return str
     .replace(/_/g, " ")
     .replace(/([a-z])([A-Z])/g, "$1 $2")
@@ -140,34 +129,39 @@ export function convertToID(str: string): string {
 
 // Compute the total required units for a requirement group
 export function computeRequiredUnits(
-    node: ModuleRequirementGroup | ModuleRequirement
+    node: ModuleRequirementGroup | ModuleRequirement,
 ): number {
+    // Check for an `overall: true` override in a direct child
     if ("children" in node) {
-        // Separate children into leaves (ModuleRequirement) and groups (ModuleRequirementGroup)
-        const leaves = node.children.filter((child) => !("children" in child));
-        const groups = node.children.filter((child) => "children" in child);
-
-        // Case 1: There are leaves in the children - required units is sum of the "min" values of leaves
-        if (leaves.length > 0) {
-            return leaves.reduce((sum, leaf) => {
-                if (!("type" in leaf)) return sum;
-                return leaf.type === "min" ? sum + leaf.value : sum;
-            }, 0);
+        for (const child of node.children) {
+            if (
+                "type" in child &&
+                child.type === "min" &&
+                (child as any).overall === true
+            ) {
+                return child.value;
+            }
         }
+    }
 
-        // Case 2: All children are groups - recursively compute each group’s required units
-        if (leaves.length === 0 && groups.length === node.children.length) {
-            return node.children.reduce(
-                (sum, childGroup) => sum + computeRequiredUnits(childGroup), 
-                0
-            );
-        }
-
-        // Case 3: No rule applies (e.g. "OR" group), return 0.
-        return 0;
-    } else {
-        // For leaf requirements, return the value if it's a "min" requirement
+    // Leaf: min value
+    if (!("children" in node)) {
         return node.type === "min" ? node.value : 0;
+    }
+
+    // Helper to obtain the min units required of one direct child
+    const needOf = (child: ModuleRequirementGroup | ModuleRequirement) =>
+        "children" in child ? computeRequiredUnits(child)
+                            : child.type === "min" ? child.value 
+                            : 0;
+
+    // AND: sum of min values,  OR: minimum of min values
+    if (node.logic === "AND") {
+        return node.children.reduce((sum, ch) => sum + needOf(ch), 0);
+    } else {
+        return node.children
+                   .map(needOf)
+                   .reduce((min, n) => Math.min(min, n), Infinity);
     }
 }
 

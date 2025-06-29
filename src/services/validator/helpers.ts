@@ -2,9 +2,10 @@ import type { ModuleCode, PrereqTree } from "../../types/nusmods-types";
 import type {
     PopulatedProgramPayload,
     RequirementSection,
-    CourseBox
+    CourseBox,
+    CapRule
 } from "../../types/populator";
-import type { TagMap } from "../../types/validator";
+import type { TagMap, UnitMap } from "../../types/validator";
 import { convertToID } from "../populator/helpers";
 import { findExactCourseInfo } from "../query";
 
@@ -248,5 +249,48 @@ export async function processPrereqTree(
                 });
             }
             if (alt.paths.length) target.boxes.push(alt);
+    }
+}
+
+// Helper function to apply cap rules
+export function applyCapRules(
+    capRules: CapRule[],
+    tagsMap: Map<ModuleCode, Set<string>>,
+    unitsMap: UnitMap,
+    preSelected: Set<ModuleCode>
+) {
+    for (const cap of capRules) {
+        let usedUnits = 0;
+        const affectedCodes: ModuleCode[] = [];
+        // Identify all courses tagged under this cap rule
+        for (const [courseCode, tagSet] of tagsMap.entries()) {
+            for (const tag of tagSet) {
+                if (tag === cap.tag) {
+                    affectedCodes.push(courseCode);
+                    break;
+                }
+            }
+        }
+        cap.courses = affectedCodes;
+        // Calculate total units from this group that are already selected
+        for (const code of affectedCodes) {
+            if (preSelected.has(code)) {
+                usedUnits += unitsMap[code] || 0;
+            }
+        }
+        // If cap reached or exceeded, strip this cap's tags from all unselected modules in the group
+        if (usedUnits >= cap.maxUnits) {
+            for (const code of affectedCodes) {
+                if (!preSelected.has(code)) {
+                    const newTags = new Set<string>();
+                    tagsMap.get(code)?.forEach(tag => {
+                        if (!(tag === cap.tag)) {
+                            newTags.add(tag);
+                        }
+                    });
+                    tagsMap.set(code, newTags);
+                }
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
-import type { PrereqTree } from "./nusmods-types";
+import type { PrereqTree, ModuleCode } from "./nusmods-types";
+import type { CapRule } from "./populator";
 
 // For efficient lookup on frontend
 export interface LookupPayload {
@@ -6,21 +7,29 @@ export interface LookupPayload {
     units: UnitMap;
     prereqs: PrereqMap;
     preclusions: PreclusionMap;
-    selected: string[]; // Selected modules by default or user
+    maxRequirements: MaxMap;
+    minRequirements: Record<string, number>;
+    selected: ModuleCode[]; // Selected modules by default or user
     version: number;
 }
 
 export interface TagMap {
-    [moduleCode: string]: string[];
+    [moduleCode: ModuleCode]: string[];
 }
 export interface UnitMap {
-    [moduleCode: string]: number;
+    [moduleCode: ModuleCode]: number;
 }
 export interface PrereqMap {
-    [moduleCode: string]: PrereqTree;
+    [moduleCode: ModuleCode]: PrereqTree;
 }
 export interface PreclusionMap {
-    [moduleCode: string]: string[];
+    [moduleCode: ModuleCode]: ModuleCode[]; // moduleCode -> list of precluded moduleCodes
+}
+export interface MaxMap {
+    [moduleCode: ModuleCode]: CapRule[]; // moduleCode -> list of max requirementKeys/maxRuleTags
+}
+export interface MinMap {
+    [tagString: string]: number; // tagString -> minimum required units
 }
 
 // For requirement fulfilment indicator UI

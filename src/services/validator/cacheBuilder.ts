@@ -27,8 +27,8 @@ export async function buildMapCache() {
         if (m.prereqTree)
             prereqMap[m.moduleCode] = m.prereqTree
         if (m.preclusionRule) {
-            // Extract course codes from preclusionRule using regex (XX1234:D)
-            const matches = m.preclusionRule.match(/([A-Z][A-Z0-9]{1,9})(?=:D)/g);
+            // Extract course codes from preclusionRule using regex (XX1234:D/S/B+)
+            const matches = m.preclusionRule.match(/([A-Z][A-Z0-9]{1,9})(?=:[A-ZU][+-]?)/g);
             if (matches) {
                 preclusionMap[m.moduleCode] = matches.map((entry) =>
                     entry.split(":")[0].trim().toUpperCase())

@@ -30,8 +30,8 @@ export const populateProgrammes: RequestHandler = async (req, res, next) => {
             await validatePopulatedPayload([populatedPayload]);
 
             // Testing
-            console.log(`Populated ${populatedPayload.metadata.name} (${populatedPayload.metadata.type})`);
-            return { populatedPayload };
+            console.info(`Populated ${populatedPayload.metadata.name} (${populatedPayload.metadata.type})`);
+            return populatedPayload;
         })
     );
 
