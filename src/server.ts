@@ -25,6 +25,9 @@ app.use("/api/module", nusmodsRoutes);
 app.use("/api/admin/module", adminModuleUpdateRoutes);
 app.use("/api/admin/map", adminMapCacheRebuildRoutes);
 app.use("/api/populate", populateRoutes);
+app.get("/api/test", (_req, res) => {
+  res.json({ message: "Backend is alive!" });
+});
 
 // GLOBAL ERROR HANDLER
 app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
