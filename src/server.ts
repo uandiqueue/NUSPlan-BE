@@ -17,6 +17,7 @@ import populateRoutes from "./routes/populate";
 app.use(cors({
   origin: "http://nusplan-fe.s3-website-ap-southeast-2.amazonaws.com", // allow frontend to access backend
 }));
+app.options('*', cors());
 app.use(express.json()); 
 app.use("/api/module", nusmodsRoutes);
 app.use("/api/admin/module", adminModuleUpdateRoutes);
