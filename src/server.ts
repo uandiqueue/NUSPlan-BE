@@ -14,12 +14,13 @@ import adminModuleUpdateRoutes from "./routes/admin/module/update";
 import adminMapCacheRebuildRoutes from "./routes/admin/mapCacheRebuild";
 import populateRoutes from "./routes/populate";
 
-app.use(cors({
-  origin: "http://nusplan-fe.s3-website-ap-southeast-2.amazonaws.com", // allow frontend to access backend
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+app.use(cors()); // for temporary testing
+// app.use(cors({
+//   origin: "http://nusplan-fe.s3-website-ap-southeast-2.amazonaws.com", // allow frontend to access backend
+//   credentials: true,
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//   allowedHeaders: ['Content-Type', 'Authorization']
+// }));
 app.use(express.json()); 
 app.use("/api/module", nusmodsRoutes);
 app.use("/api/admin/module", adminModuleUpdateRoutes);
