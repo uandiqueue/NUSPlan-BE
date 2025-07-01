@@ -19,6 +19,7 @@ node_modules/
 
 # Ignore .env files
 .env
+.env.production
 
 # Ignore Firebase Admin SDK service account key
 nusplan-80b88-firebase-adminsdk-fbsvc-e48de645a5.json
