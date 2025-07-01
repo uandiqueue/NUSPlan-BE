@@ -1,12 +1,18 @@
 import express from "express";
 import dotenv from "dotenv";
+import path from "path";
 import cors from "cors";
 
-// Load .env variables
-dotenv.config();
+// Load correct .env variables (local v. production)
+dotenv.config({
+  path: process.env.NODE_ENV === "production"
+    ? path.resolve(__dirname, "../.env.production")
+    : path.resolve(__dirname, "../.env"),
+});
 
 const app = express();
 const PORT = Number(process.env.PORT) || 4000;
+const CORS_ORIGIN = process.env.CORS_ORIGIN || "http://localhost:3000";
 
 // Import and use routers
 import nusmodsRoutes from "./routes/nusmods-routes";
@@ -15,7 +21,7 @@ import adminMapCacheRebuildRoutes from "./routes/admin/mapCacheRebuild";
 import populateRoutes from "./routes/populate";
 
 app.use(cors({
-  origin: "http://nusplan-fe.s3-website-ap-southeast-2.amazonaws.com", // allow frontend to access backend
+  origin: CORS_ORIGIN, // allow frontend to access backend
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
