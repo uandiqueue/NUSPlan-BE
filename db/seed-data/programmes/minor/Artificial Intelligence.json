@@ -1,0 +1,69 @@
+{
+    "meta": {
+        "name": "Artificial Intelligence",
+        "type": "minor",
+        "requiredUnits": 20,
+        "doubleCountCap": 8,
+        "nusTaughtFraction": 0.6
+    },
+    "requirement": {
+        "coreEssentials": [
+            { "type": "variant", "baseCode": "CS2040" },
+            { "type": "exact", "code": "CS2109S" }
+        ],
+        "coreElectives": {
+            "rawTagName": "core_electives",
+            "logic": "AND",
+            "children": [
+                {
+                    "rawTagName": "discrete_structures_requirement",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "exact", "code": "CS1231" },
+                        { "type": "variant", "baseCode": "MA1100" }
+                    ]
+                },
+                {
+                    "rawTagName": "ai_foundations_requirement",
+                    "logic": "OR",
+                    "children": [
+                        {
+                            "rawTagName": "4_units_path",
+                            "type": "min",
+                            "value": 4,
+                            "modules": [
+                                { "type": "exact", "code": "CS3263" },
+                                { "type": "exact", "code": "CS3264" },
+                                { "type": "exact", "code": "IT3011" }
+                            ]
+                        },
+                        {
+                            "rawTagName": "statistical_learning_path",
+                            "type": "min",
+                            "value": 8,
+                            "modules": [
+                                { "type": "exact", "code": "ST3248" },
+                                { "type": "exact", "code": "ST4248" }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "rawTagName": "level_4000_ai_requirement",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "exact", "code": "CS4243" },
+                        { "type": "exact", "code": "CS4244" },
+                        { "type": "exact", "code": "CS4246" },
+                        { "type": "exact", "code": "CS4248" },
+                        { "type": "exact", "code": "EE4212" },
+                        { "type": "other", "code": "SOC_AI", "requiresApproval": true }
+                    ],
+                    "note": "One level-4000 course from BComp(CS) AI Focus Area. CS4243 can be replaced by EE4212."
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,84 @@
+{
+    "meta": {
+        "name": "Business Analytics",
+        "type": "minor",
+        "requiredUnits": 20,
+        "doubleCountCap": 8,
+        "nusTaughtFraction": 0.6
+    },
+    "requirement": {
+        "coreEssentials": [
+            { "type": "exact", "code": "BT1101" },
+            { "type": "exact", "code": "BT2101" }
+        ],
+        "coreElectives": {
+            "rawTagName": "core_electives",
+            "logic": "AND",
+            "children": [
+                {
+                    "rawTagName": "elective_paths",
+                    "logic": "OR",
+                    "children": [
+                        {
+                            "rawTagName": "cs1010s_path",
+                            "logic": "AND",
+                            "children": [
+                                {
+                                    "rawTagName": "cs1010s_and_alternatives",
+                                    "type": "min",
+                                    "value": 4,
+                                    "modules": [
+                                        { "type": "exact", "code": "CS1101S" },
+                                        { "type": "variant", "baseCode": "CS1010" }
+                                    ],
+                                    "note": "CS1010S can be replaced by alternatives with course substitution application"
+                                },
+                                {
+                                    "rawTagName": "elective_courses",
+                                    "type": "min",
+                                    "value": 8,
+                                    "modules": [
+                                        { "type": "exact", "code": "BT2102" },
+                                        { "type": "exact", "code": "BT3103" },
+                                        { "type": "exact", "code": "BT4014" },
+                                        { "type": "exact", "code": "BT4211" },
+                                        { "type": "exact", "code": "BT4212" },
+                                        { "type": "exact", "code": "BT4221" },
+                                        { "type": "exact", "code": "BT4222" },
+                                        { "type": "exact", "code": "BT4240" },
+                                        { "type": "exact", "code": "IS4241" },
+                                        { "type": "exact", "code": "ST3131" }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "rawTagName": "waived_cs1010s_path",
+                            "logic": "AND",
+                            "children": [
+                                {
+                                    "rawTagName": "elective_courses",
+                                    "type": "min",
+                                    "value": 12,
+                                    "modules": [
+                                        { "type": "exact", "code": "BT2102" },
+                                        { "type": "exact", "code": "BT3103" },
+                                        { "type": "exact", "code": "BT4014" },
+                                        { "type": "exact", "code": "BT4211" },
+                                        { "type": "exact", "code": "BT4212" },
+                                        { "type": "exact", "code": "BT4221" },
+                                        { "type": "exact", "code": "BT4222" },
+                                        { "type": "exact", "code": "BT4240" },
+                                        { "type": "exact", "code": "IS4241" },
+                                        { "type": "exact", "code": "ST3131" }
+                                    ],
+                                    "note": "Students waived from CS1010 equivalent must complete 12 units of elective courses"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
