@@ -1,6 +1,6 @@
 // Run this script with CAUTION
 
-import supabaseAdmin from '../src/services/supabase/supabaseAdmin';
+import supabaseAdmin from '../src/config/supabaseAdmin';
 
 // DELETE ALL DATA FROM MODULES TABLES
 async function resetEntireModulesDatabase() {

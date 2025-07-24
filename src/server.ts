@@ -17,8 +17,7 @@ const CORS_ORIGIN = process.env.CORS_ORIGIN || "http://localhost:3000";
 // Import and use routers
 import nusmodsRoutes from "./routes/nusmods-routes";
 import adminModuleUpdateRoutes from "./routes/admin/module/update";
-import adminMapCacheRebuildRoutes from "./routes/admin/mapCacheRebuild";
-import populateRoutes from "./routes/populate";
+import academicPlanRoutes from "./routes/academic-plan";
 
 app.use(cors({
   origin: CORS_ORIGIN, // allow frontend to access backend
@@ -29,8 +28,7 @@ app.use(cors({
 app.use(express.json()); 
 app.use("/api/module", nusmodsRoutes);
 app.use("/api/admin/module", adminModuleUpdateRoutes);
-app.use("/api/admin/map", adminMapCacheRebuildRoutes);
-app.use("/api/populate", populateRoutes);
+app.use("/api/academic-plan", academicPlanRoutes);
 app.get("/api/test", (_req, res) => {
   res.json({ message: "Backend is alive!" });
 });

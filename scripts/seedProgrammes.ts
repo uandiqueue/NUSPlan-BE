@@ -1,14 +1,14 @@
 // Run this script to seed a programme from a JSON file
 // Replace `fileName` with the `type/name.json` to be seeded
-let fileName = "major/Computer Science.json"
+let fileName = "secondMajor/Life Sciences.json"
 // Usage: 
 // 1. Replace fileName
 // 2. ts-node scripts/seedProgrammes.ts
 
 import fs from 'fs/promises';
 import path from 'path';
-import supabaseAdmin from '../src/services/supabase/supabaseAdmin';
-import type { ProgramType } from '../src/types/requirement';
+import supabaseAdmin from '../src/config/supabaseAdmin';
+import type { ProgrammeType } from '../src/types/shared-types';
 
 const DEFAULT_NUS_TAUGHT_FRACTION = 0.6;
 
@@ -16,7 +16,7 @@ const DEFAULT_NUS_TAUGHT_FRACTION = 0.6;
 interface ProgrammeFile {
     meta: {
         name: string;
-        type: ProgramType;
+        type: ProgrammeType;
         requiredUnits: number;
         doubleCountCap: number;
         honours?: boolean;
@@ -27,7 +27,7 @@ interface ProgrammeFile {
 
 // Seed a single programme from a formatted JSON file
 async function seedProgramme(jsonPath: string) {
-    const filePath = path.join(__dirname, '../src/data/acadPrograms/mock/', jsonPath);
+    const filePath = path.join(__dirname, '../db/seed-data/programmes/', jsonPath);
 
     try {
         await fs.access(filePath);

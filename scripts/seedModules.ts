@@ -4,14 +4,14 @@
 
 import fs from 'fs/promises';
 import path from 'path';
-import supabaseAdmin from '../src/services/supabase/supabaseAdmin';
+import supabaseAdmin from '../src/config/supabaseAdmin';
 import type { Module } from '../src/types/nusmods-types';
 
 // Seed the entire detailed module list from NUSMods
 const BATCH_SIZE = 50; // In batches to prevent timeouts
 
 async function seedModules() {
-    const filePath = path.join(__dirname, '../src/data/NUSMods/ultraDetailedModuleList.json');
+    const filePath = path.join(__dirname, '../db/seed-data/modules/ultraDetailedModuleList.json');
     
     try {
         await fs.access(filePath);
