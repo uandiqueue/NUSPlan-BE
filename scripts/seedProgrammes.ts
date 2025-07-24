@@ -1,6 +1,6 @@
 // Run this script to seed a programme from a JSON file
 // Replace `fileName` with the `type/name.json` to be seeded
-let fileName = "secondMajor/Life Sciences.json"
+let fileName = "major/Business Analytics.json"
 // Usage: 
 // 1. Replace fileName
 // 2. ts-node scripts/seedProgrammes.ts

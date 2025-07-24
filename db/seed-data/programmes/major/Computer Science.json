@@ -605,41 +605,46 @@
                         },
                         {
                             "rawTagName": "industrial_experience",
-                            "type": "min",
-                            "value": 6,
-                            "modules": [
-                                { "type": "exact", "code": "CP3880" },
-                                { "type": "exact", "code": "IS4010" },
-                                { "type": "exact", "code": "ETP3201L" },
-                                { "type": "exact", "code": "CP3200" },
-                                { "type": "exact", "code": "CP3202" },
-                                { "type": "exact", "code": "CP3107" },
-                                { "type": "exact", "code": "CP3110" },
-                                { "type": "exact", "code": "ETP3205" },
-                                { "type": "other", "code": "CP4101", "requiresApproval": true },
-                                { "type": "other", "code": "SOC_NOC", "requiresApproval": true },
-                                { "type": "other", "code": "SOC_OTHER", "requiresApproval": true }
+                            "logic": "AND",
+                            "children": [
+                                {
+                                    "rawTagName": "industrial_experience_minimum",
+                                    "type": "min",
+                                    "value": 6,
+                                    "modules": [
+                                        { "type": "exact", "code": "CP3880" },
+                                        { "type": "exact", "code": "IS4010" },
+                                        { "type": "exact", "code": "ETP3201L" },
+                                        { "type": "exact", "code": "CP3200" },
+                                        { "type": "exact", "code": "CP3202" },
+                                        { "type": "exact", "code": "CP3107" },
+                                        { "type": "exact", "code": "CP3110" },
+                                        { "type": "exact", "code": "ETP3205" },
+                                        { "type": "other", "code": "CP4101", "requiresApproval": true },
+                                        { "type": "other", "code": "SOC_NOC", "requiresApproval": true },
+                                        { "type": "other", "code": "SOC_OTHER", "requiresApproval": true }
+                                    ]
+                                },
+                                {
+                                    "rawTagName": "industrial_experience_maximum",
+                                    "type": "max",
+                                    "value": 12,
+                                    "modules": [
+                                        { "type": "exact", "code": "CP3880" },
+                                        { "type": "exact", "code": "IS4010" },
+                                        { "type": "exact", "code": "ETP3201L" },
+                                        { "type": "exact", "code": "CP3200" },
+                                        { "type": "exact", "code": "CP3202" },
+                                        { "type": "exact", "code": "CP3107" },
+                                        { "type": "exact", "code": "CP3110" },
+                                        { "type": "exact", "code": "ETP3205" },
+                                        { "type": "other", "code": "CP4101", "requiresApproval": true },
+                                        { "type": "other", "code": "SOC_NOC", "requiresApproval": true },
+                                        { "type": "other", "code": "SOC_OTHER", "requiresApproval": true }
+                                    ]
+                                }
                             ],
-                            "note": "Industrial Experience Requirement (minimum 6 Units)"
-                        },
-                        {
-                            "rawTagName": "industrial_experience_maximum",
-                            "type": "max",
-                            "value": 12,
-                            "modules": [
-                                { "type": "exact", "code": "CP3880" },
-                                { "type": "exact", "code": "IS4010" },
-                                { "type": "exact", "code": "ETP3201L" },
-                                { "type": "exact", "code": "CP3200" },
-                                { "type": "exact", "code": "CP3202" },
-                                { "type": "exact", "code": "CP3107" },
-                                { "type": "exact", "code": "CP3110" },
-                                { "type": "exact", "code": "ETP3205" },
-                                { "type": "other", "code": "CP4101", "requiresApproval": true },
-                                { "type": "other", "code": "SOC_NOC", "requiresApproval": true },
-                                { "type": "other", "code": "SOC_OTHER", "requiresApproval": true }
-                            ],
-                            "note": "Industrial Experience Requirement (maximum 12 Units)"
+                            "note": "Industrial Experience Requirement (minimum 6 Units, maximum 12 Units)"
                         },
                         {
                             "rawTagName": "cp_modules_maximum",
