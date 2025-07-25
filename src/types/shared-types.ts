@@ -32,6 +32,7 @@ export interface ProgrammeSection {
     displayLabel: string;
     paths: PathInfo[];
     courseBoxes: CourseBox[];
+    hidden: CourseBox[]; // Course boxes that are not displayed in the UI (can be added by user manually)
 }
 
 // PATH INFORMATION (For FE requirement tracking)

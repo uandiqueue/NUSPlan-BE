@@ -306,305 +306,892 @@
                             "children": [
                                 {
                                     "rawTagName": "algorithms_and_theory",
-                                    "logic": "AND",
+                                    "logic": "OR",
                                     "children": [
                                         {
-                                            "rawTagName": "minimum_requirement",
-                                            "type": "min",
-                                            "value": 12,
-                                            "modules": [
-                                                { "type": "exact", "code": "CS3230" },
-                                                { "type": "exact", "code": "CS3231" },
-                                                { "type": "exact", "code": "CS3236" },
-                                                { "type": "exact", "code": "CS4231" },
-                                                { "type": "exact", "code": "CS4232" },
-                                                { "type": "exact", "code": "CS4234" }
+                                            "rawTagName": "ant_with_1_level_4000",
+                                            "logic": "AND",
+                                            "children": [
+                                                {
+                                                    "rawTagName": "minimum_requirement",
+                                                    "type": "min",
+                                                    "value": 8,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS3230" },
+                                                        { "type": "exact", "code": "CS3231" },
+                                                        { "type": "exact", "code": "CS3236" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 4,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS4231" },
+                                                        { "type": "exact", "code": "CS4232" },
+                                                        { "type": "exact", "code": "CS4234" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "other_level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 8,
+                                                    "modules": [
+                                                        { "type": "wildcard", "prefix": "CS4" },
+                                                        { "type": "wildcard", "prefix": "CP4" },
+                                                        { "type": "wildcard", "prefix": "IFS4" }
+                                                    ]
+                                                }
                                             ]
                                         },
                                         {
-                                            "rawTagName": "level_4000_requirement",
-                                            "type": "min",
-                                            "value": 4,
-                                            "modules": [
-                                                { "type": "exact", "code": "CS4231" },
-                                                { "type": "exact", "code": "CS4232" },
-                                                { "type": "exact", "code": "CS4234" }
+                                            "rawTagName": "ant_with_2_level_4000",
+                                            "logic": "AND",
+                                            "children": [
+                                                {
+                                                    "rawTagName": "minimum_requirement",
+                                                    "type": "min",
+                                                    "value": 4,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS3230" },
+                                                        { "type": "exact", "code": "CS3231" },
+                                                        { "type": "exact", "code": "CS3236" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 8,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS4231" },
+                                                        { "type": "exact", "code": "CS4232" },
+                                                        { "type": "exact", "code": "CS4234" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "other_level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 4,
+                                                    "modules": [
+                                                        { "type": "wildcard", "prefix": "CS4" },
+                                                        { "type": "wildcard", "prefix": "CP4" },
+                                                        { "type": "wildcard", "prefix": "IFS4" }
+                                                    ]
+                                                }
                                             ]
-                                        }
+                                        },
+                                        {
+                                            "rawTagName": "ant_with_3_level_4000",
+                                            "logic": "AND",
+                                            "children": [
+                                                {
+                                                    "rawTagName": "level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 12,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS4231" },
+                                                        { "type": "exact", "code": "CS4232" },
+                                                        { "type": "exact", "code": "CS4234" }
+                                                    ]
+                                                }
+                                            ]
+                                        }                                                                                
                                     ]
                                 },
                                 {
                                     "rawTagName": "artificial_intelligence",
-                                    "logic": "AND",
+                                    "logic": "OR",
                                     "children": [
                                         {
-                                            "rawTagName": "minimum_requirement",
-                                            "type": "min",
-                                            "value": 12,
-                                            "modules": [
-                                                { "type": "exact", "code": "CS2109S" },
-                                                { "type": "exact", "code": "CS3243" },
-                                                { "type": "exact", "code": "CS3244" },
-                                                { "type": "exact", "code": "CS3263" },
-                                                { "type": "exact", "code": "CS3264" },
-                                                { "type": "exact", "code": "CS4243" },
-                                                { "type": "exact", "code": "CS4244" },
-                                                { "type": "exact", "code": "CS4246" },
-                                                { "type": "exact", "code": "CS4248" }
+                                            "rawTagName": "ai_with_1_level_4000",
+                                            "logic": "AND",
+                                            "children": [
+                                                {
+                                                    "rawTagName": "minimum_requirement",
+                                                    "type": "min",
+                                                    "value": 8,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS2109S" },
+                                                        { "type": "exact", "code": "CS3243" },
+                                                        { "type": "exact", "code": "CS3244" },
+                                                        { "type": "exact", "code": "CS3263" },
+                                                        { "type": "exact", "code": "CS3264" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 4,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS4243" },
+                                                        { "type": "exact", "code": "CS4244" },
+                                                        { "type": "exact", "code": "CS4246" },
+                                                        { "type": "exact", "code": "CS4248" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "other_level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 8,
+                                                    "modules": [
+                                                        { "type": "wildcard", "prefix": "CS4" },
+                                                        { "type": "wildcard", "prefix": "CP4" },
+                                                        { "type": "wildcard", "prefix": "IFS4" }
+                                                    ]
+                                                }
                                             ]
                                         },
                                         {
-                                            "rawTagName": "level_4000_requirement",
-                                            "type": "min",
-                                            "value": 4,
-                                            "modules": [
-                                                { "type": "exact", "code": "CS4243" },
-                                                { "type": "exact", "code": "CS4244" },
-                                                { "type": "exact", "code": "CS4246" },
-                                                { "type": "exact", "code": "CS4248" }
+                                            "rawTagName": "ai_with_2_level_4000",
+                                            "logic": "AND",
+                                            "children": [
+                                                {
+                                                    "rawTagName": "minimum_requirement",
+                                                    "type": "min",
+                                                    "value": 4,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS2109S" },
+                                                        { "type": "exact", "code": "CS3243" },
+                                                        { "type": "exact", "code": "CS3244" },
+                                                        { "type": "exact", "code": "CS3263" },
+                                                        { "type": "exact", "code": "CS3264" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 8,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS4243" },
+                                                        { "type": "exact", "code": "CS4244" },
+                                                        { "type": "exact", "code": "CS4246" },
+                                                        { "type": "exact", "code": "CS4248" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "other_level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 4,
+                                                    "modules": [
+                                                        { "type": "wildcard", "prefix": "CS4" },
+                                                        { "type": "wildcard", "prefix": "CP4" },
+                                                        { "type": "wildcard", "prefix": "IFS4" }
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "rawTagName": "ai_with_3_level_4000",
+                                            "logic": "AND",
+                                            "children": [
+                                                {
+                                                    "rawTagName": "level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 12,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS4243" },
+                                                        { "type": "exact", "code": "CS4244" },
+                                                        { "type": "exact", "code": "CS4246" },
+                                                        { "type": "exact", "code": "CS4248" }
+                                                    ]
+                                                }
                                             ]
                                         }
                                     ]
                                 },
                                 {
                                     "rawTagName": "computer_graphics_and_games",
-                                    "logic": "AND",
+                                    "logic": "OR",
                                     "children": [
                                         {
-                                            "rawTagName": "minimum_requirement",
-                                            "type": "min",
-                                            "value": 12,
-                                            "modules": [
-                                                { "type": "exact", "code": "CS3241" },
-                                                { "type": "exact", "code": "CS3242" },
-                                                { "type": "exact", "code": "CS3247" },
-                                                { "type": "exact", "code": "CS4247" },
-                                                { "type": "exact", "code": "CS4350" }
+                                            "rawTagName": "cgg_with_1_level_4000",
+                                            "logic": "AND",
+                                            "children": [
+                                                {
+                                                    "rawTagName": "minimum_requirement",
+                                                    "type": "min",
+                                                    "value": 8,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS3241" },
+                                                        { "type": "exact", "code": "CS3242" },
+                                                        { "type": "exact", "code": "CS3247" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 4,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS4247" },
+                                                        { "type": "exact", "code": "CS4350" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "other_level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 8,
+                                                    "modules": [
+                                                        { "type": "wildcard", "prefix": "CS4" },
+                                                        { "type": "wildcard", "prefix": "CP4" },
+                                                        { "type": "wildcard", "prefix": "IFS4" }
+                                                    ]
+                                                }
                                             ]
                                         },
                                         {
-                                            "rawTagName": "level_4000_requirement",
-                                            "type": "min",
-                                            "value": 4,
-                                            "modules": [
-                                                { "type": "exact", "code": "CS4247" },
-                                                { "type": "exact", "code": "CS4350" }
+                                            "rawTagName": "cgg_with_2_level_4000",
+                                            "logic": "AND",
+                                            "children": [
+                                                {
+                                                    "rawTagName": "minimum_requirement",
+                                                    "type": "min",
+                                                    "value": 4,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS3241" },
+                                                        { "type": "exact", "code": "CS3242" },
+                                                        { "type": "exact", "code": "CS3247" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 8,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS4247" },
+                                                        { "type": "exact", "code": "CS4350" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "other_level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 4,
+                                                    "modules": [
+                                                        { "type": "wildcard", "prefix": "CS4" },
+                                                        { "type": "wildcard", "prefix": "CP4" },
+                                                        { "type": "wildcard", "prefix": "IFS4" }
+                                                    ]
+                                                }
                                             ]
                                         }
                                     ]
                                 },
                                 {
                                     "rawTagName": "computer_security",
-                                    "logic": "AND",
+                                    "logic": "OR",
                                     "children": [
                                         {
-                                            "rawTagName": "minimum_requirement",
-                                            "type": "min",
-                                            "value": 12,
-                                            "modules": [
-                                                { "type": "exact", "code": "CS2107" },
-                                                { "type": "exact", "code": "CS3235" },
-                                                { "type": "exact", "code": "CS4236" },
-                                                { "type": "exact", "code": "CS4230" },
-                                                { "type": "exact", "code": "CS4238" },
-                                                { "type": "exact", "code": "CS4239" }
+                                            "rawTagName": "compsec_with_1_level_4000",
+                                            "logic": "AND",
+                                            "children": [
+                                                {
+                                                    "rawTagName": "minimum_requirement",
+                                                    "type": "min",
+                                                    "value": 8,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS2107" },
+                                                        { "type": "exact", "code": "CS3235" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 4,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS4236" },
+                                                        { "type": "exact", "code": "CS4230" },
+                                                        { "type": "exact", "code": "CS4238" },
+                                                        { "type": "exact", "code": "CS4239" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "other_level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 8,
+                                                    "modules": [
+                                                        { "type": "wildcard", "prefix": "CS4" },
+                                                        { "type": "wildcard", "prefix": "CP4" },
+                                                        { "type": "wildcard", "prefix": "IFS4" }
+                                                    ]
+                                                }
                                             ]
                                         },
                                         {
-                                            "rawTagName": "level_4000_requirement",
-                                            "type": "min",
-                                            "value": 4,
-                                            "modules": [
-                                                { "type": "exact", "code": "CS4236" },
-                                                { "type": "exact", "code": "CS4230" },
-                                                { "type": "exact", "code": "CS4238" },
-                                                { "type": "exact", "code": "CS4239" }
+                                            "rawTagName": "compsec_with_2_level_4000",
+                                            "logic": "AND",
+                                            "children": [
+                                                {
+                                                    "rawTagName": "minimum_requirement",
+                                                    "type": "min",
+                                                    "value": 4,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS2107" },
+                                                        { "type": "exact", "code": "CS3235" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 8,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS4236" },
+                                                        { "type": "exact", "code": "CS4230" },
+                                                        { "type": "exact", "code": "CS4238" },
+                                                        { "type": "exact", "code": "CS4239" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "other_level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 4,
+                                                    "modules": [
+                                                        { "type": "wildcard", "prefix": "CS4" },
+                                                        { "type": "wildcard", "prefix": "CP4" },
+                                                        { "type": "wildcard", "prefix": "IFS4" }
+                                                    ]
+                                                }
                                             ]
-                                        }
+                                        },   
+                                        {
+                                            "rawTagName": "compsec_with_3_level_4000",
+                                            "logic": "AND",
+                                            "children": [
+                                                {
+                                                    "rawTagName": "level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 12,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS4236" },
+                                                        { "type": "exact", "code": "CS4230" },
+                                                        { "type": "exact", "code": "CS4238" },
+                                                        { "type": "exact", "code": "CS4239" }
+                                                    ]
+                                                }
+                                            ]
+                                        }                                     
                                     ]
                                 },
                                 {
                                     "rawTagName": "database_systems",
-                                    "logic": "AND",
+                                    "logic": "OR",
                                     "children": [
                                         {
-                                            "rawTagName": "minimum_requirement",
-                                            "type": "min",
-                                            "value": 12,
-                                            "modules": [
-                                                { "type": "exact", "code": "CS2102" },
-                                                { "type": "exact", "code": "CS3223" },
-                                                { "type": "exact", "code": "CS4221" },
-                                                { "type": "exact", "code": "CS4224" },
-                                                { "type": "exact", "code": "CS4225" }
+                                            "rawTagName": "ds_with_1_level_4000",
+                                            "logic": "AND",
+                                            "children": [
+                                                {
+                                                    "rawTagName": "minimum_requirement",
+                                                    "type": "min",
+                                                    "value": 8,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS2102" },
+                                                        { "type": "exact", "code": "CS3223" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 4,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS4221" },
+                                                        { "type": "exact", "code": "CS4224" },
+                                                        { "type": "exact", "code": "CS4225" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "other_level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 8,
+                                                    "modules": [
+                                                        { "type": "wildcard", "prefix": "CS4" },
+                                                        { "type": "wildcard", "prefix": "CP4" },
+                                                        { "type": "wildcard", "prefix": "IFS4" }
+                                                    ]
+                                                }
                                             ]
                                         },
                                         {
-                                            "rawTagName": "level_4000_requirement",
-                                            "type": "min",
-                                            "value": 4,
-                                            "modules": [
-                                                { "type": "exact", "code": "CS4221" },
-                                                { "type": "exact", "code": "CS4224" },
-                                                { "type": "exact", "code": "CS4225" }
+                                            "rawTagName": "ds_with_2_level_4000",
+                                            "logic": "AND",
+                                            "children": [
+                                                {
+                                                    "rawTagName": "minimum_requirement",
+                                                    "type": "min",
+                                                    "value": 4,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS2102" },
+                                                        { "type": "exact", "code": "CS3223" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 8,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS4221" },
+                                                        { "type": "exact", "code": "CS4224" },
+                                                        { "type": "exact", "code": "CS4225" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "other_level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 4,
+                                                    "modules": [
+                                                        { "type": "wildcard", "prefix": "CS4" },
+                                                        { "type": "wildcard", "prefix": "CP4" },
+                                                        { "type": "wildcard", "prefix": "IFS4" }
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "rawTagName": "ds_with_3_level_4000",
+                                            "logic": "AND",
+                                            "children": [
+                                                {
+                                                    "rawTagName": "level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 12,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS4221" },
+                                                        { "type": "exact", "code": "CS4224" },
+                                                        { "type": "exact", "code": "CS4225" }
+                                                    ]
+                                                }
                                             ]
                                         }
                                     ]
                                 },
                                 {
                                     "rawTagName": "multimedia_information_retrieval",
-                                    "logic": "AND",
+                                    "logic": "OR",
                                     "children": [
                                         {
-                                            "rawTagName": "minimum_requirement",
-                                            "type": "min",
-                                            "value": 12,
-                                            "modules": [
-                                                { "type": "exact", "code": "CS2108" },
-                                                { "type": "exact", "code": "CS3245" },
-                                                { "type": "exact", "code": "CS4242" },
-                                                { "type": "exact", "code": "CS4248" },
-                                                { "type": "exact", "code": "CS4347" }
+                                            "rawTagName": "mir_with_1_level_4000",
+                                            "logic": "AND",
+                                            "children": [
+                                                {
+                                                    "rawTagName": "minimum_requirement",
+                                                    "type": "min",
+                                                    "value": 8,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS2108" },
+                                                        { "type": "exact", "code": "CS3245" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 4,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS4242" },
+                                                        { "type": "exact", "code": "CS4248" },
+                                                        { "type": "exact", "code": "CS4347" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "other_level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 8,
+                                                    "modules": [
+                                                        { "type": "wildcard", "prefix": "CS4" },
+                                                        { "type": "wildcard", "prefix": "CP4" },
+                                                        { "type": "wildcard", "prefix": "IFS4" }
+                                                    ]
+                                                }
                                             ]
                                         },
                                         {
-                                            "rawTagName": "level_4000_requirement",
-                                            "type": "min",
-                                            "value": 4,
-                                            "modules": [
-                                                { "type": "exact", "code": "CS4242" },
-                                                { "type": "exact", "code": "CS4248" },
-                                                { "type": "exact", "code": "CS4347" }
+                                            "rawTagName": "mir_with_2_level_4000",
+                                            "logic": "AND",
+                                            "children": [
+                                                {
+                                                    "rawTagName": "minimum_requirement",
+                                                    "type": "min",
+                                                    "value": 4,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS2108" },
+                                                        { "type": "exact", "code": "CS3245" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 8,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS4242" },
+                                                        { "type": "exact", "code": "CS4248" },
+                                                        { "type": "exact", "code": "CS4347" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "other_level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 4,
+                                                    "modules": [
+                                                        { "type": "wildcard", "prefix": "CS4" },
+                                                        { "type": "wildcard", "prefix": "CP4" },
+                                                        { "type": "wildcard", "prefix": "IFS4" }
+                                                    ]
+                                                }
                                             ]
-                                        }
+                                        },                                        
+                                        {
+                                            "rawTagName": "mir_with_3_level_4000",
+                                            "logic": "AND",
+                                            "children": [
+                                                {
+                                                    "rawTagName": "level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 12,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS4242" },
+                                                        { "type": "exact", "code": "CS4248" },
+                                                        { "type": "exact", "code": "CS4347" }
+                                                    ]
+                                                }
+                                            ]
+                                        }                                  
                                     ]
-                                },
+                                },                                
                                 {
                                     "rawTagName": "networking_and_distributed_systems",
-                                    "logic": "AND",
+                                    "logic": "OR",
                                     "children": [
                                         {
-                                            "rawTagName": "minimum_requirement",
-                                            "type": "min",
-                                            "value": 12,
-                                            "modules": [
-                                                { "type": "exact", "code": "CS2105" },
-                                                { "type": "exact", "code": "CS3103" },
-                                                { "type": "exact", "code": "CS4222" },
-                                                { "type": "exact", "code": "CS4226" },
-                                                { "type": "exact", "code": "CS4231" }
+                                            "rawTagName": "nds_with_1_level_4000",
+                                            "logic": "AND",
+                                            "children": [
+                                                {
+                                                    "rawTagName": "minimum_requirement",
+                                                    "type": "min",
+                                                    "value": 8,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS2105" },
+                                                        { "type": "exact", "code": "CS3103" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 4,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS4222" },
+                                                        { "type": "exact", "code": "CS4226" },
+                                                        { "type": "exact", "code": "CS4231" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "other_level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 8,
+                                                    "modules": [
+                                                        { "type": "wildcard", "prefix": "CS4" },
+                                                        { "type": "wildcard", "prefix": "CP4" },
+                                                        { "type": "wildcard", "prefix": "IFS4" }
+                                                    ]
+                                                }
                                             ]
                                         },
                                         {
-                                            "rawTagName": "level_4000_requirement",
-                                            "type": "min",
-                                            "value": 4,
-                                            "modules": [
-                                                { "type": "exact", "code": "CS4222" },
-                                                { "type": "exact", "code": "CS4226" },
-                                                { "type": "exact", "code": "CS4231" }
+                                            "rawTagName": "nds_with_2_level_4000",
+                                            "logic": "AND",
+                                            "children": [
+                                                {
+                                                    "rawTagName": "minimum_requirement",
+                                                    "type": "min",
+                                                    "value": 4,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS2105" },
+                                                        { "type": "exact", "code": "CS3103" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 8,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS4222" },
+                                                        { "type": "exact", "code": "CS4226" },
+                                                        { "type": "exact", "code": "CS4231" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "other_level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 4,
+                                                    "modules": [
+                                                        { "type": "wildcard", "prefix": "CS4" },
+                                                        { "type": "wildcard", "prefix": "CP4" },
+                                                        { "type": "wildcard", "prefix": "IFS4" }
+                                                    ]
+                                                }
                                             ]
-                                        }
+                                        },                                        
+                                        {
+                                            "rawTagName": "nds_with_3_level_4000",
+                                            "logic": "AND",
+                                            "children": [
+                                                {
+                                                    "rawTagName": "level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 8,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS4222" },
+                                                        { "type": "exact", "code": "CS4226" },
+                                                        { "type": "exact", "code": "CS4231" }
+                                                    ]
+                                                }
+                                            ]
+                                        }                                  
                                     ]
-                                },
+                                },                                
                                 {
                                     "rawTagName": "parallel_computing",
-                                    "logic": "AND",
+                                    "logic": "OR",
                                     "children": [
                                         {
-                                            "rawTagName": "minimum_requirement",
-                                            "type": "min",
-                                            "value": 12,
-                                            "modules": [
-                                                { "type": "exact", "code": "CS3210" },
-                                                { "type": "exact", "code": "CS3211" },
-                                                { "type": "exact", "code": "CS4231" },
-                                                { "type": "exact", "code": "CS4223" }
+                                            "rawTagName": "pc_with_1_level_4000",
+                                            "logic": "AND",
+                                            "children": [
+                                                {
+                                                    "rawTagName": "minimum_requirement",
+                                                    "type": "min",
+                                                    "value": 8,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS3210" },
+                                                        { "type": "exact", "code": "CS3211" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 4,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS4231" },
+                                                        { "type": "exact", "code": "CS4223" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "other_level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 8,
+                                                    "modules": [
+                                                        { "type": "wildcard", "prefix": "CS4" },
+                                                        { "type": "wildcard", "prefix": "CP4" },
+                                                        { "type": "wildcard", "prefix": "IFS4" }
+                                                    ]
+                                                }
                                             ]
                                         },
                                         {
-                                            "rawTagName": "level_4000_requirement",
-                                            "type": "min",
-                                            "value": 4,
-                                            "modules": [
-                                                { "type": "exact", "code": "CS4231" },
-                                                { "type": "exact", "code": "CS4223" }
+                                            "rawTagName": "pc_with_2_level_4000",
+                                            "logic": "AND",
+                                            "children": [
+                                                {
+                                                    "rawTagName": "minimum_requirement",
+                                                    "type": "min",
+                                                    "value": 4,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS3210" },
+                                                        { "type": "exact", "code": "CS3211" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 8,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS4231" },
+                                                        { "type": "exact", "code": "CS4223" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "other_level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 4,
+                                                    "modules": [
+                                                        { "type": "wildcard", "prefix": "CS4" },
+                                                        { "type": "wildcard", "prefix": "CP4" },
+                                                        { "type": "wildcard", "prefix": "IFS4" }
+                                                    ]
+                                                }
                                             ]
-                                        }
+                                        }                 
                                     ]
-                                },
+                                },                                
                                 {
                                     "rawTagName": "programming_languages",
-                                    "name": "Programming Languages",
-                                    "logic": "AND",
+                                    "logic": "OR",
                                     "children": [
                                         {
-                                            "rawTagName": "minimum_requirement",
-                                            "type": "min",
-                                            "value": 12,
-                                            "modules": [
-                                                { "type": "exact", "code": "CS2104" },
-                                                { "type": "exact", "code": "CS3211" },
-                                                { "type": "exact", "code": "CS4212" },
-                                                { "type": "exact", "code": "CS4215" }
+                                            "rawTagName": "pl_with_1_level_4000",
+                                            "logic": "AND",
+                                            "children": [
+                                                {
+                                                    "rawTagName": "minimum_requirement",
+                                                    "type": "min",
+                                                    "value": 8,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS2104" },
+                                                        { "type": "exact", "code": "CS3211" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 4,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS4212" },
+                                                        { "type": "exact", "code": "CS4215" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "other_level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 8,
+                                                    "modules": [
+                                                        { "type": "wildcard", "prefix": "CS4" },
+                                                        { "type": "wildcard", "prefix": "CP4" },
+                                                        { "type": "wildcard", "prefix": "IFS4" }
+                                                    ]
+                                                }
                                             ]
                                         },
                                         {
-                                            "rawTagName": "level_4000_requirement",
-                                            "type": "min",
-                                            "value": 4,
-                                            "modules": [
-                                                { "type": "exact", "code": "CS4212" },
-                                                { "type": "exact", "code": "CS4215" }
+                                            "rawTagName": "pl_with_2_level_4000",
+                                            "logic": "AND",
+                                            "children": [
+                                                {
+                                                    "rawTagName": "minimum_requirement",
+                                                    "type": "min",
+                                                    "value": 4,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS2104" },
+                                                        { "type": "exact", "code": "CS3211" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 8,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS4212" },
+                                                        { "type": "exact", "code": "CS4215" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "other_level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 4,
+                                                    "modules": [
+                                                        { "type": "wildcard", "prefix": "CS4" },
+                                                        { "type": "wildcard", "prefix": "CP4" },
+                                                        { "type": "wildcard", "prefix": "IFS4" }
+                                                    ]
+                                                }
                                             ]
-                                        }
+                                        }                   
                                     ]
-                                },
+                                },                                
                                 {
                                     "rawTagName": "software_engineering",
-                                    "logic": "AND",
+                                    "logic": "OR",
                                     "children": [
                                         {
-                                            "rawTagName": "minimum_requirement",
-                                            "type": "min",
-                                            "value": 12,
-                                            "modules": [
-                                                { "type": "variant", "baseCode": "CS2103" },
-                                                { "type": "exact", "code": "CS3213" },
-                                                { "type": "exact", "code": "CS3219" },
-                                                { "type": "exact", "code": "CS4211" },
-                                                { "type": "exact", "code": "CS4218" },
-                                                { "type": "exact", "code": "CS4239" }
+                                            "rawTagName": "se_with_1_level_4000",
+                                            "logic": "AND",
+                                            "children": [
+                                                {
+                                                    "rawTagName": "minimum_requirement",
+                                                    "type": "min",
+                                                    "value": 8,
+                                                    "modules": [
+                                                        { "type": "variant", "code": "CS2103" },
+                                                        { "type": "exact", "code": "CS3213" },
+                                                        { "type": "exact", "code": "CS3219" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 4,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS4211" },
+                                                        { "type": "exact", "code": "CS4218" },
+                                                        { "type": "exact", "code": "CS4239" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "other_level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 8,
+                                                    "modules": [
+                                                        { "type": "wildcard", "prefix": "CS4" },
+                                                        { "type": "wildcard", "prefix": "CP4" },
+                                                        { "type": "wildcard", "prefix": "IFS4" }
+                                                    ]
+                                                }
                                             ]
                                         },
                                         {
-                                            "rawTagName": "level_4000_requirement",
-                                            "type": "min",
-                                            "value": 4,
-                                            "modules": [
-                                                { "type": "exact", "code": "CS4211" },
-                                                { "type": "exact", "code": "CS4218" },
-                                                { "type": "exact", "code": "CS4239" }
+                                            "rawTagName": "se_with_2_level_4000",
+                                            "logic": "AND",
+                                            "children": [
+                                                {
+                                                    "rawTagName": "minimum_requirement",
+                                                    "type": "min",
+                                                    "value": 4,
+                                                    "modules": [
+                                                        { "type": "variant", "code": "CS2103" },
+                                                        { "type": "exact", "code": "CS3213" },
+                                                        { "type": "exact", "code": "CS3219" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 8,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS4211" },
+                                                        { "type": "exact", "code": "CS4218" },
+                                                        { "type": "exact", "code": "CS4239" }
+                                                    ]
+                                                },
+                                                {
+                                                    "rawTagName": "other_level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 4,
+                                                    "modules": [
+                                                        { "type": "wildcard", "prefix": "CS4" },
+                                                        { "type": "wildcard", "prefix": "CP4" },
+                                                        { "type": "wildcard", "prefix": "IFS4" }
+                                                    ]
+                                                }
                                             ]
-                                        }
+                                        },
+                                        {
+                                            "rawTagName": "se_with_3_level_4000",
+                                            "logic": "AND",
+                                            "children": [
+                                                {
+                                                    "rawTagName": "level_4000_requirement",
+                                                    "type": "min",
+                                                    "value": 12,
+                                                    "modules": [
+                                                        { "type": "exact", "code": "CS4211" },
+                                                        { "type": "exact", "code": "CS4218" },
+                                                        { "type": "exact", "code": "CS4239" }
+                                                    ]
+                                                }
+                                            ]
+                                        }                      
                                     ]
                                 }
                             ]
-                        },
+                        },                             
                         {
-                            "rawTagName": "level_4000_requirement",
-                            "type": "min",
-                            "value": 12,
-                            "modules": [
-                                { "type": "wildcard", "prefix": "CS4" },
-                                { "type": "wildcard", "prefix": "CP4" },
-                                { "type": "wildcard", "prefix": "IFS4" },
-                                { "type": "exact", "code": "IS4010" }
-                            ],
-                            "note": "Level-4000 Requirement"
-                        },
-                        {
-                            "rawTagName": "industrial_experience",
+                            "rawTagName": "cs_industrial_experience",
                             "logic": "AND",
                             "children": [
                                 {
@@ -620,10 +1207,11 @@
                                         { "type": "exact", "code": "CP3107" },
                                         { "type": "exact", "code": "CP3110" },
                                         { "type": "exact", "code": "ETP3205" },
-                                        { "type": "other", "code": "CP4101", "requiresApproval": true },
+                                        { "type": "exact", "code": "CP4101" },
                                         { "type": "other", "code": "SOC_NOC", "requiresApproval": true },
                                         { "type": "other", "code": "SOC_OTHER", "requiresApproval": true }
-                                    ]
+                                    ],
+                                    "note": "Minimum 6 AU. CP4101 available for students with GPA 4.0 and above."
                                 },
                                 {
                                     "rawTagName": "industrial_experience_maximum",
@@ -638,16 +1226,15 @@
                                         { "type": "exact", "code": "CP3107" },
                                         { "type": "exact", "code": "CP3110" },
                                         { "type": "exact", "code": "ETP3205" },
-                                        { "type": "other", "code": "CP4101", "requiresApproval": true },
+                                        { "type": "exact", "code": "CP4101" },
                                         { "type": "other", "code": "SOC_NOC", "requiresApproval": true },
                                         { "type": "other", "code": "SOC_OTHER", "requiresApproval": true }
                                     ]
                                 }
-                            ],
-                            "note": "Industrial Experience Requirement (minimum 6 Units, maximum 12 Units)"
+                            ]
                         },
                         {
-                            "rawTagName": "cp_modules_maximum",
+                            "rawTagName": "cp_modules_constraint",
                             "type": "max",
                             "value": 12,
                             "modules": [
@@ -656,12 +1243,12 @@
                             "exclude": [
                                 "CP3880",
                                 "CP3200",
-                                "CP3202",
+                                "CP3202", 
                                 "CP3107",
                                 "CP3110",
                                 "CP4101"
                             ],
-                            "note": "Maximum of 12 Units from CP modules (excluding Industry Experience modules)"
+                            "note": "Maximum 12 AU from CP modules (excluding Industry Experience modules)."
                         }
                     ]
                 }

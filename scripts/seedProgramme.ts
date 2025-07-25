@@ -3,14 +3,12 @@
 let fileName = "minor/Artificial Intelligence.json"
 // Usage: 
 // 1. Replace fileName
-// 2. ts-node scripts/seedProgrammes.ts
+// 2. ts-node scripts/seedProgramme.ts
 
 import fs from 'fs/promises';
 import path from 'path';
 import supabaseAdmin from '../src/config/supabaseAdmin';
 import type { ProgrammeType } from '../src/types/shared-types';
-
-const DEFAULT_NUS_TAUGHT_FRACTION = 0.6;
 
 // Interface just for seeding
 interface ProgrammeFile {
@@ -55,7 +53,7 @@ async function seedProgramme(jsonPath: string) {
     console.log(`Successfully seeded: ${file.meta.name} (${file.meta.type})`);
 }
 
-async function main(fileStr: string) {
+export async function mainSingle(fileStr: string) {
     try {
         await seedProgramme(fileStr);
     } catch (error) {
@@ -64,4 +62,4 @@ async function main(fileStr: string) {
     }
 }
 
-main(fileName);
+mainSingle(fileName);

@@ -8,8 +8,8 @@ DECLARE
     v_path RECORD;
     v_child RECORD;
     v_required_units INTEGER := 0;
-    v_has_override BOOLEAN := false;
-    v_override_source TEXT;
+    v_has_overall BOOLEAN := false;
+    v_overall_source TEXT;
     v_child_units INTEGER;
 BEGIN
     -- Get current path details
@@ -34,23 +34,23 @@ BEGIN
     
     -- Case 3: Has children - need to aggregate
     ELSIF v_path.child_count > 0 THEN
-        -- First check for override (overall: true)
+        -- First check for overall (overall: true)
         FOR v_child IN 
             SELECT * FROM programme_requirement_paths 
             WHERE programme_id = p_programme_id 
             AND parent_path_key = p_path_key
         LOOP
-            -- Check if this child has override rule
-            IF v_child.is_override_source THEN
+            -- Check if this child has overall rule
+            IF v_child.is_overall_source THEN
                 v_required_units := v_child.rule_value;
-                v_has_override := true;
-                v_override_source := v_child.path_key;
-                EXIT; -- Stop after finding the override source
+                v_has_overall := true;
+                v_overall_source := v_child.path_key;
+                EXIT; -- Stop after finding the overall source
             END IF;
         END LOOP;
         
-        -- If no override, compute based on logic type
-        IF NOT v_has_override THEN
+        -- If no overall, compute based on logic type
+        IF NOT v_has_overall THEN
             IF v_path.logic_type = 'AND' THEN
                 -- Sum all children
                 SELECT COALESCE(SUM(required_units), 0) INTO v_required_units
@@ -73,8 +73,8 @@ BEGIN
     UPDATE programme_requirement_paths 
     SET 
         required_units = v_required_units,
-        has_override = v_has_override,
-        override_source = v_override_source
+        has_overall = v_has_overall,
+        overall_source = v_overall_source
     WHERE id = p_path_id;
     
     RETURN v_required_units;

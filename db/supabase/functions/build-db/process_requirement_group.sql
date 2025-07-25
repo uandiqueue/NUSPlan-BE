@@ -6,7 +6,7 @@ CREATE OR REPLACE FUNCTION process_requirement_group(
     p_group_data JSONB,
     p_parent_key TEXT,
     p_depth INTEGER,
-    p_is_override_source BOOLEAN DEFAULT false
+    p_is_overall_source BOOLEAN DEFAULT false
 ) RETURNS VOID AS $$
 DECLARE
     v_current_key TEXT;
@@ -17,7 +17,8 @@ DECLARE
     v_child RECORD;
     v_module_codes TEXT[];
     v_module_types TEXT[];
-    v_child_is_override BOOLEAN;
+    v_child_is_overall BOOLEAN;
+    v_exception_modules TEXT[];
 BEGIN
     -- Handle coreEssentials (array of modules)
     IF p_group_type = 'coreEssentials' AND jsonb_typeof(p_group_data) = 'array' THEN
@@ -43,11 +44,13 @@ BEGIN
         INSERT INTO programme_requirement_paths (
             programme_id, path_key, parent_path_key, depth,
             group_type, raw_tag_name, display_label, logic_type,
-            is_leaf, module_codes, module_types, child_count, is_override_source
+            is_leaf, module_codes, module_types, child_count,
+            note, is_overall_source, exception_modules
         ) VALUES (
             p_programme_id, v_current_key, p_parent_key, p_depth,
             p_group_type, 'core_essentials', 'Core Essentials', 'LEAF',
-            true, v_module_codes, v_module_types, 0, p_is_override_source
+            true, v_module_codes, v_module_types, 0,
+            NULL, p_is_overall_source, ARRAY[]::TEXT[]
         );
 
         RETURN;
@@ -67,6 +70,7 @@ BEGIN
     -- Extract module codes for leaf node (min/max rule)
     v_is_leaf := (p_group_data->>'type' IS NOT NULL AND p_group_data->'modules' IS NOT NULL);
     IF v_is_leaf THEN
+        -- Extract module codes
         SELECT 
             array_agg(DISTINCT
                 CASE 
@@ -81,6 +85,11 @@ BEGIN
         INTO v_module_codes, v_module_types
         FROM jsonb_array_elements(p_group_data->'modules') AS module_obj
         WHERE module_obj->>'type' IS NOT NULL;
+
+        -- Extract "exclude" list if present
+        SELECT COALESCE(array_agg(value::TEXT), ARRAY[]::TEXT[])
+        INTO v_exception_modules
+        FROM jsonb_array_elements_text(p_group_data->'exclude');
     END IF;
 
     -- Insert current node
@@ -88,7 +97,7 @@ BEGIN
         programme_id, path_key, parent_path_key, depth,
         group_type, raw_tag_name, display_label, logic_type,
         rule_type, rule_value, is_leaf, module_codes, module_types,
-        child_count, note, is_override_source
+        child_count, note, is_overall_source, exception_modules
     ) VALUES (
         p_programme_id, v_current_key, p_parent_key, p_depth,
         p_group_type,
@@ -102,17 +111,18 @@ BEGIN
         v_module_types,
         COALESCE(jsonb_array_length(p_group_data->'children'), 0),
         p_group_data->>'note',
-        p_is_override_source
+        p_is_overall_source,
+        v_exception_modules
     );
 
-    -- Check if overall:true and mark has_override
+    -- Check if overall:true and mark has_overall
     IF p_group_data->'children' IS NOT NULL AND jsonb_array_length(p_group_data->'children') > 0 THEN
         FOR v_child IN SELECT * FROM jsonb_array_elements(p_group_data->'children')
         LOOP
-            v_child_is_override := false;
+            v_child_is_overall := false;
 
             IF v_child.value @> '{"overall": true}'::jsonb THEN
-                v_child_is_override := true;
+                v_child_is_overall := true;
                 v_has_overall_child := true;
             END IF;
 
@@ -124,14 +134,14 @@ BEGIN
                 v_child.value,
                 v_current_key,
                 p_depth + 1,
-                v_child_is_override
+                v_child_is_overall
             );             
         END LOOP;
 
-        -- Update parent to mark it has override children
+        -- Update parent to mark it has overall children
         IF v_has_overall_child THEN
             UPDATE programme_requirement_paths
-            SET has_override = true
+            SET has_overall = true
             WHERE programme_id = p_programme_id 
             AND path_key = v_current_key;
         END IF;      

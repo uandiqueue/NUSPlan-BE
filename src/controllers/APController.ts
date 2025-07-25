@@ -72,7 +72,9 @@ export async function generateAcademicPlan(req: Request, res: Response): Promise
                 error: 'INTERNAL_SERVER_ERROR',
                 message: 'Populator failed to generate AP',
                 validationErrors: validationResult.errors,
-                details: validationResult.summary
+                details: validationResult.summary,
+                contextStats: validationResult.contextStats,
+                fullContext: validationResult.fullContext
             });
             return;
         }

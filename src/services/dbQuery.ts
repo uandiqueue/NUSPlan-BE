@@ -79,7 +79,8 @@ export class DatabaseQueryService {
                     id, programme_id, path_key, parent_path_key, 
                     display_label, logic_type, rule_type, rule_value, 
                     required_units, depth, is_leaf, is_readonly, 
-                    group_type, raw_tag_name, module_codes, module_types
+                    group_type, raw_tag_name, module_codes, module_types,
+                    is_overall_source, exception_modules
                 `)
                 .in('programme_id', programmeIds)
                 .order('depth', { ascending: true });

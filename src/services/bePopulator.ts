@@ -147,6 +147,12 @@ export class BackendPopulator {
         pathData: any,
         programme: ProcessedProgramme
     ): Promise<void> {
+
+        if (!pathData || !pathData.id) {
+            console.warn(`Invalid pathData provided for ${groupType} in programme ${programme.metadata.name}:`, pathData);
+            return;
+        }
+
         // Map gmcs to actual module codes if this is a leaf path
         let mappedModules: ModuleCode[] = [];
         let gmcMappings: GMCMapping[] = [];
@@ -181,6 +187,8 @@ export class BackendPopulator {
             depth: pathData.depth,
             isLeaf: pathData.is_leaf,
             isReadonly: pathData.is_readonly || false,
+            isOverallSource: pathData.is_overall_source || false,
+            exceptionModules: pathData.exception_modules || [],
             moduleCodes: mappedModules,
             gmcMappings
         };
@@ -261,12 +269,15 @@ export class BackendPopulator {
 
             // Build combination-specific module-to-paths mappings
             const { moduleToLeafPaths, leafPathToModules } = this.buildPathMappings(programmes);
+            console.info('Built module-to-path mappings')
 
             // Build combination-specific max rule mappings
             const moduleToMaxRules = this.buildMaxRuleMappings(programmes);
+            console.info('Built max rule mappings');
 
             // Analyze double-counting eligibility for this specific combination
             const doubleCountEligibility = this.analyzeDoubleCount(programmes, moduleToLeafPaths);
+            console.info('Analyzed double-count eligibility');
 
             return {
                 moduleToLeafPaths,
@@ -453,6 +464,8 @@ export class BackendPopulator {
         sharedLookupMaps: LookupMaps
     ): Promise<ProgrammePayload> {
         try {
+            console.log(`Building payload for programme: ${programme.metadata.name}`);
+
             const pathsBySection = this.groupPathsBySection(programme.processedPaths);
             const sections = [] as ProgrammeSection[];
 
@@ -502,6 +515,17 @@ export class BackendPopulator {
         sectionPaths: ProcessedPath[],
         programme: ProcessedProgramme
     ): Promise<ProgrammeSection> {
+        if (!sectionPaths || sectionPaths.length === 0) {
+            console.warn(`No paths found for section ${groupType} in programme ${programme.programmeId}`);
+            return {
+                groupType,
+                displayLabel: `${groupType} (Empty)`,
+                paths: [],
+                courseBoxes: [],
+                hidden: []
+            };
+        }        
+
         // Build path infos for all paths (for debugging)
         const pathInfos = sectionPaths.map(path => ({
             pathId: path.pathId,
@@ -514,17 +538,28 @@ export class BackendPopulator {
             requiredUnits: path.requiredUnits,
             depth: path.depth,
             groupType: path.groupType,
-            rawTagName: path.rawTagName
+            rawTagName: path.rawTagName,
+            exceptionModules: path.exceptionModules
         }));
 
-        // Build course boxes based on tree structure
-        const courseBoxes = await this.buildCourseBoxes(sectionPaths, programme, groupType);
+        // Separate paths into regular and hidden based on is_overall_source
+        const regularPaths = sectionPaths.filter(path => !path.isOverallSource);
+        const hiddenPaths = sectionPaths.filter(path => path.isOverallSource);
+        console.info(`hiddenPaths for ${groupType} in ${programme.programmeId}:`, 
+            hiddenPaths.map(p => p.pathKey), hiddenPaths.map(p => p.depth));
+
+        // Build course boxes for regular paths (displayed in UI)
+        const courseBoxes = await this.buildCourseBoxes(regularPaths, programme, groupType);
+        
+        // Build course boxes for hidden paths (not displayed in UI by default)
+        const hiddenBoxes = await this.buildHiddenCourseBoxes(hiddenPaths, programme, groupType);
         
         return {
             groupType,
             displayLabel: pathInfos[0].displayLabel,
             paths: pathInfos,
-            courseBoxes
+            courseBoxes,
+            hidden: hiddenBoxes
         };
     }
 
@@ -536,7 +571,12 @@ export class BackendPopulator {
         programme: ProcessedProgramme, 
         groupType: RequirementGroupType
     ): Promise<any[]> {
-        const courseBoxes = [];
+        const courseBoxes = [] as CourseBox[];
+
+        // Handle empty paths array
+        if (!paths || paths.length === 0) {
+            return courseBoxes;
+        }
         
         // Build path hierarchy for easier traversal
         const pathMap = new Map<string, ProcessedPath>();
@@ -565,7 +605,7 @@ export class BackendPopulator {
                 courseBoxes.push({
                     kind: 'exact',
                     boxKey: isPrereq ? `prereq-${moduleCode}` : `${paths[0].pathKey}-${moduleCode}`,
-                    pathId: isPrereq ? null : paths[0].pathId, // pathId = null if in prerequisiteModules
+                    pathId: isPrereq ? `prereq-${moduleCode}` : paths[0].pathId,
                     programmeId: programme.programmeId,
                     moduleCode: moduleCode as ModuleCode,
                     isPreselected: true
@@ -591,9 +631,47 @@ export class BackendPopulator {
         return courseBoxes;
     }
 
+    private async buildHiddenCourseBoxes(
+        paths: ProcessedPath[], 
+        programme: ProcessedProgramme,
+        groupType: RequirementGroupType
+    ): Promise<any[]> {
+        const courseBoxes = [] as CourseBox[];
+
+        // Handle empty paths array
+        if (!paths || paths.length === 0) {
+            return courseBoxes;
+        }
+        
+        // Build path hierarchy for easier traversal
+        const pathMap = new Map<string, ProcessedPath>();
+        const childrenMap = new Map<string, ProcessedPath[]>();
+        
+        for (const path of paths) {
+            pathMap.set(path.pathId, path);
+            
+            if (path.parentPathKey) {
+                if (!childrenMap.has(path.parentPathKey)) {
+                    childrenMap.set(path.parentPathKey, []);
+                }
+                childrenMap.get(path.parentPathKey)!.push(path);
+
+                if (!programme.childrenMap.has(path.parentPathKey)) {
+                    programme.childrenMap.set(path.parentPathKey, []);
+                }
+                programme.childrenMap.get(path.parentPathKey)!.push(path.pathId);
+
+                const childBoxes = await this.buildBoxesForPath(path, pathMap, childrenMap, programme);
+                courseBoxes.push(...childBoxes);
+            }
+        }
+
+        return courseBoxes;
+    }
+
     /**
      * Build course boxes for a specific path based on its logic type
-     * - LEAF -> DropdownBox
+     * - LEAF -> DropdownBox (Excluding exception_modules)
      * - AND -> recursive children processing
      * - OR -> AltPathBox
      */
@@ -607,6 +685,15 @@ export class BackendPopulator {
         switch (path.logicType) {
             case 'LEAF':
                 // LEAF at depth 1+ -> DropdownBox
+
+                // Filter out exception modules from moduleOptions
+                let moduleOptions = path.moduleCodes as ModuleCode[];
+                
+                if (path.exceptionModules && path.exceptionModules.length > 0) {
+                    const exceptionsSet = new Set(path.exceptionModules as ModuleCode[]);
+                    moduleOptions = moduleOptions.filter(module => !exceptionsSet.has(module));
+                }
+
                 boxes.push({
                     kind: 'dropdown',
                     boxKey: `${path.pathKey}-dropdown`,
@@ -662,6 +749,15 @@ export class BackendPopulator {
         for (const child of children) {
             if (child.logicType === 'LEAF') {
                 // Direct child is LEAF -> DropdownBox
+
+                // Filter out exception modules from moduleOptions
+                let moduleOptions = child.moduleCodes as ModuleCode[];
+
+                if (child.exceptionModules && child.exceptionModules.length > 0) {
+                    const exceptionsSet = new Set(child.exceptionModules as ModuleCode[]);
+                    moduleOptions = moduleOptions.filter(module => !exceptionsSet.has(module));
+                }
+
                 boxes.push({
                     kind: 'dropdown',
                     boxKey: `${child.pathKey}-dropdown`,
@@ -702,11 +798,15 @@ export class BackendPopulator {
         isValid: boolean;
         errors: any[];
         summary: any;
+        contextStats: any;
+        fullContext: ProcessingContext;
     } {
         return {
             isValid: !this.contextService.hasErrors(),
             errors: this.contextService.getErrors(),
-            summary: this.contextService.getSummary()
+            summary: this.contextService.getSummary(),
+            contextStats: this.contextService.getContext().stats,
+            fullContext: this.contextService.getContext()
         };
     }
 

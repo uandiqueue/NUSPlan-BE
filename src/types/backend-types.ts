@@ -34,6 +34,8 @@ export interface ProcessedPath {
     depth: number;
     isLeaf: boolean;
     isReadonly: boolean;
+    isOverallSource: boolean;
+    exceptionModules: ModuleCode[];
     moduleCodes: ModuleCode[];
     gmcMappings: GMCMapping[];
 }
@@ -101,6 +103,8 @@ export interface RequirementPathData {
     raw_tag_name: string;
     module_codes?: string[];
     module_types?: string[];
+    is_overall_source: boolean;
+    exception_modules: string[];
 }
 
 // GMC mapping data from database
