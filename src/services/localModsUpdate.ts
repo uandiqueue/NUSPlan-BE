@@ -1,9 +1,16 @@
+/**
+ * Local Modules Data File Update Service
+ * This service fetches module data from the NUSMods API and updates local JSON files.
+ */
+
 import fs from "node:fs/promises";
 import path from "path";
 import { fetchModuleList, fetchModuleInfo } from "./nusmods";
 import type { ModuleCondensed, Module } from "../types/nusmods-types";
 
-// Importing NUSMods-defined summarised modules list
+/**
+ * Fetching NUSMods-defined summarised modules list from NUSMods API to local JSON file.
+ */
 export async function fetchAndUpdateModuleList(): Promise<ModuleCondensed[]> {
     try {
         const moduleList: ModuleCondensed[] = await fetchModuleList();
@@ -18,7 +25,10 @@ export async function fetchAndUpdateModuleList(): Promise<ModuleCondensed[]> {
     }
 }
 
-// Importing NUSMods-defined ultra-detailed (Module type) modules list
+/**
+ * Fetching NUSMods-defined ultra-detailed (Module type) modules list from NUSMods API to local JSON file.
+ * This is the main module data structure used to feed the db.
+ */
 export async function fetchAndUpdateUltraList(): Promise<Module[]> {
     const filePath = path.join(__dirname, "../../db/seed-data/modules/ultraDetailedModuleList.json");
 
@@ -31,7 +41,6 @@ export async function fetchAndUpdateUltraList(): Promise<Module[]> {
         // Start with an empty array if file is problematic
         ultraDetailedModules = [];
     }
-
 
     // Quick lookup of existing module codes (prevent redundant fetches)
     const fetchedModuleCodes = new Set(

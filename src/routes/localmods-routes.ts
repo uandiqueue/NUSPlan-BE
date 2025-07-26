@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { fetchAndUpdateModuleList, fetchAndUpdateUltraList } from "../../../services/nusmodsUpdate"
+import { fetchAndUpdateModuleList, fetchAndUpdateUltraList } from "../services/localModsUpdate"
 
 const router = Router();
 

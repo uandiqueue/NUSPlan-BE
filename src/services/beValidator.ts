@@ -7,7 +7,7 @@ import type {
 } from "../types/backend-types";
 
 /**
- * Backend Validator focused on programme validation and hard conflict detection.
+ * BackendValidator class for programme validation and hard conflict detection.
  * 1. Validate programme combinations
  * 2. Builds basic programme metadata 
  * 3. Extracts preselected modules from coreEssentials
@@ -28,17 +28,14 @@ export class BackendValidator {
      */
     async validateProgrammes(programmeIds: string[]): Promise<ProcessingContextService> {
         try {
-            // Step 1: Validate programme combinations
             await this.validateProgrammeCombinations(programmeIds);
             if (this.context.hasErrors()) return this.context;
 
-            // Step 2: Build programme metadata and extract preselected modules
             for (const programmeId of programmeIds) {
                 await this.processProgramme(programmeId);
                 if (this.context.hasErrors()) return this.context;
             }
 
-            // Step 3: Check for hard conflicts between preselected modules
             await this.validatePreselectedConflicts();
 
         } catch (error) {
@@ -115,8 +112,6 @@ export class BackendValidator {
             });
             return;
         }
-
-        
 
         // Initialize basic programme structure (metadata only)
         const processedProgramme: ProcessedProgramme = {
@@ -273,7 +268,7 @@ export class BackendValidator {
             preclusionMap.set(preclusion.module_code, preclusion.precluded_modules);
         }
 
-        // Context service method to check conflicts
+        // Check conflicts
         const conflicts = this.context.checkPreselectedConflicts(preclusionMap);
         
         // Add conflicts to context errors
@@ -282,23 +277,14 @@ export class BackendValidator {
         }
     }
 
-    /**
-     * Get processing context service for populator
-     */
     getContextService(): ProcessingContextService {
         return this.context;
     }
 
-    /**
-     * Check if validation was successful
-     */
     isValid(): boolean {
         return !this.context.hasErrors();
     }
 
-    /**
-     * Get validation errors
-     */
     getErrors(): ValidationError[] {
         return this.context.getErrors();
     }

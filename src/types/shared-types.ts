@@ -24,7 +24,6 @@ export interface ProgrammePayload {
     };
     sections: ProgrammeSection[];
     preselectedModules: ModuleCode[];
-    lookupMaps: LookupMaps; // Flat maps for FE validation
 }
 
 export interface ProgrammeSection {
@@ -32,7 +31,7 @@ export interface ProgrammeSection {
     displayLabel: string;
     paths: PathInfo[];
     courseBoxes: CourseBox[];
-    hidden: CourseBox[]; // Course boxes that are not displayed in the UI (can be added by user manually)
+    hidden: CourseBox[]; // Course boxes not displayed in the UI (can be added by user manually)
 }
 
 // PATH INFORMATION (For FE requirement tracking)
@@ -84,7 +83,7 @@ export interface AltPathBox {
 
 /**
  * Validation maps containing only combination-specific data
- * that cannot be fetched directly from Supabase by the frontend.
+ * that cannot be fetched directly from Supabase by FE.
  */
 export interface LookupMaps {
     // Combination-specific requirement mappings
@@ -128,10 +127,10 @@ export interface DoubleCountInfo {
 }
 
 // REQUEST/RESPONSE INTERFACES
-export interface BackendResponse<T> {
-  success: boolean;
-  data: T;
-  metadata?: any;
+export interface BackendResponse<ProcessProgrammesResponse> {
+    success: boolean;
+    data: ProcessProgrammesResponse;
+    metadata?: any;
 }
 
 export interface ProcessProgrammesRequest {
@@ -141,6 +140,7 @@ export interface ProcessProgrammesRequest {
 
 export interface ProcessProgrammesResponse {
     programmes: ProgrammePayload[];
+    lookup: LookupMaps;
     globalValidation: ValidationResult;
 }
 

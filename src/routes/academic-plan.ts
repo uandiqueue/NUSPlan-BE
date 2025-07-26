@@ -3,10 +3,7 @@ import { generateAcademicPlan } from '../controllers/APController';
 
 const router = Router();
 
-/**
- * POST /api/academic-plan/generate
- * Main endpoint to generate academic plan payloads
- */
+// Define route to generate academic plan based on selected programmes
 router.post('/generate', generateAcademicPlan);
 
 export default router;

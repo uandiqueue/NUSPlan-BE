@@ -1,7 +1,7 @@
 import type { ModuleCode } from "./nusmods-types";
-import type { RequirementGroupType, ProgrammeType, ProgrammeSection } from "./shared-types";
+import type { RequirementGroupType, ProgrammeType } from "./shared-types";
 
-// BACKEND INTERNAL TYPES
+// BACKEND INTERNAL INTERFACES
 
 // Internal programme representation after validation
 export interface ProcessedProgramme {
@@ -59,7 +59,7 @@ export interface GMCMapping {
     requiresApproval?: boolean;
 }
 
-// DATABASE RESULT TYPES
+// DATABASE RESULT INTERFACES
 
 // Module data from database
 export interface ModuleData {

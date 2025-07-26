@@ -16,7 +16,7 @@ const CORS_ORIGIN = process.env.CORS_ORIGIN || "http://localhost:3000";
 
 // Import and use routers
 import nusmodsRoutes from "./routes/nusmods-routes";
-import adminModuleUpdateRoutes from "./routes/admin/module/update";
+import adminModuleUpdateRoutes from "./routes/update";
 import academicPlanRoutes from "./routes/academic-plan";
 
 app.use(cors({

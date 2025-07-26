@@ -61,7 +61,7 @@ export async function generateAcademicPlan(req: Request, res: Response): Promise
 
         // Step 2: Populate
         const populator = new BackendPopulator(contextService);
-        const payloads = await populator.buildPayloads();
+        const { programmes: payloads, lookup } = await populator.buildPayloads();
 
         if (payloads.length !== programmeIds.length) {
             const validationResult = populator.getValidationResult();
@@ -84,6 +84,7 @@ export async function generateAcademicPlan(req: Request, res: Response): Promise
             success: true,
             data: {
                 programmes: payloads,
+                lookup: lookup,
                 globalValidation: {
                     isValid: validationResult.isValid,
                     errors: validationResult.errors

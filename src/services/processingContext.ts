@@ -7,7 +7,7 @@ import type {
 } from "../types/backend-types";
 
 /**
- * Processing Context Service for managing validation state across programmes.
+ * ProcessingContextService class for managing validation state across programmes.
  */
 export class ProcessingContextService {
     private context: ProcessingContext;
@@ -134,7 +134,9 @@ export class ProcessingContextService {
         const conflicts: ValidationError[] = [];
         
         for (const [moduleCode, programmes] of this.context.preselectedModules) {
-            const precludedModules = preclusionMap.get(moduleCode) || [];
+            let precludedModules = preclusionMap.get(moduleCode) || [];
+            // Fallback: filter out the module itself from its own preclusion list
+            precludedModules = precludedModules.filter(m => m !== moduleCode);
             
             for (const precludedModule of precludedModules) {
                 if (this.context.preselectedModules.has(precludedModule as ModuleCode)) {

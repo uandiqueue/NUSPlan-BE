@@ -20,14 +20,12 @@ import type {
 import { PROCESSING_ORDER } from "../types/shared-types";
 
 /**
- * Backend Populator that builds complete programme payloads.
- * Role:
- * 1. Takes validated ProcessingContextService from validator
- * 2. Walks through all programme paths and fetches gmcs from database
- * 3. Builds lookup maps while walking (pathToModule, moduleToPath)
- * 4. Deduces double count eligibility using moduleToPath mapping
- * 5. Builds max rule maps and fills max_rule fulfilled
- * 6. Creates final programme payloads
+ * BackendPopulator class builds complete responses for frontend consumption.
+ * 1. Processes all programmes and their paths
+ * 2. Builds combination-specific lookup maps for all programmes while processing
+ * 3. Builds combination-specific max rule mappings
+ * 4. Analyzes double-counting eligibility for this specific combination
+ * 5. Builds individual programme payloads
  */
 export class BackendPopulator {
     private dbQuery: DatabaseQueryService;
@@ -41,48 +39,44 @@ export class BackendPopulator {
     }
 
     /**
-     * Build payloads with complete UI structure and lookup maps
+     * Main population entry point
      */
-    async buildPayloads(): Promise<ProgrammePayload[]> {
+    async buildPayloads(): Promise<{ programmes: ProgrammePayload[]; lookup: LookupMaps }> {
         console.log('Building payloads...');
 
         try {
-            // Step 1: Process all programmes
             const programmes = Array.from(this.context.programmes.values());
             for (const programme of programmes) {
                 await this.processProgramme(programme);
-                if (this.contextService.hasErrors()) return [];
+                if (this.contextService.hasErrors()) return { programmes: [], lookup: {} as LookupMaps };
             }
 
-            // Step 2: Build shared lookup maps for all programmes
             const sharedLookupMaps = this.buildLookupMaps(programmes);
-            if (this.contextService.hasErrors()) return [];
+            if (this.contextService.hasErrors()) return { programmes: [], lookup: {} as LookupMaps };
 
-            // Step 3: Build individual programme payloads
             const payloads: ProgrammePayload[] = [];
             for (const programme of programmes) {
                 const payload = await this.buildProgrammePayload(programme, sharedLookupMaps);
-                if (this.contextService.hasErrors()) return [];
+                if (this.contextService.hasErrors()) return { programmes: [], lookup: {} as LookupMaps };
                 payloads.push(payload);
             }
 
             console.log(`Generated ${payloads.length} payloads`);
-            return payloads;
+            return { programmes: payloads, lookup: sharedLookupMaps };
 
         } catch (error) {
             this.contextService.addError({
                 type: 'HARD_ERROR',
                 message: `Payload building failed: ${error instanceof Error ? error.message : 'Unknown error'}`
             });
-            return [];
+            return { programmes: [], lookup: {} as LookupMaps };
         }
     }
 
     /**
-     * Process complete programme structure by walking through all paths
+     * Processes all programmes and their paths
      */
     private async processProgramme(programme: ProcessedProgramme): Promise<void> {
-        // Get all requirement paths for this programme
         const allPaths = await this.dbQuery.getRequirementPaths([programme.programmeId]);
         
         if (allPaths.length === 0) {
@@ -94,7 +88,6 @@ export class BackendPopulator {
             return;
         }
 
-        // Process paths by requirement groups in order
         await this.processPathsByGroups(allPaths, programme);
     }
 
@@ -457,7 +450,7 @@ export class BackendPopulator {
     }
 
     /**
-     * Build programme payload with lookup maps
+     * Builds individual programme payloads
      */
     private async buildProgrammePayload(
         programme: ProcessedProgramme,
@@ -494,21 +487,19 @@ export class BackendPopulator {
                 programmeId: programme.programmeId,
                 metadata: programme.metadata,
                 sections,
-                preselectedModules: programme.preselectedModules,
-                lookupMaps: sharedLookupMaps
+                preselectedModules: programme.preselectedModules
             };
         } catch (error) {
             this.contextService.addError({
                 type: 'HARD_ERROR',
                 message: `Individual programme payload building failed: ${error instanceof Error ? error.message : 'Unknown error'}`
             });
-            // Return a minimal payload with error context
             return {} as ProgrammePayload;
         }
     }
 
     /**
-     * Build a programme section for UI rendering based on depth and tree structure
+     * Builds a programme section for UI rendering based on depth and tree structure
      */
     private async buildSection(
         groupType: RequirementGroupType,
@@ -526,7 +517,7 @@ export class BackendPopulator {
             };
         }        
 
-        // Build path infos for all paths (for debugging)
+        // Build path infos for all paths (for FE tracking)
         const pathInfos = sectionPaths.map(path => ({
             pathId: path.pathId,
             pathKey: path.pathKey,
@@ -547,11 +538,7 @@ export class BackendPopulator {
         const hiddenPaths = sectionPaths.filter(path => path.isOverallSource);
         console.info(`hiddenPaths for ${groupType} in ${programme.programmeId}:`, 
             hiddenPaths.map(p => p.pathKey), hiddenPaths.map(p => p.depth));
-
-        // Build course boxes for regular paths (displayed in UI)
         const courseBoxes = await this.buildCourseBoxes(regularPaths, programme, groupType);
-        
-        // Build course boxes for hidden paths (not displayed in UI by default)
         const hiddenBoxes = await this.buildHiddenCourseBoxes(hiddenPaths, programme, groupType);
         
         return {
@@ -564,7 +551,7 @@ export class BackendPopulator {
     }
 
     /**
-     * Build course boxes based on depth and tree structure
+     * Build course boxes for regular paths (displayed in UI)
      */
     private async buildCourseBoxes(
         paths: ProcessedPath[], 
@@ -573,12 +560,11 @@ export class BackendPopulator {
     ): Promise<any[]> {
         const courseBoxes = [] as CourseBox[];
 
-        // Handle empty paths array
         if (!paths || paths.length === 0) {
             return courseBoxes;
         }
-        
-        // Build path hierarchy for easier traversal
+
+        // Build path hierarchy (easier traversal)
         const pathMap = new Map<string, ProcessedPath>();
         const childrenMap = new Map<string, ProcessedPath[]>();
         
@@ -598,7 +584,7 @@ export class BackendPopulator {
             }
         }
 
-        // Handle coreEssentials section: render all preselected modules as ExactBoxes
+        // Render all preselected modules (coreEssentials) as ExactBoxes
         if (groupType === 'coreEssentials') {
             for (const moduleCode of programme.preselectedModules) {
                 const isPrereq = programme.prerequisiteModules.includes(moduleCode as ModuleCode);
@@ -631,6 +617,9 @@ export class BackendPopulator {
         return courseBoxes;
     }
 
+    /**
+     * Build course boxes for hidden paths (not displayed in UI by default)
+     */
     private async buildHiddenCourseBoxes(
         paths: ProcessedPath[], 
         programme: ProcessedProgramme,
@@ -642,8 +631,8 @@ export class BackendPopulator {
         if (!paths || paths.length === 0) {
             return courseBoxes;
         }
-        
-        // Build path hierarchy for easier traversal
+
+        // Build path hierarchy (easier traversal)
         const pathMap = new Map<string, ProcessedPath>();
         const childrenMap = new Map<string, ProcessedPath[]>();
         
@@ -684,16 +673,11 @@ export class BackendPopulator {
         const boxes = [] as CourseBox[];
         switch (path.logicType) {
             case 'LEAF':
-                // LEAF at depth 1+ -> DropdownBox
-
-                // Filter out exception modules from moduleOptions
                 let moduleOptions = path.moduleCodes as ModuleCode[];
-                
                 if (path.exceptionModules && path.exceptionModules.length > 0) {
                     const exceptionsSet = new Set(path.exceptionModules as ModuleCode[]);
                     moduleOptions = moduleOptions.filter(module => !exceptionsSet.has(module));
                 }
-
                 boxes.push({
                     kind: 'dropdown',
                     boxKey: `${path.pathKey}-dropdown`,
@@ -704,7 +688,6 @@ export class BackendPopulator {
                 break;
 
             case 'AND':
-                // AND logic -> process all children recursively
                 {
                     const andChildren = await this.processAndLogic(
                         path, pathMap, childrenMap, programme
@@ -714,7 +697,6 @@ export class BackendPopulator {
                 break;
 
             case 'OR':
-                // OR logic -> create AltPathBox with direct children only
                 {
                     const orChildren = childrenMap.get(path.pathKey) || [];
                     const alternativePathIds = orChildren.map(child => child.pathId);
@@ -728,14 +710,13 @@ export class BackendPopulator {
                     });
                 }
                 break;
+                
         }
-
         return boxes;
     }
 
     /**
-     * Process AND logic recursively to flatten all children into individual boxes
-     * Example: (A and (B and C and D) and E) -> 5 total children → 5 boxes
+     * Process AND logic recursively
      */
     private async processAndLogic(
         andPath: ProcessedPath,
@@ -748,11 +729,7 @@ export class BackendPopulator {
         
         for (const child of children) {
             if (child.logicType === 'LEAF') {
-                // Direct child is LEAF -> DropdownBox
-
-                // Filter out exception modules from moduleOptions
                 let moduleOptions = child.moduleCodes as ModuleCode[];
-
                 if (child.exceptionModules && child.exceptionModules.length > 0) {
                     const exceptionsSet = new Set(child.exceptionModules as ModuleCode[]);
                     moduleOptions = moduleOptions.filter(module => !exceptionsSet.has(module));
@@ -767,7 +744,6 @@ export class BackendPopulator {
                 });
                 
             } else if (child.logicType === 'OR') {
-                // Direct child is OR -> AltPathBox
                 const orGrandchildren = childrenMap.get(child.pathKey) || [];
                 const alternativePathIds = orGrandchildren.map(grandchild => grandchild.pathId);
                 
@@ -780,7 +756,6 @@ export class BackendPopulator {
                 });
                 
             } else if (child.logicType === 'AND') {
-                // Direct child is AND -> recursive processing
                 const nestedAndBoxes = await this.processAndLogic(
                     child, pathMap, childrenMap, programme
                 );
@@ -792,7 +767,7 @@ export class BackendPopulator {
     }
 
     /**
-     * Get validation result combining validator and populator errors
+     * Validation result for both vbeValidator and bePopulator
      */
     getValidationResult(): {
         isValid: boolean;
@@ -810,8 +785,7 @@ export class BackendPopulator {
         };
     }
 
-    // UTILITY METHODS
-
+    // Helper
     private groupPathsBySection(paths: ProcessedPath[]): Map<RequirementGroupType, ProcessedPath[]> {
         const grouped = new Map<RequirementGroupType, ProcessedPath[]>();
         
