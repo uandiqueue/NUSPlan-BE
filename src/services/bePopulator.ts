@@ -536,8 +536,6 @@ export class BackendPopulator {
         // Separate paths into regular and hidden based on is_overall_source
         const regularPaths = sectionPaths.filter(path => !path.isOverallSource);
         const hiddenPaths = sectionPaths.filter(path => path.isOverallSource);
-        console.info(`hiddenPaths for ${groupType} in ${programme.programmeId}:`, 
-            hiddenPaths.map(p => p.pathKey), hiddenPaths.map(p => p.depth));
         const courseBoxes = await this.buildCourseBoxes(regularPaths, programme, groupType);
         const hiddenBoxes = await this.buildHiddenCourseBoxes(hiddenPaths, programme, groupType);
         
