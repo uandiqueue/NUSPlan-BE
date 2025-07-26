@@ -1,0 +1,246 @@
+{
+    "meta": {
+        "name": "Computer Science",
+        "type": "secondMajor",
+        "requiredUnits": 40,
+        "doubleCountCap": 16,
+        "nusTaughtFraction": 0.6
+    },
+    "requirement": {
+        "coreEssentials": [
+            { "type": "exact", "code": "CS2103" }
+        ],
+        "coreElectives": {
+            "rawTagName": "core_electives",
+            "logic": "AND",
+            "children": [
+                {
+                    "rawTagName": "programming_methodology_requirement",
+                    "logic": "OR",
+                    "children": [
+                        {
+                            "rawTagName": "cs1010_standard_path",
+                            "type": "min",
+                            "value": 4,
+                            "modules": [
+                                { "type": "variant", "baseCode": "CS1010" },
+                                { "type": "exact", "code": "CS1101S" }
+                            ],
+                            "exclude": [
+                                "CS1010DE"
+                            ],
+                            "note": "CS1010S alternatives require course substitution application, DE variants are not accepted"
+                        },
+                        {
+                            "rawTagName": "cs1010_exempted_path",
+                            "type": "min",
+                            "value": 4,
+                            "modules": [
+                                { "type": "exact", "code": "CS2220" },
+                                { "type": "exact", "code": "CS5233" },
+                                { "type": "exact", "code": "CS3203" },
+                                { "type": "exact", "code": "CS3281" },
+                                { "type": "exact", "code": "CS3282" },
+                                { "type": "exact", "code": "CS3216" },
+                                { "type": "exact", "code": "CS3217" },
+                                { "type": "exact", "code": "CS3226" },
+                                { "type": "exact", "code": "CS3234" },
+                                { "type": "exact", "code": "CS5219" },
+                                { "type": "exact", "code": "CS5232" },
+                                { "type": "exact", "code": "CS5272" },
+                                { "type": "exact", "code": "CS4216" },
+                                { "type": "exact", "code": "CS5214" },
+                                { "type": "exact", "code": "CS5215" },
+                                { "type": "exact", "code": "CS5218" },
+                                { "type": "exact", "code": "CS5222" },
+                                { "type": "exact", "code": "CS5223" },
+                                { "type": "exact", "code": "CS5224" },
+                                { "type": "exact", "code": "CS5239" },
+                                { "type": "exact", "code": "CS5250" },
+                                { "type": "exact", "code": "CS3237" },
+                                { "type": "exact", "code": "CS4344" },
+                                { "type": "exact", "code": "CS5229" },
+                                { "type": "exact", "code": "CS5248" },
+                                { "type": "exact", "code": "CS5321" },
+                                { "type": "exact", "code": "CS5246" },
+                                { "type": "exact", "code": "CS5241" },
+                                { "type": "exact", "code": "CS4220" },
+                                { "type": "exact", "code": "CS5226" },
+                                { "type": "exact", "code": "CS5228" },
+                                { "type": "exact", "code": "CS5322" },
+                                { "type": "exact", "code": "CS3221" },
+                                { "type": "exact", "code": "CS4257" },
+                                { "type": "exact", "code": "CS4276" },
+                                { "type": "exact", "code": "CS5231" },
+                                { "type": "exact", "code": "CS5331" },
+                                { "type": "exact", "code": "CS5332" },
+                                { "type": "exact", "code": "IFS4101" },
+                                { "type": "exact", "code": "IFS4102" },
+                                { "type": "exact", "code": "IFS4103" },
+                                { "type": "exact", "code": "CS3218" },
+                                { "type": "exact", "code": "CS3240" },
+                                { "type": "exact", "code": "CS3249" },
+                                { "type": "exact", "code": "CS4240" },
+                                { "type": "exact", "code": "CS4243" },
+                                { "type": "exact", "code": "CS4249" },
+                                { "type": "exact", "code": "CS4351" },
+                                { "type": "exact", "code": "CS5237" },
+                                { "type": "exact", "code": "CS5240" },
+                                { "type": "exact", "code": "CS5343" },
+                                { "type": "exact", "code": "CS5346" },
+                                { "type": "exact", "code": "CS4261" },
+                                { "type": "exact", "code": "CS4269" },
+                                { "type": "exact", "code": "CS4277" },
+                                { "type": "exact", "code": "CS4278" },
+                                { "type": "exact", "code": "CS5242" },
+                                { "type": "exact", "code": "CS5260" },
+                                { "type": "exact", "code": "CS5340" },
+                                { "type": "exact", "code": "CS5339" },
+                                { "type": "exact", "code": "CS3233" },
+                                { "type": "exact", "code": "CS4268" },
+                                { "type": "exact", "code": "CS4330" },
+                                { "type": "exact", "code": "CS5230" },
+                                { "type": "exact", "code": "CS5234" },
+                                { "type": "exact", "code": "CS5236" },
+                                { "type": "exact", "code": "CS5238" },
+                                { "type": "exact", "code": "CS5330" }
+                            ],
+                            "note": "Students exempted from CS1010 must complete another 4 units of CS-coded electives"
+                        }
+                    ]
+                },
+                {
+                    "rawTagName": "programming_methodology_ii_requirement",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "exact", "code": "CS2030" },
+                        { "type": "exact", "code": "CS2030S" }
+                    ]
+                },
+                {
+                    "rawTagName": "data_structures_requirement",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "exact", "code": "CS2040" },
+                        { "type": "exact", "code": "CS2040C" },
+                        { "type": "exact", "code": "CS2040S" }
+                    ]
+                },
+                {
+                    "rawTagName": "computer_organisation_requirement",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "exact", "code": "CS2100" },
+                        { "type": "exact", "code": "EE2024" },
+                        { "type": "exact", "code": "EE2028" }
+                    ],
+                    "note": "CS2100 can be replaced by EE2024 or EE2028"
+                },
+                {
+                    "rawTagName": "operating_systems_requirement",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "exact", "code": "CS2106" },
+                        { "type": "exact", "code": "CG2271" }
+                    ]
+                },
+                {
+                    "rawTagName": "foundation_elective_requirement",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "exact", "code": "CS1231S" },
+                        { "type": "exact", "code": "CS1231" },
+                        { "type": "variant", "baseCode": "MA1100" },
+                        { "type": "exact", "code": "CS2102" },
+                        { "type": "exact", "code": "CS2104" },
+                        { "type": "exact", "code": "CS2105" },
+                        { "type": "exact", "code": "CS2107" },
+                        { "type": "exact", "code": "CS2108" },
+                        { "type": "exact", "code": "CS2109S" }
+                    ],
+                    "note": "Choose one from the foundation elective list."
+                },
+                {
+                    "rawTagName": "focus_area_electives",
+                    "type": "min",
+                    "value": 12,
+                    "modules": [
+                        { "type": "exact", "code": "CS5233" },
+                        { "type": "exact", "code": "CS3203" },
+                        { "type": "exact", "code": "CS3281" },
+                        { "type": "exact", "code": "CS3282" },
+                        { "type": "exact", "code": "CS3216" },
+                        { "type": "exact", "code": "CS3217" },
+                        { "type": "exact", "code": "CS3226" },
+                        { "type": "exact", "code": "CS3234" },
+                        { "type": "exact", "code": "CS5219" },
+                        { "type": "exact", "code": "CS5232" },
+                        { "type": "exact", "code": "CS5272" },
+                        { "type": "exact", "code": "CS4216" },
+                        { "type": "exact", "code": "CS5214" },
+                        { "type": "exact", "code": "CS5215" },
+                        { "type": "exact", "code": "CS5218" },
+                        { "type": "exact", "code": "CS5222" },
+                        { "type": "exact", "code": "CS5223" },
+                        { "type": "exact", "code": "CS5224" },
+                        { "type": "exact", "code": "CS5239" },
+                        { "type": "exact", "code": "CS5250" },
+                        { "type": "exact", "code": "CS3237" },
+                        { "type": "exact", "code": "CS4344" },
+                        { "type": "exact", "code": "CS5229" },
+                        { "type": "exact", "code": "CS5248" },
+                        { "type": "exact", "code": "CS5321" },
+                        { "type": "exact", "code": "CS5246" },
+                        { "type": "exact", "code": "CS5241" },
+                        { "type": "exact", "code": "CS4220" },
+                        { "type": "exact", "code": "CS5226" },
+                        { "type": "exact", "code": "CS5228" },
+                        { "type": "exact", "code": "CS5322" },
+                        { "type": "exact", "code": "CS3221" },
+                        { "type": "exact", "code": "CS4257" },
+                        { "type": "exact", "code": "CS4276" },
+                        { "type": "exact", "code": "CS5231" },
+                        { "type": "exact", "code": "CS5331" },
+                        { "type": "exact", "code": "CS5332" },
+                        { "type": "exact", "code": "IFS4101" },
+                        { "type": "exact", "code": "IFS4102" },
+                        { "type": "exact", "code": "IFS4103" },
+                        { "type": "exact", "code": "CS3218" },
+                        { "type": "exact", "code": "CS3240" },
+                        { "type": "exact", "code": "CS3249" },
+                        { "type": "exact", "code": "CS4240" },
+                        { "type": "exact", "code": "CS4243" },
+                        { "type": "exact", "code": "CS4249" },
+                        { "type": "exact", "code": "CS4351" },
+                        { "type": "exact", "code": "CS5237" },
+                        { "type": "exact", "code": "CS5240" },
+                        { "type": "exact", "code": "CS5343" },
+                        { "type": "exact", "code": "CS5346" },
+                        { "type": "exact", "code": "CS4261" },
+                        { "type": "exact", "code": "CS4269" },
+                        { "type": "exact", "code": "CS4277" },
+                        { "type": "exact", "code": "CS4278" },
+                        { "type": "exact", "code": "CS5242" },
+                        { "type": "exact", "code": "CS5260" },
+                        { "type": "exact", "code": "CS5340" },
+                        { "type": "exact", "code": "CS5339" },
+                        { "type": "exact", "code": "CS3233" },
+                        { "type": "exact", "code": "CS4268" },
+                        { "type": "exact", "code": "CS4330" },
+                        { "type": "exact", "code": "CS5230" },
+                        { "type": "exact", "code": "CS5234" },
+                        { "type": "exact", "code": "CS5236" },
+                        { "type": "exact", "code": "CS5238" },
+                        { "type": "exact", "code": "CS5330" }
+                    ],
+                    "note": "Complete 12 units of CS-coded elective courses at level-3000 or above"
+                }
+            ]
+        }
+    }
+}

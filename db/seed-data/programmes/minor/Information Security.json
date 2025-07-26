@@ -1,0 +1,99 @@
+{
+    "meta": {
+        "name": "Information Security",
+        "type": "minor",
+        "requiredUnits": 20,
+        "doubleCountCap": 8,
+        "nusTaughtFraction": 0.6
+    },
+    "requirement": {
+        "coreEssentials": [
+            { "type": "exact", "code": "CS2107" }
+        ],
+        "coreElectives": {
+            "rawTagName": "core_electives",
+            "logic": "AND",
+            "children": [
+                {
+                    "rawTagName": "data_structures_requirement",
+                    "logic": "OR",
+                    "children": [
+                        {
+                            "rawTagName": "cs2040_standard_path",
+                            "type": "min",
+                            "value": 4,
+                            "modules": [
+                                { "type": "variant", "baseCode": "CS2040" }
+                            ]
+                        },
+                        {
+                            "rawTagName": "cs2040_waived_path",
+                            "type": "min",
+                            "value": 4,
+                            "modules": [
+                                { "type": "exact", "code": "IS1108" },
+                                { "type": "exact", "code": "CS2100" },
+                                { "type": "exact", "code": "EE2024" },
+                                { "type": "exact", "code": "EE2028" },
+                                { "type": "exact", "code": "CS2105" },
+                                { "type": "exact", "code": "EE3204" },
+                                { "type": "exact", "code": "EE3204E" },
+                                { "type": "exact", "code": "EE4204" },
+                                { "type": "exact", "code": "EE4204E" },
+                                { "type": "exact", "code": "CS2106" },
+                                { "type": "exact", "code": "CG2271" },
+                                { "type": "exact", "code": "CS3235" },
+                                { "type": "exact", "code": "IFS4101" },
+                                { "type": "exact", "code": "IS4231" }
+                            ],
+                            "note": "Students waived from CS2040 must complete another 4 units from Information Security electives"
+                        }
+                    ]
+                },
+                {
+                    "rawTagName": "security_electives",
+                    "logic": "AND",
+                    "children": [
+                        {
+                            "rawTagName": "electives_minimum",
+                            "type": "min",
+                            "value": 8,
+                            "modules": [
+                                { "type": "exact", "code": "IS1108" },
+                                { "type": "exact", "code": "CS2100" },
+                                { "type": "exact", "code": "EE2024" },
+                                { "type": "exact", "code": "EE2028" },
+                                { "type": "exact", "code": "CS2105" },
+                                { "type": "exact", "code": "EE3204" },
+                                { "type": "exact", "code": "EE3204E" },
+                                { "type": "exact", "code": "EE4204" },
+                                { "type": "exact", "code": "EE4204E" },
+                                { "type": "exact", "code": "CS2106" },
+                                { "type": "exact", "code": "CG2271" },
+                                { "type": "exact", "code": "CS3235" },
+                                { "type": "exact", "code": "IFS4101" },
+                                { "type": "exact", "code": "IS4231" }
+                            ],
+                            "note": "Complete 12 units from security electives list."
+                        },
+                        {
+                            "rawTagName": "level_3000_plus_requirement",
+                            "type": "min",
+                            "value": 4,
+                            "modules": [
+                                { "type": "exact", "code": "EE3204" },
+                                { "type": "exact", "code": "EE3204E" },
+                                { "type": "exact", "code": "EE4204" },
+                                { "type": "exact", "code": "EE4204E" },
+                                { "type": "exact", "code": "CS3235" },
+                                { "type": "exact", "code": "IFS4101" },
+                                { "type": "exact", "code": "IS4231" }
+                            ],
+                            "note": "At least 4 units must be at level-3000 or above"
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,401 @@
+{
+    "meta": {
+        "name": "Information Security",
+        "type": "major",
+        "honours": true,
+        "requiredUnits": 160,
+        "doubleCountCap": 64,
+        "nusTaughtFraction": 0.6
+    },
+    "requirement": {
+        "commonCore": {
+            "rawTagName": "common_core",
+            "logic": "AND",
+            "children": [
+                {
+                    "rawTagName": "gex_critique_and_expression",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "wildcard", "baseCode": "GEX" }
+                    ],
+                    "note": "Critique and Expression (GEX) is not specified for InfoSec, but specified for other SoC majors"
+                },
+                {
+                    "rawTagName": "gei_digital_literacy",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "exact", "code": "CS1010 " }
+                    ],
+                    "note": "Digital Literacy (GEI) - Information Security Must take CS1010"
+                },
+                {
+                    "rawTagName": "gen_communities_and_engagement",
+                    "type": "min",
+                    "value": 4,
+                    "note": "Complete ANY ONE 4-unit module to fulfil the C&E pillar requirement.",
+                    "modules": [
+                        { "type": "wildcard", "prefix": "GEN" },
+                        { "type": "exact", "code": "BN4102" },
+                        { "type": "exact", "code": "BN4103" },
+                        { "type": "exact", "code": "CLC1101" },
+                        { "type": "exact", "code": "CLC2204" },
+                        { "type": "exact", "code": "CLC3303" },
+                        { "type": "exact", "code": "CLC3304A" },
+                        { "type": "exact", "code": "CLC3307" },
+                        { "type": "exact", "code": "SE3216" },
+                        { "type": "exact", "code": "SE3226" },
+                        { "type": "exact", "code": "CP3107" },
+                        { "type": "exact", "code": "CP3110" }
+                    ]
+                },
+                {
+                    "rawTagName": "interdisciplinary_cross_disciplinary_education",
+                    "logic": "OR",
+                    "children": [
+                        {
+                            "rawTagName": "interdisciplinary_with_cross_disciplinary_path",
+                            "logic": "AND",
+                            "children": [
+                                {
+                                    "rawTagName": "id_interdisciplinary_courses",
+                                    "type": "min",
+                                    "value": 8,
+                                    "note": "Interdisciplinary (ID) Courses",
+                                    "modules": [
+                                        { "type": "variant", "baseCode": "CDE2501" },
+                                        { "type": "variant", "baseCode": "EG2501" },
+                                        { "type": "exact", "code": "DTK1234" },
+                                        { "type": "exact", "code": "EG1311" },
+                                        { "type": "exact", "code": "IE2141" },
+                                        { "type": "exact", "code": "PF1101" },
+                                        { "type": "exact", "code": "IS1128" },
+                                        { "type": "exact", "code": "IS2218" },
+                                        { "type": "exact", "code": "IS2238" },
+                                        { "type": "exact", "code": "HSH1000" },
+                                        { "type": "exact", "code": "HSS1000" },
+                                        { "type": "exact", "code": "HSA1000" },
+                                        { "type": "exact", "code": "HSI1000" },
+                                        { "type": "exact", "code": "HSI2001" },
+                                        { "type": "exact", "code": "HSI2002" },
+                                        { "type": "exact", "code": "HSI2003" },
+                                        { "type": "exact", "code": "HSI2004" },
+                                        { "type": "exact", "code": "HSI2005" },
+                                        { "type": "exact", "code": "HSI2007" },
+                                        { "type": "exact", "code": "HSI2008" },
+                                        { "type": "exact", "code": "HSI2009" },
+                                        { "type": "exact", "code": "HSI2010" },
+                                        { "type": "exact", "code": "HSI2011" },
+                                        { "type": "exact", "code": "HSI2013" },
+                                        { "type": "exact", "code": "HSI2014" }
+                                    ]
+                                },
+                                {
+                                    "rawTagName": "cd_cross_disciplinary_courses",
+                                    "type": "min",
+                                    "value": 4,
+                                    "note": "Cross-Disciplinary (CD) Courses",
+                                    "modules": [
+                                        { "type": "exact", "code": "ACC1701X" },
+                                        { "type": "exact", "code": "DAO2703" },
+                                        { "type": "exact", "code": "MNO1706X" },
+                                        { "type": "exact", "code": "SC1101E" },
+                                        { "type": "exact", "code": "EL1101E" },
+                                        { "type": "exact", "code": "PE2101P" },
+                                        { "type": "exact", "code": "GE2103" },
+                                        { "type": "exact", "code": "XD3103" },
+                                        { "type": "exact", "code": "GE3253" },
+                                        { "type": "exact", "code": "GE3255" },
+                                        { "type": "exact", "code": "GE3256" },
+                                        { "type": "exact", "code": "SPH2002" },
+                                        { "type": "exact", "code": "SC2226" },
+                                        { "type": "exact", "code": "NUR1113A" },
+                                        { "type": "exact", "code": "CDE2300" },
+                                        { "type": "exact", "code": "CDE2310" },
+                                        { "type": "exact", "code": "EG2201A" },
+                                        { "type": "exact", "code": "EG2310" },
+                                        { "type": "wildcard", "prefix": "PC" },
+                                        { "type": "wildcard", "prefix": "CM" },
+                                        { "type": "wildcard", "prefix": "LSM" },
+                                        { "type": "wildcard", "prefix": "ZB" }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "rawTagName": "id_interdisciplinary_courses",
+                            "type": "min",
+                            "value": 12,
+                            "note": "Interdisciplinary (ID) Courses (12 units option)",
+                            "modules": [
+                                { "type": "variant", "baseCode": "CDE2501" },
+                                { "type": "variant", "baseCode": "EG2501" },
+                                { "type": "exact", "code": "DTK1234" },
+                                { "type": "exact", "code": "EG1311" },
+                                { "type": "exact", "code": "IE2141" },
+                                { "type": "exact", "code": "PF1101" },
+                                { "type": "exact", "code": "IS1128" },
+                                { "type": "exact", "code": "IS2218" },
+                                { "type": "exact", "code": "IS2238" },
+                                { "type": "exact", "code": "HSH1000" },
+                                { "type": "exact", "code": "HSS1000" },
+                                { "type": "exact", "code": "HSA1000" },
+                                { "type": "exact", "code": "HSI1000" },
+                                { "type": "exact", "code": "HSI2001" },
+                                { "type": "exact", "code": "HSI2002" },
+                                { "type": "exact", "code": "HSI2003" },
+                                { "type": "exact", "code": "HSI2004" },
+                                { "type": "exact", "code": "HSI2005" },
+                                { "type": "exact", "code": "HSI2007" },
+                                { "type": "exact", "code": "HSI2008" },
+                                { "type": "exact", "code": "HSI2009" },
+                                { "type": "exact", "code": "HSI2010" },
+                                { "type": "exact", "code": "HSI2011" },
+                                { "type": "exact", "code": "HSI2013" },
+                                { "type": "exact", "code": "HSI2014" }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "rawTagName": "gec_cultures_and_connections",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "wildcard", "prefix": "GEC" },
+                        { "type": "exact", "code": "HSA1000" }
+                    ]
+                },
+                {
+                    "rawTagName": "gess_singapore_studies",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "wildcard", "prefix": "GESS" },
+                        { "type": "exact", "code": "CDE2501" },
+                        { "type": "exact", "code": "HSS1000" }
+                    ]
+                },
+                {
+                    "rawTagName": "computing_ethics",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "exact", "code": "IS1108" }
+                    ]
+                },
+                {
+                    "rawTagName": "gea_data_literacy",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "exact", "code": "GEA1000" },
+                        { "type": "exact", "code": "GEA1000N" },
+                        { "type": "exact", "code": "BT1101 " },
+                        { "type": "exact", "code": "DSA1101" },
+                        { "type": "exact", "code": "IE1111R" },
+                        { "type": "exact", "code": "SPH1904" },
+                        { "type": "exact", "code": "ST1131" },
+                        { "type": "exact", "code": "TCX2002" }
+                    ],
+                    "note": "Data Literacy (GEA) is not specified for InfoSec students, but specified for other SoC majors."
+                }
+            ]
+        },
+        "unrestrictedElectives": {
+            "rawTagName": "unrestricted_electives",
+            "logic": "AND",
+            "children": [
+                {
+                    "rawTagName": "unrestricted_electives_courses",
+                    "type": "min",
+                    "value": 40,
+                    "modules": [
+                        { "type": "wildcard", "prefix": "" }
+                    ],
+                    "note": "Unrestricted Elective modules (any discipline) to bring total to 160 Units"
+                }
+            ]
+        },
+        "coreEssentials": [
+            { "type": "exact", "code": "CS1231S" },
+            { "type": "exact", "code": "CS2030" },
+            { "type": "exact", "code": "CS2040C" },
+            { "type": "exact", "code": "CS2100" },
+            { "type": "exact", "code": "CS2101" },
+            { "type": "exact", "code": "CS2103T" },
+            { "type": "exact", "code": "CS2105" },
+            { "type": "exact", "code": "CS2106" },
+            { "type": "exact", "code": "CS2107" },
+            { "type": "exact", "code": "CS3235" },
+            { "type": "exact", "code": "IS4231" },
+            { "type": "exact", "code": "MA1521" },
+            { "type": "exact", "code": "MA1522" },
+            { "type": "exact", "code": "ST2334" }
+        ],
+        "coreElectives": {
+            "rawTagName": "core_electives",
+            "logic": "AND",
+            "children": [
+                {
+                    "rawTagName": "information_security_requirements",
+                    "logic": "AND",
+                    "children": [
+                        {
+                            "rawTagName": "capstone_requirement",
+                            "logic": "OR",
+                            "children": [
+                                {
+                                    "rawTagName": "single_capstone_path",
+                                    "type": "min",
+                                    "value": 8,
+                                    "modules": [
+                                        { "type": "exact", "code": "IFS4205" }
+                                    ],
+                                    "note": "Information Security Capstone Project"
+                                },
+                                {
+                                    "rawTagName": "dual_capstone_path",
+                                    "type": "min",
+                                    "value": 8,
+                                    "modules": [
+                                        { "type": "exact", "code": "CS4238" },
+                                        { "type": "exact", "code": "IFS4103" }
+                                    ],
+                                    "note": "Computer Security Practice AND Penetration Testing Practice"
+                                }
+                            ]
+                        },
+                        {
+                            "rawTagName": "security_electives_group",
+                            "logic": "OR",
+                            "children": [
+                                {
+                                    "rawTagName": "security_electives_with_cs4236",
+                                    "type": "min",
+                                    "value": 8,
+                                    "modules": [
+                                        { "type": "exact", "code": "CS4230" },
+                                        { "type": "exact", "code": "CS4236" },
+                                        { "type": "exact", "code": "CS4238" },
+                                        { "type": "exact", "code": "CS4239" },
+                                        { "type": "exact", "code": "CS4257" },
+                                        { "type": "exact", "code": "CS4276" },
+                                        { "type": "exact", "code": "CS5231" },
+                                        { "type": "exact", "code": "CS5321" },
+                                        { "type": "exact", "code": "CS5322" },
+                                        { "type": "exact", "code": "CS5331" },
+                                        { "type": "exact", "code": "CS5332" },
+                                        { "type": "exact", "code": "IFS4101" },
+                                        { "type": "exact", "code": "IFS4102" },
+                                        { "type": "exact", "code": "IFS4103" },
+                                        { "type": "exact", "code": "IS4204" },
+                                        { "type": "exact", "code": "IS4233" },
+                                        { "type": "exact", "code": "IS4234" },
+                                        { "type": "exact", "code": "IS4238" },
+                                        { "type": "exact", "code": "IS4302" },
+                                        { "type": "other", "code": "SOC_APPROVED", "requiresApproval": true }
+                                    ],
+                                    "note": "Complete 8 units from security electives list."
+                                },
+                                {
+                                    "rawTagName": "security_electives_with_ma4261",
+                                    "type": "min",
+                                    "value": 8,
+                                    "modules": [
+                                        { "type": "exact", "code": "CS4230" },
+                                        { "type": "exact", "code": "MA4261" },
+                                        { "type": "exact", "code": "CS4238" },
+                                        { "type": "exact", "code": "CS4239" },
+                                        { "type": "exact", "code": "CS4257" },
+                                        { "type": "exact", "code": "CS4276" },
+                                        { "type": "exact", "code": "CS5231" },
+                                        { "type": "exact", "code": "CS5321" },
+                                        { "type": "exact", "code": "CS5322" },
+                                        { "type": "exact", "code": "CS5331" },
+                                        { "type": "exact", "code": "CS5332" },
+                                        { "type": "exact", "code": "IFS4101" },
+                                        { "type": "exact", "code": "IFS4102" },
+                                        { "type": "exact", "code": "IFS4103" },
+                                        { "type": "exact", "code": "IS4204" },
+                                        { "type": "exact", "code": "IS4233" },
+                                        { "type": "exact", "code": "IS4234" },
+                                        { "type": "exact", "code": "IS4238" },
+                                        { "type": "exact", "code": "IS4302" },
+                                        { "type": "other", "code": "SOC_APPROVED", "requiresApproval": true }
+                                    ],
+                                    "note": "Complete 8 units from security electives list."
+                                }                                
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "rawTagName": "computing_requirements",
+                    "logic": "AND",
+                    "children": [
+                        {
+                            "rawTagName": "computing_breadth",
+                            "overall": true,
+                            "type": "min",
+                            "value": 12,
+                            "modules": [
+                                { "type": "wildcard", "prefix": "CS3" },
+                                { "type": "wildcard", "prefix": "CS4" },
+                                { "type": "wildcard", "prefix": "CS5" },
+                                { "type": "wildcard", "prefix": "IS3" },
+                                { "type": "wildcard", "prefix": "IS4" },
+                                { "type": "wildcard", "prefix": "IS5" },
+                                { "type": "wildcard", "prefix": "CP" }
+                            ],
+                            "note": "CS/IS-coded courses must be level-3000 or above. At least 6 units must be Industrial Experience."
+                        },
+                        {
+                            "rawTagName": "industrial_experience_container",
+                            "logic": "AND",
+                            "children": [
+                                {
+                                    "rawTagName": "industrial_experience",
+                                    "type": "min",
+                                    "value": 6,
+                                    "modules": [
+                                        { "type": "exact", "code": "CP3880" },
+                                        { "type": "exact", "code": "CP3200" },
+                                        { "type": "exact", "code": "CP3202" },
+                                        { "type": "exact", "code": "CP3107" },
+                                        { "type": "exact", "code": "CP3110" },
+                                        { "type": "exact", "code": "ETP3205" },
+                                        { "type": "exact", "code": "IS4010" },
+                                        { "type": "exact", "code": "ETP3206L" },
+                                        { "type": "exact", "code": "CP4101" },
+                                        { "type": "other", "code": "SOC_APPROVED_IE", "requiresApproval": true }
+                                    ],
+                                    "note": "Industrial Experience Requirement (minimum 6 Units). CP4101 available for students with GPA ≥ 4.0"
+                                },
+                                {
+                                    "rawTagName": "industrial_experience_maximum",
+                                    "type": "max",
+                                    "value": 12,
+                                    "modules": [
+                                        { "type": "exact", "code": "CP3880" },
+                                        { "type": "exact", "code": "CP3200" },
+                                        { "type": "exact", "code": "CP3202" },
+                                        { "type": "exact", "code": "CP3107" },
+                                        { "type": "exact", "code": "CP3110" },
+                                        { "type": "exact", "code": "ETP3205" },
+                                        { "type": "exact", "code": "IS4010" },
+                                        { "type": "exact", "code": "ETP3206L" },
+                                        { "type": "exact", "code": "CP4101" },
+                                        { "type": "other", "code": "SOC_APPROVED_IE", "requiresApproval": true }
+                                    ],
+                                    "note": "Industrial Experience Requirement (maximum 12 Units). Excess counts as UE."
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

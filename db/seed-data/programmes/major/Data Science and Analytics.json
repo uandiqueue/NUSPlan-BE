@@ -1,0 +1,348 @@
+{
+    "meta": {
+        "name": "Data Science and Analytics",
+        "type": "major",
+        "honours": true,
+        "requiredUnits": 160,
+        "doubleCountCap": 64,
+        "nusTaughtFraction": 0.6
+    },
+    "requirement": {
+        "commonCore": {
+            "rawTagName": "common_core",
+            "logic": "AND",
+            "children": [
+                {
+                    "rawTagName": "artificial_intelligence",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "exact", "code": "CS2109S" },
+                        { "type": "exact", "code": "HS1501" },
+                        { "type": "exact", "code": "HS1502" },
+                        { "type": "exact", "code": "IT1244" }
+                    ]
+                },
+                {
+                    "rawTagName": "gen_communities_and_engagement",
+                    "type": "min",
+                    "value": 4,
+                    "note": "Complete ANY ONE 4-unit module to fulfil the C&E pillar requirement.",
+                    "modules": [
+                        { "type": "wildcard", "prefix": "GEN" },
+                        { "type": "exact", "code": "BN4102" },
+                        { "type": "exact", "code": "BN4103" },
+                        { "type": "exact", "code": "CLC1101" },
+                        { "type": "exact", "code": "CLC2204" },
+                        { "type": "exact", "code": "CLC3303" },
+                        { "type": "exact", "code": "CLC3304A" },
+                        { "type": "exact", "code": "CLC3307" },
+                        { "type": "exact", "code": "SE3216" },
+                        { "type": "exact", "code": "SE3226" },
+                        { "type": "exact", "code": "CP3107" },
+                        { "type": "exact", "code": "CP3110" }
+                    ]
+                },
+                {
+                    "rawTagName": "digital_literacy",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "variant", "baseCode": "CS1010" },
+                        { "type": "exact", "code": "COS1000" },
+                        { "type": "exact", "code": "COS2000" },
+                        { "type": "exact", "code": "CM3267" },
+                        { "type": "exact", "code": "ZB2201" },
+                        { "type": "exact", "code": "SP2273" }
+                    ]
+                },
+                {
+                    "rawTagName": "design_thinking",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "exact", "code": "DTK1234" }
+                    ]
+                },
+                {
+                    "rawTagName": "gea_data_literacy",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "exact", "code": "BT1101" },
+                        { "type": "exact", "code": "DSA1101" },
+                        { "type": "exact", "code": "DSE1101" },
+                        { "type": "exact", "code": "GEA1000" },
+                        { "type": "exact", "code": "ST1131" }
+                    ]
+                },
+                {
+                    "rawTagName": "writing",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "exact", "code": "SP1541" },
+                        { "type": "exact", "code": "SP2271" }
+                    ]
+                },
+                {
+                    "rawTagName": "asian_studies",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "exact", "code": "HSA1000" }
+                    ]
+                },
+                {
+                    "rawTagName": "humanities",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "exact", "code": "HSH1000" }
+                    ]
+                },
+                {
+                    "rawTagName": "social_sciences",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "exact", "code": "HSS1000" }
+                    ]
+                },
+                {
+                    "rawTagName": "scientific_inquiry_1",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "exact", "code": "HSI1000" },
+                        { "type": "exact", "code": "SP2274" }
+                    ]
+                },
+                {
+                    "rawTagName": "scientific_inquiry_2",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "exact", "code": "HSI2001" },
+                        { "type": "exact", "code": "HSI2002" },
+                        { "type": "exact", "code": "HSI2003" },
+                        { "type": "exact", "code": "HSI2004" },
+                        { "type": "exact", "code": "HSI2005" },
+                        { "type": "exact", "code": "HSI2006" },
+                        { "type": "exact", "code": "HSI2007" },
+                        { "type": "exact", "code": "HSI2008" },
+                        { "type": "exact", "code": "HSI2009" },
+                        { "type": "exact", "code": "HSI2010" },
+                        { "type": "exact", "code": "HSI2011" },
+                        { "type": "exact", "code": "HSI2012" },
+                        { "type": "exact", "code": "HSI2013" },
+                        { "type": "exact", "code": "HSI2014" },
+                        { "type": "exact", "code": "HSI2015" },
+                        { "type": "exact", "code": "HSI2016" },
+                        { "type": "exact", "code": "HSI2017" },
+                        { "type": "exact", "code": "SP3275" }
+                    ]
+                },
+                {
+                    "rawTagName": "interdisciplinary_courses",
+                    "logic": "AND",
+                    "children": [
+                        {
+                            "rawTagName": "interdisciplinary_courses_1",
+                            "type": "min",
+                            "value": 4,
+                            "modules": [
+                                { "type": "exact", "code": "HS2902" },
+                                { "type": "exact", "code": "HS2903" },
+                                { "type": "exact", "code": "HS2904" },
+                                { "type": "exact", "code": "HS2905" },
+                                { "type": "exact", "code": "HS2906" },
+                                { "type": "exact", "code": "HS2907" },
+                                { "type": "exact", "code": "HS2908" },
+                                { "type": "exact", "code": "HS2909" },
+                                { "type": "exact", "code": "HS2911" },
+                                { "type": "exact", "code": "HS2912" },
+                                { "type": "exact", "code": "HS2913" },
+                                { "type": "exact", "code": "HS2914" },
+                                { "type": "exact", "code": "HS2915" },
+                                { "type": "exact", "code": "HS2916" },
+                                { "type": "exact", "code": "HS2917" },
+                                { "type": "exact", "code": "HS2918" },
+                                { "type": "exact", "code": "HS2919" },
+                                { "type": "exact", "code": "HS2920" },
+                                { "type": "exact", "code": "HS2921" },
+                                { "type": "exact", "code": "HS2922" },
+                                { "type": "exact", "code": "HS2923" },
+                                { "type": "exact", "code": "HS2924" },
+                                { "type": "exact", "code": "HS2925" },
+                                { "type": "exact", "code": "HS2926" },
+                                { "type": "exact", "code": "HS2927" },
+                                { "type": "exact", "code": "HS2928" },
+                                { "type": "exact", "code": "HS2929" },
+                                { "type": "exact", "code": "HS2930" },
+                                { "type": "exact", "code": "HS2931" },
+                                { "type": "exact", "code": "HS2932" },
+                                { "type": "exact", "code": "HS2933" },
+                                { "type": "exact", "code": "NHS2082" },
+                                { "type": "exact", "code": "NST2055" },
+                                { "type": "exact", "code": "NST2056" }
+                            ]
+                        },
+                        {
+                            "rawTagName": "interdisciplinary_courses_2_hs_coded",
+                            "type": "min",
+                            "value": 4,
+                            "modules": [
+                                { "type": "exact", "code": "HS2902" },
+                                { "type": "exact", "code": "HS2903" },
+                                { "type": "exact", "code": "HS2904" },
+                                { "type": "exact", "code": "HS2905" },
+                                { "type": "exact", "code": "HS2906" },
+                                { "type": "exact", "code": "HS2907" },
+                                { "type": "exact", "code": "HS2908" },
+                                { "type": "exact", "code": "HS2909" },
+                                { "type": "exact", "code": "HS2911" },
+                                { "type": "exact", "code": "HS2912" },
+                                { "type": "exact", "code": "HS2913" },
+                                { "type": "exact", "code": "HS2914" },
+                                { "type": "exact", "code": "HS2915" },
+                                { "type": "exact", "code": "HS2916" },
+                                { "type": "exact", "code": "HS2917" },
+                                { "type": "exact", "code": "HS2918" },
+                                { "type": "exact", "code": "HS2919" },
+                                { "type": "exact", "code": "HS2920" },
+                                { "type": "exact", "code": "HS2921" },
+                                { "type": "exact", "code": "HS2922" },
+                                { "type": "exact", "code": "HS2923" },
+                                { "type": "exact", "code": "HS2924" },
+                                { "type": "exact", "code": "HS2925" },
+                                { "type": "exact", "code": "HS2926" },
+                                { "type": "exact", "code": "HS2927" },
+                                { "type": "exact", "code": "HS2928" },
+                                { "type": "exact", "code": "HS2929" },
+                                { "type": "exact", "code": "HS2930" },
+                                { "type": "exact", "code": "HS2931" },
+                                { "type": "exact", "code": "HS2932" },
+                                { "type": "exact", "code": "HS2933" }
+                            ]
+                        }
+                    ]
+                }
+            ]                
+        },
+        "unrestrictedElectives": {
+            "rawTagName": "unrestricted_electives",
+            "logic": "AND",
+            "children": [
+                {
+                    "rawTagName": "unrestricted_electives_courses",
+                    "type": "min",
+                    "value": 40,
+                    "modules": [ { "type": "wildcard", "prefix": "" } ],
+                    "note": "Unrestricted Elective modules (any discipline) to bring total to 160 Units"
+                }
+            ]
+        },
+        "coreEssentials": [
+            { "type": "exact", "code": "DSA1101" },
+            { "type": "exact", "code": "CS2040" },
+            { "type": "exact", "code": "DSA2101" },
+            { "type": "exact", "code": "DSA2102" },
+            { "type": "exact", "code": "MA2001" },
+            { "type": "exact", "code": "MA2002" },
+            { "type": "exact", "code": "ST2132" },
+            { "type": "exact", "code": "CS3244" },
+            { "type": "exact", "code": "DSA3101" },
+            { "type": "exact", "code": "DSA3102" },
+            { "type": "exact", "code": "ST3131" }
+        ],
+        "coreElectives": {
+            "rawTagName": "core_electives",
+            "logic": "AND",
+            "children": [
+                {
+                    "rawTagName": "calculus",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "exact", "code": "MA2311" },
+                        { "type": "exact", "code": "MA2104" }
+                    ]
+                },
+                {
+                    "rawTagName": "probability",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "exact", "code": "ST2131" },
+                        { "type": "exact", "code": "MA2116" },
+                        { "type": "exact", "code": "MA2216" }
+                    ]
+                },
+                {
+                    "rawTagName": "level_4000_requirement",
+                    "logic": "OR",
+                    "children": [
+                        {
+                            "rawTagName": "honours_project",
+                            "type": "min",
+                            "value": 8,
+                            "modules": [
+                                { "type": "variant", "baseCode": "DSA4288" }
+                            ]
+                        },
+                        {
+                            "rawTagName": "non_honours_project",
+                            "logic": "AND",
+                            "children": [
+                                {
+                                    "rawTagName": "other_level_4000",
+                                    "logic": "AND",
+                                    "children": [
+                                        {
+                                            "rawTagName": "421x_modules",
+                                            "type": "min",
+                                            "value": 4,
+                                            "modules": [
+                                                { "type": "wildcard", "prefix": "DSA421" },
+                                                { "type": "exact", "code": "DSE4211" },
+                                                { "type": "exact", "code": "DSE4212" },
+                                                { "type": "exact", "code": "QF4211" },
+                                                { "type": "exact", "code": "QF4212" }
+                                            ]
+                                        },
+                                        {
+                                            "rawTagName": "DSA426x_modules",
+                                            "type": "min",
+                                            "value": 4,
+                                            "modules": [
+                                                { "type": "wildcard", "prefix": "DSA426" }
+                                            ]
+                                        },
+                                        {
+                                            "rawTagName": "non_honours_requirement",
+                                            "type": "min",
+                                            "value": 4,
+                                            "modules": [
+                                                { "type": "exact", "code": "DSA3288" },
+                                                { "type": "exact", "code": "DSA3288R" },
+                                                { "type": "other", "code": "DSA_UPIP", "requiresApproval": true },
+                                                { "type": "other", "code": "FOS_NOC", "requiresApproval": true }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "rawTagName": "no_lsm4288",
+                                    "type": "max",
+                                    "value": 0,
+                                    "modules": [ { "type": "exact", "code": "LSM4288" } ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

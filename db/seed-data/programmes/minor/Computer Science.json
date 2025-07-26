@@ -1,0 +1,102 @@
+{
+    "meta": {
+        "name": "Computer Science",
+        "type": "minor",
+        "requiredUnits": 20,
+        "doubleCountCap": 8,
+        "nusTaughtFraction": 0.6
+    },
+    "requirement": {
+        "coreEssentials": [],
+        "coreElectives": {
+            "rawTagName": "core_electives",
+            "logic": "AND",
+            "children": [
+                {
+                    "rawTagName": "category_i_programming",
+                    "logic": "OR",
+                    "children": [
+                        {
+                            "rawTagName": "cs1010_standard_path",
+                            "type": "min",
+                            "value": 4,
+                            "modules": [
+                                { "type": "exact", "code": "CS1010" },
+                                { "type": "exact", "code": "CS1010E" },
+                                { "type": "exact", "code": "CS1010FC" },
+                                { "type": "exact", "code": "CS1010X" },
+                                { "type": "exact", "code": "CS1010J" },
+                                { "type": "exact", "code": "CS1010S" },
+                                { "type": "exact", "code": "CS1101S" },
+                                { "type": "exact", "code": "CS1020E" }
+                            ],
+                            "note": "Category I: CS1010 Programming Methodology or equivalents"
+                        },
+                        {
+                            "rawTagName": "cs1010_exempted_path",
+                            "type": "min",
+                            "value": 4,
+                            "modules": [
+                                { "type": "exact", "code": "CS1231" },
+                                { "type": "exact", "code": "CS1231S" },
+                                { "type": "variant", "baseCode": "MA1100" },
+                                { "type": "exact", "code": "CS2030" },
+                                { "type": "exact", "code": "CS2030S" },
+                                { "type": "variant", "baseCode": "CS2040" },
+                                { "type": "exact", "code": "CS2100" },
+                                { "type": "exact", "code": "CS2102" },
+                                { "type": "exact", "code": "CS2103" },
+                                { "type": "exact", "code": "CS2113" },
+                                { "type": "exact", "code": "CS2104" },
+                                { "type": "exact", "code": "CS2105" },
+                                { "type": "exact", "code": "EE4024" },
+                                { "type": "exact", "code": "CS2106" },
+                                { "type": "exact", "code": "CS2107" },
+                                { "type": "exact", "code": "CS2108" },
+                                { "type": "exact", "code": "CS2109S" },
+                                { "type": "wildcard", "prefix": "CS3" },
+                                { "type": "wildcard", "prefix": "CS4" }
+                            ],
+                            "note": "Students exempted from CS1010 must complete another 4 units from Category II or III"
+                        }
+                    ]
+                },
+                {
+                    "rawTagName": "category_ii_core_courses",
+                    "type": "min",
+                    "value": 12,
+                    "modules": [
+                        { "type": "exact", "code": "CS1231" },
+                        { "type": "exact", "code": "CS1231S" },
+                        { "type": "variant", "baseCode": "MA1100" },
+                        { "type": "exact", "code": "CS2030" },
+                        { "type": "exact", "code": "CS2030S" },
+                        { "type": "variant", "baseCode": "CS2040" },
+                        { "type": "exact", "code": "CS2100" },
+                        { "type": "exact", "code": "CS2102" },
+                        { "type": "exact", "code": "CS2103" },
+                        { "type": "exact", "code": "CS2113" },
+                        { "type": "exact", "code": "CS2104" },
+                        { "type": "exact", "code": "CS2105" },
+                        { "type": "exact", "code": "EE4024" },
+                        { "type": "exact", "code": "CS2106" },
+                        { "type": "exact", "code": "CS2107" },
+                        { "type": "exact", "code": "CS2108" },
+                        { "type": "exact", "code": "CS2109S" }
+                    ],
+                    "note": "Category II: Complete three courses (12 units) from the level-2000 CS courses list"
+                },
+                {
+                    "rawTagName": "category_iii_advanced_courses",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "wildcard", "prefix": "CS3" },
+                        { "type": "wildcard", "prefix": "CS4" }
+                    ],
+                    "note": "Category III: CS-coded courses at level-3000 and 4000 to satisfy total unit requirement"
+                }
+            ]
+        }
+    }
+}

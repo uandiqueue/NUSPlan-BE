@@ -1,0 +1,152 @@
+{
+    "meta": {
+        "name": "Data Analytics",
+        "type": "secondMajor",
+        "requiredUnits": 40,
+        "doubleCountCap": 16,
+        "nusTaughtFraction": 0.6
+    },
+    "requirement": {
+        "coreEssentials": [
+            { "type": "exact", "code": "DSA1101" },
+            { "type": "exact", "code": "ST2132" },
+            { "type": "variant", "baseCode": "CS2040" }
+        ],
+        "coreElectives": {
+            "rawTagName": "core_electives",
+            "logic": "AND",
+            "children": [
+                {
+                    "rawTagName": "linear_algebra_requirement",
+                    "logic": "OR",
+                    "children": [
+                        {
+                            "rawTagName": "other_students_path",
+                            "type": "min",
+                            "value": 4,
+                            "modules": [
+                                { "type": "exact", "code": "MA1101R" },
+                                { "type": "exact", "code": "MA2001" },
+                                { "type": "exact", "code": "MA1522" }
+                            ]
+                        },
+                        {
+                            "rawTagName": "engineering_students_only_path_1",
+                            "type": "min",
+                            "value": 4,
+                            "modules": [
+                                { "type": "exact", "code": "MA1508E" }
+                            ],
+                            "note": "Linear Algebra for Engineering (FoE students only)"
+                        },
+                        {
+                            "rawTagName": "engineering_students_only_path_2",
+                            "logic": "OR",
+                            "children": [
+                                {
+                                    "rawTagName": "ma1513_path",
+                                    "type": "min",
+                                    "value": 2,
+                                    "modules": [
+                                        { "type": "exact", "code": "MA1513" }
+                                    ],
+                                    "note": "Linear Algebra with Differential Equations (2 Units, FoE students only)"
+                                },
+                                {
+                                    "rawTagName": "additional_elective",
+                                    "type": "min",
+                                    "value": 4,
+                                    "modules": [
+                                        { "type": "exact", "code": "CS3244" },
+                                        { "type": "exact", "code": "CS3264" },
+                                        { "type": "exact", "code": "DSA4211" },
+                                        { "type": "exact", "code": "DSA4212" },
+                                        { "type": "exact", "code": "ST3131" }
+                                    ],
+                                    "note": "Need to fulfill 4 units of additional electives"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "rawTagName": "calculus_requirement",
+                    "logic": "OR",
+                    "children": [
+                        {
+                            "rawTagName": "other_students_path",
+                            "type": "min",
+                            "value": 4,
+                            "modules": [
+                                { "type": "exact", "code": "MA1312" },
+                                { "type": "exact", "code": "MA1521" },
+                                { "type": "exact", "code": "MA2002" }
+                            ]
+                        },
+                        {
+                            "rawTagName": "engineering_students_only_path_1",
+                            "type": "min",
+                            "value": 4,
+                            "modules": [
+                                { "type": "exact", "code": "MA1505" }
+                            ],
+                            "note": "Mathematics I (FoE students only)"
+                        },
+                        {
+                            "rawTagName": "engineering_students_only_path_2",
+                            "type": "min",
+                            "value": 4,
+                            "modules": [
+                                { "type": "exact", "code": "MA1511" },
+                                { "type": "exact", "code": "MA1512" }
+                            ],
+                            "note": "Engineering Calculus (2 Units) + Differential Equations (2 Units) - FoE students only"
+                        }
+                    ]
+                },
+                {
+                    "rawTagName": "probability_requirement",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "exact", "code": "ST2131" },
+                        { "type": "exact", "code": "MA2116" },
+                        { "type": "exact", "code": "MA2216" }
+                    ]
+                },
+                {
+                    "rawTagName": "level_2000_dsa_requirement",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "exact", "code": "DSA2101" },
+                        { "type": "exact", "code": "DSA2102" }
+                    ]
+                },
+                {
+                    "rawTagName": "optimization_requirement",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "exact", "code": "DSA3102" },
+                        { "type": "exact", "code": "DBA3701" },
+                        { "type": "exact", "code": "MA3236" },
+                        { "type": "exact", "code": "MA3252" }
+                    ]
+                },
+                {
+                    "rawTagName": "advanced_courses_requirement",
+                    "type": "min",
+                    "value": 8,
+                    "modules": [
+                        { "type": "exact", "code": "CS3244" },
+                        { "type": "exact", "code": "CS3264" },
+                        { "type": "exact", "code": "DSA4211" },
+                        { "type": "exact", "code": "DSA4212" },
+                        { "type": "exact", "code": "ST3131" }
+                    ]
+                }
+            ]
+        }
+    }
+}
