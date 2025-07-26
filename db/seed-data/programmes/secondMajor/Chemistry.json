@@ -1,0 +1,37 @@
+{
+    "meta": {
+        "name": "Chemistry",
+        "type": "secondMajor",
+        "requiredUnits": 40,
+        "doubleCountCap": 16,
+        "nusTaughtFraction": 0.6
+    },
+    "requirement": {
+        "coreEssentials": [
+            { "type": "exact", "code": "CM1102" },
+            { "type": "exact", "code": "CM2112" },
+            { "type": "exact", "code": "CM2122" },
+            { "type": "exact", "code": "CM2133" },
+            { "type": "exact", "code": "CM2143" },
+            { "type": "exact", "code": "CM3111" },
+            { "type": "exact", "code": "CM3121" },
+            { "type": "exact", "code": "CM3131" },
+            { "type": "exact", "code": "CM3141" }
+        ],
+        "coreElectives": {
+            "rawTagName": "core_electives",
+            "logic": "AND",
+            "children": [
+                {
+                    "rawTagName": "cm3191_or_cm3192",
+                    "type": "min",
+                    "value": 4,
+                    "modules": [
+                        { "type": "exact", "code": "CM3191" },
+                        { "type": "exact", "code": "CM3192" }
+                    ]
+                }
+            ]
+        }
+    }
+}

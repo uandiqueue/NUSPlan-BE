@@ -1,0 +1,118 @@
+{
+    "meta": {
+        "name": "Business Analytics",
+        "type": "secondMajor",
+        "requiredUnits": 40,
+        "doubleCountCap": 16,
+        "nusTaughtFraction": 0.6
+    },
+    "requirement": {
+        "coreEssentials": [
+            { "type": "exact", "code": "BT1101" },
+            { "type": "exact", "code": "BT2101" },
+            { "type": "exact", "code": "BT2102" },
+            { "type": "exact", "code": "BT3103" },
+            { "type": "exact", "code": "CS2030" }
+        ],
+        "coreElectives": {
+            "rawTagName": "core_electives",
+            "logic": "AND",
+            "children": [
+                {
+                    "rawTagName": "programming_requirement",
+                    "logic": "OR",
+                    "children": [
+                        {
+                            "rawTagName": "cs1010s_standard_path",
+                            "type": "min",
+                            "value": 4,
+                            "modules": [
+                                { "type": "variant", "baseCode": "CS1010" },
+                                { "type": "exact", "code": "CS1101S" }
+                            ],
+                            "note": "CS1010 alternatives require course substitution application"
+                        },
+                        {
+                            "rawTagName": "cs1010s_waived_path",
+                            "type": "min",
+                            "value": 4,
+                            "modules": [
+                                { "type": "exact", "code": "BT3017" },
+                                { "type": "exact", "code": "BT3102" },
+                                { "type": "exact", "code": "BT3104" },
+                                { "type": "exact", "code": "BT4014" },
+                                { "type": "exact", "code": "BT4211" },
+                                { "type": "exact", "code": "BT4212" },
+                                { "type": "exact", "code": "BT4221" },
+                                { "type": "exact", "code": "BT4222" },
+                                { "type": "exact", "code": "BT4240" },
+                                { "type": "exact", "code": "IS4241" }
+                            ],
+                            "note": "Students waived from CS1010 equivalent must complete another 4 units of electives"
+                        }
+                    ]
+                },
+                {
+                    "rawTagName": "statistics_requirement",
+                    "logic": "OR",
+                    "children": [
+                        {
+                            "rawTagName": "st2334_standard_path",
+                            "type": "min",
+                            "value": 4,
+                            "modules": [
+                                { "type": "exact", "code": "ST2334" }
+                            ]
+                        },
+                        {
+                            "rawTagName": "st2334_alternatives_path",
+                            "type": "min",
+                            "value": 4,
+                            "modules": [
+                                { "type": "exact", "code": "ST2131" },
+                                { "type": "exact", "code": "ST2132" }
+                            ],
+                            "note": "ST2131 or ST2132 can replace ST2334, unless student has taken EC2303"
+                        },
+                        {
+                            "rawTagName": "economics_students_path",
+                            "type": "min",
+                            "value": 4,
+                            "modules": [
+                                { "type": "exact", "code": "BT3017" },
+                                { "type": "exact", "code": "BT3102" },
+                                { "type": "exact", "code": "BT3104" },
+                                { "type": "exact", "code": "BT4014" },
+                                { "type": "exact", "code": "BT4211" },
+                                { "type": "exact", "code": "BT4212" },
+                                { "type": "exact", "code": "BT4221" },
+                                { "type": "exact", "code": "BT4222" },
+                                { "type": "exact", "code": "BT4240" },
+                                { "type": "exact", "code": "IS4241" }
+                            ],
+                            "note": "Economics students unable to read ST2334 due to preclusion must take additional elective"
+                        }
+                    ]
+                },
+                {
+                    "rawTagName": "elective_courses_requirement",
+                    "type": "min",
+                    "value": 12,
+                    "modules": [
+                        { "type": "exact", "code": "BT3017" },
+                        { "type": "exact", "code": "BT3102" },
+                        { "type": "exact", "code": "BT3104" },
+                        { "type": "exact", "code": "BT4014" },
+                        { "type": "exact", "code": "BT4211" },
+                        { "type": "exact", "code": "BT4212" },
+                        { "type": "exact", "code": "BT4221" },
+                        { "type": "exact", "code": "BT4222" },
+                        { "type": "exact", "code": "BT4240" },
+                        { "type": "exact", "code": "IS4241" }
+                    ],
+                    "note": "Complete 12 units from Business Analytics electives list"
+                }
+            ]
+        }
+    }
+}

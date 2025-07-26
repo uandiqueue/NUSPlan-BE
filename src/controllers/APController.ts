@@ -43,8 +43,7 @@ export async function generateAcademicPlan(req: Request, res: Response): Promise
                     success: false,
                     error: 'INTERNAL_SERVER_ERROR',
                     message: 'Backend validation failed',
-                    conflicts: hardErrors,
-                    suggestion: 'Please wait and try again later or contact support',
+                    conflicts: hardErrors
                 });
                 return;
             }
@@ -54,8 +53,7 @@ export async function generateAcademicPlan(req: Request, res: Response): Promise
                     success: false,
                     error: 'INVALID_PROGRAMME_COMBINATION',
                     message: 'Selected programmes combination is invalid',
-                    conflicts: invalidCombinations,
-                    suggestion: 'Please select a different combination of programmes'
+                    conflicts: invalidCombinations
                 });
                 return;
             }

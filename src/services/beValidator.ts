@@ -85,10 +85,16 @@ export class BackendValidator {
         const preclusions = await this.dbQuery.getProgrammePreclusions(programmeIds);
         
         for (const preclusion of preclusions) {
+            // Find programme names for better error messages
+            const programmeA = programmes.find(p => p.id === preclusion.programme_id);
+            const programmeB = programmes.find(p => p.id === preclusion.precluded_programme_id);
+
             this.context.addError({
-                type: 'INVALID_PROGRAMME_COMBINATION',
-                message: `${preclusion.programme_id} and ${preclusion.precluded_programme_id} cannot be taken together`,
-                programmeIds: [preclusion.programme_id, preclusion.precluded_programme_id]
+            type: 'INVALID_PROGRAMME_COMBINATION',
+            message: `${programmeA?.name ?? preclusion.programme_id} (${programmeA?.type ?? 'unknown'}) 
+                        and ${programmeB?.name ?? preclusion.precluded_programme_id} (${programmeB?.type ?? 'unknown'}) 
+                        cannot be taken together`,
+            programmeIds: [preclusion.programme_id, preclusion.precluded_programme_id]
             });
         }
     }

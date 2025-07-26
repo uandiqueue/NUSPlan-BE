@@ -128,6 +128,11 @@ export interface DoubleCountInfo {
 }
 
 // REQUEST/RESPONSE INTERFACES
+export interface BackendResponse<T> {
+  success: boolean;
+  data: T;
+  metadata?: any;
+}
 
 export interface ProcessProgrammesRequest {
     programmeIds: string[];

@@ -23,13 +23,13 @@
                             "type": "min",
                             "value": 4,
                             "modules": [
-                                { "type": "exact", "code": "CS1010" },
-                                { "type": "exact", "code": "CS1010S" },
-                                { "type": "exact", "code": "CS1010E" },
-                                { "type": "exact", "code": "CS1101S" },
-                                { "type": "exact", "code": "CS1010J" },
-                                { "type": "exact", "code": "CS1010X" }
-                            ]
+                                { "type": "variant", "baseCode": "CS1010" },
+                                { "type": "exact", "code": "CS1101S" }
+                            ],
+                            "exclude": [
+                                "CS1010DE"
+                            ],
+                            "note": "CS1010S alternatives require course substitution application, DE variants are not accepted"
                         },
                         {
                             "rawTagName": "cs1010_exempted_path",

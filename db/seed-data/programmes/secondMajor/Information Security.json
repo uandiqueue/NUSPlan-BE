@@ -1,0 +1,160 @@
+{
+    "meta": {
+        "name": "Information Security",
+        "type": "secondMajor",
+        "requiredUnits": 40,
+        "doubleCountCap": 16,
+        "nusTaughtFraction": 0.6
+    },
+    "requirement": {
+        "coreEssentials": [
+            { "type": "exact", "code": "CS2107" },
+            { "type": "exact", "code": "CS3235" }
+        ],
+        "coreElectives": {
+            "rawTagName": "core_electives",
+            "logic": "AND",
+            "children": [
+                {
+                    "rawTagName": "computing_foundations",
+                    "logic": "AND",
+                    "children": [
+                        {
+                            "rawTagName": "programming_methodology_requirement",
+                            "logic": "OR",
+                            "children": [
+                                {
+                                    "rawTagName": "cs1010_standard_path",
+                                    "type": "min",
+                                    "value": 4,
+                                    "modules": [
+                                        { "type": "variant", "baseCode": "CS1010" },
+                                        { "type": "exact", "code": "CS1101S" }
+                                    ],
+                                    "note": "CS1010 alternatives require course substitution application"
+                                },
+                                {
+                                    "rawTagName": "cs1010_waived_path",
+                                    "type": "min",
+                                    "value": 4,
+                                    "modules": [
+                                        { "type": "exact", "code": "CS1231S" },
+                                        { "type": "exact", "code": "CS1231" },
+                                        { "type": "variant", "baseCode": "MA1100" },
+                                        { "type": "exact", "code": "CS4211" },
+                                        { "type": "exact", "code": "CS3236" },
+                                        { "type": "exact", "code": "CS4236" },
+                                        { "type": "exact", "code": "MA4261" },
+                                        { "type": "exact", "code": "CS4238" },
+                                        { "type": "exact", "code": "CS4257" },
+                                        { "type": "exact", "code": "CS4276" },
+                                        { "type": "exact", "code": "IS1103" },
+                                        { "type": "exact", "code": "IS4231" },
+                                        { "type": "exact", "code": "IS4234" },
+                                        { "type": "exact", "code": "IS4302" },
+                                        { "type": "exact", "code": "IFS4101" },
+                                        { "type": "exact", "code": "IFS4102" },
+                                        { "type": "exact", "code": "IFS4205" }
+                                    ],
+                                    "note": "Students waived from CS1010 must complete another 4 units from Information Security electives"
+                                }
+                            ]
+                        },
+                        {
+                            "rawTagName": "data_structures_requirement",
+                            "type": "min",
+                            "value": 4,
+                            "modules": [
+                                { "type": "exact", "code": "CS2040" },
+                                { "type": "exact", "code": "CS2040C" }
+                            ]
+                        },
+                        {
+                            "rawTagName": "computer_organisation_requirement",
+                            "type": "min",
+                            "value": 4,
+                            "modules": [
+                                { "type": "exact", "code": "CS2100" },
+                                { "type": "exact", "code": "EE2024" },
+                                { "type": "exact", "code": "EE2028" }
+                            ],
+                            "note": "CS2100 can be replaced by EE2024 or EE2028"
+                        },
+                        {
+                            "rawTagName": "computer_networks_requirement",
+                            "type": "min",
+                            "value": 4,
+                            "modules": [
+                                { "type": "exact", "code": "CS2105" },
+                                { "type": "exact", "code": "EE3204" },
+                                { "type": "exact", "code": "EE3204E" },
+                                { "type": "exact", "code": "EE4204" },
+                                { "type": "exact", "code": "EE4204E" }
+                            ]
+                        },
+                        {
+                            "rawTagName": "operating_systems_requirement",
+                            "type": "min",
+                            "value": 4,
+                            "modules": [
+                                { "type": "exact", "code": "CS2106" },
+                                { "type": "exact", "code": "CG2271" }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "rawTagName": "information_security_electives",
+                    "logic": "AND",
+                    "children": [
+                        {
+                            "rawTagName": "security_electives_minimum",
+                            "type": "min",
+                            "value": 4,
+                            "modules": [
+                                { "type": "exact", "code": "CS1231S" },
+                                { "type": "exact", "code": "CS1231" },
+                                { "type": "variant", "baseCode": "MA1100" },
+                                { "type": "exact", "code": "CS4211" },
+                                { "type": "exact", "code": "CS3236" },
+                                { "type": "exact", "code": "CS4236" },
+                                { "type": "exact", "code": "MA4261" },
+                                { "type": "exact", "code": "CS4238" },
+                                { "type": "exact", "code": "CS4257" },
+                                { "type": "exact", "code": "CS4276" },
+                                { "type": "exact", "code": "IS1103" },
+                                { "type": "exact", "code": "IS4231" },
+                                { "type": "exact", "code": "IS4234" },
+                                { "type": "exact", "code": "IS4302" },
+                                { "type": "exact", "code": "IFS4101" },
+                                { "type": "exact", "code": "IFS4102" },
+                                { "type": "exact", "code": "IFS4205" }
+                            ]
+                        },
+                        {
+                            "rawTagName": "level_3000_plus_requirement",
+                            "type": "min",
+                            "value": 8,
+                            "modules": [
+                                { "type": "exact", "code": "CS4211" },
+                                { "type": "exact", "code": "CS3236" },
+                                { "type": "exact", "code": "CS4236" },
+                                { "type": "exact", "code": "MA4261" },
+                                { "type": "exact", "code": "CS4238" },
+                                { "type": "exact", "code": "CS4257" },
+                                { "type": "exact", "code": "CS4276" },
+                                { "type": "exact", "code": "IS4231" },
+                                { "type": "exact", "code": "IS4234" },
+                                { "type": "exact", "code": "IS4302" },
+                                { "type": "exact", "code": "IFS4101" },
+                                { "type": "exact", "code": "IFS4102" },
+                                { "type": "exact", "code": "IFS4205" }
+                            ],
+                            "note": "At least 8 units must be at level-3000 or above. IFS4205 is 8 units."
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
