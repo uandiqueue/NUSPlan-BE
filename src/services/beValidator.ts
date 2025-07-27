@@ -88,9 +88,7 @@ export class BackendValidator {
 
             this.context.addError({
             type: 'INVALID_PROGRAMME_COMBINATION',
-            message: `${programmeA?.name ?? preclusion.programme_id} (${programmeA?.type ?? 'unknown'}) 
-                        and ${programmeB?.name ?? preclusion.precluded_programme_id} (${programmeB?.type ?? 'unknown'}) 
-                        cannot be taken together`,
+            message: `${programmeA?.name ?? preclusion.programme_id} (${programmeA?.type ?? 'unknown'}) and ${programmeB?.name ?? preclusion.precluded_programme_id} (${programmeB?.type ?? 'unknown'}) cannot be taken together`,
             programmeIds: [preclusion.programme_id, preclusion.precluded_programme_id]
             });
         }

@@ -88,10 +88,10 @@ export interface AltPathBox {
 export interface LookupMaps {
     // Combination-specific requirement mappings
     moduleToLeafPaths: Record<ModuleCode, LeafPathMapping[]>;
-    leafPathToModules: Record<string, ModuleCode[]>;
+    leafPathToModules: Record<string, ModuleCode[]>; // pathId -> moduleCodes
     
     // Combination-specific max rule tracking
-    moduleToMaxRules: Record<ModuleCode, string[]>; // moduleCode -> pathKeys
+    moduleToMaxRules: Record<ModuleCode, string[]>; // moduleCode -> pathIds
     
     // Complex combination-specific analysis
     doubleCountEligibility: Record<ModuleCode, DoubleCountInfo>;
@@ -101,7 +101,7 @@ export interface LookupMaps {
 }
 
 export interface LeafPathMapping {
-    pathKey: string;
+    pathId: string;
     programmeId: string;
     displayLabel: string;
     groupType: RequirementGroupType;

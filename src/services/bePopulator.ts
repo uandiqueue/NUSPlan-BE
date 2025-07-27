@@ -319,10 +319,8 @@ export class BackendPopulator {
             for (const programme of programmes) {
                 for (const path of programme.processedPaths) {
                     if (path.isLeaf) {
-                        const pathKey = `${programme.programmeId}:${path.pathKey}`;
-                        
                         const leafMapping: LeafPathMapping = {
-                            pathKey,
+                            pathId: path.pathId,
                             programmeId: programme.programmeId,
                             displayLabel: path.displayLabel,
                             groupType: path.groupType,
@@ -337,7 +335,7 @@ export class BackendPopulator {
                             pathModules.push(modCode);
                         }
 
-                        leafPathToModules[pathKey] = pathModules;
+                        leafPathToModules[path.pathId] = pathModules;
                     }
                 }
             }
