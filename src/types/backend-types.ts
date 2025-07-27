@@ -124,15 +124,29 @@ export interface ProgrammePreclusionData {
 
 // Prerequisite rule
 export interface PrerequisiteRule {
-    rule_type: string;
+    id: string; // rule id
+    module_code: string; // module code this rule belongs to
+    rule_type:
+        | 'simple' // single module prerequisite
+        | 'simple_and' // prerequisite with AND logic and only modules or simple_and children
+        | 'complex_and' // prerequisite with AND logic and at least one non-simple_and children
+        | 'simple_or' // prerequisite with OR logic and only modules with no children
+        | 'complex_or' // prerequisite with OR logic and at least one children
+        | 'n_of' // nOf prerequisite
+        | 'complex_n_of' // nOf prerequisite with children (NOT FOUND) (extreme complexity)
+        | 'wildcard'; // prerequisite with wildcard pattern (e.g. CS21%) (not implemented yet)
+    rule_complexity: 
+        | 'simple' // simple type
+        | 'medium' // non-simple type
+        | 'complex'; // complex type (depth > 3, 'complex_n_of' and 'wildcard' types)
+    depth: number;
     required_modules: string[] | null;
-    logic_operator: string;
-    quantity_required: number;
-    module_pattern: string | null;
-    grade_required: string | null;
-    pattern_quantity: number | null;
-    original_text: string;
-    rule_complexity: string;
+    children: string[] | null; // children prerequisite rule ids
+    quantity_required: number | null; // for nOf rules
+    module_pattern: string | null; // for wildcard rules
+    grade_required: string[] | null; // required_modules' grades
+    original_text: string; // from nusmods
+    parent_rule_id: string | null;
 }
 
 // Preclusion data

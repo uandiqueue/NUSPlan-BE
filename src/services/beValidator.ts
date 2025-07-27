@@ -206,8 +206,8 @@ export class BackendValidator {
             toProcess.clear();
 
             try {
-                // Batch fetch simple prerequisites for current modules
-                const prereqData = await this.dbQuery.getBatchSimplePrerequisites(currentBatch);
+                // Batch fetch "and" prerequisite data for multiple modules
+                const prereqData = await this.dbQuery.getBatchDirectPrerequisites(currentBatch);
                 
                 // Build prerequisite map from batch results
                 for (const data of prereqData) {

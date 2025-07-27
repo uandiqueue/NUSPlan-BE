@@ -658,9 +658,9 @@ export class BackendPopulator {
 
     /**
      * Build course boxes for a specific path based on its logic type
-     * - LEAF -> DropdownBox (Excluding exception_modules)
-     * - AND -> recursive children processing
-     * - OR -> AltPathBox
+     * - LEAF: Single module -> ExactBox, Multiple modules -> DropdownBox
+     * - AND: All children need to be rendered. Modules -> ExactBox, continue with other children
+     * - OR: With children -> AltPathBox with CourseBox children, Only modules -> DropdownBox
      */
     private async buildBoxesForPath(
         path: ProcessedPath,
@@ -676,91 +676,106 @@ export class BackendPopulator {
                     const exceptionsSet = new Set(path.exceptionModules as ModuleCode[]);
                     moduleOptions = moduleOptions.filter(module => !exceptionsSet.has(module));
                 }
-                boxes.push({
-                    kind: 'dropdown',
-                    boxKey: `${path.pathKey}-dropdown`,
-                    pathId: path.pathId,
-                    programmeId: programme.programmeId,
-                    moduleOptions: path.moduleCodes as ModuleCode[],
-                });
+                if (moduleOptions.length === 1) {
+                    // Single module -> ExactBox
+                    boxes.push({
+                        kind: 'exact',
+                        boxKey: `${path.pathKey}-exact`,
+                        pathId: path.pathId,
+                        programmeId: programme.programmeId,
+                        moduleCode: moduleOptions[0],
+                        isPreselected: false
+                    });
+                } else if (moduleOptions.length > 1) {
+                    // Multiple modules -> DropdownBox
+                    boxes.push({
+                        kind: 'dropdown',
+                        boxKey: `${path.pathKey}-dropdown`,
+                        pathId: path.pathId,
+                        programmeId: programme.programmeId,
+                        moduleOptions: moduleOptions
+                    });
+                }
                 break;
 
             case 'AND':
                 {
-                    const andChildren = await this.processAndLogic(
-                        path, pathMap, childrenMap, programme
-                    );
-                    boxes.push(...andChildren);
+                    // Modules -> ExactBox
+                    if (path.moduleCodes && path.moduleCodes.length > 0) {
+                        let moduleOptions = path.moduleCodes as ModuleCode[];
+                        if (path.exceptionModules && path.exceptionModules.length > 0) {
+                            const exceptionsSet = new Set(path.exceptionModules as ModuleCode[]);
+                            moduleOptions = moduleOptions.filter(module => !exceptionsSet.has(module));
+                        }
+                        for (const moduleCode of moduleOptions) {
+                            boxes.push({
+                                kind: 'exact',
+                                boxKey: `${path.pathKey}-${moduleCode}-exact`,
+                                pathId: path.pathId,
+                                programmeId: programme.programmeId,
+                                moduleCode: moduleCode,
+                                isPreselected: false
+                            });
+                        }
+                    }
+
+                    // Recursively process children
+                    const andChildren = childrenMap.get(path.pathKey) || [];
+                    for (const child of andChildren) {
+                        const childBoxes = await this.buildBoxesForPath(
+                            child, pathMap, childrenMap, programme
+                        );
+                        boxes.push(...childBoxes);
+                    }
                 }
                 break;
 
             case 'OR':
                 {
                     const orChildren = childrenMap.get(path.pathKey) || [];
-                    const alternativePathIds = orChildren.map(child => child.pathId);
 
-                    boxes.push({
-                        kind: 'altPath',
-                        boxKey: `${path.pathKey}-altpath`,
-                        pathId: path.pathId,
-                        programmeId: programme.programmeId,
-                        pathAlternatives: alternativePathIds
-                    });
+                    // With children -> AltPathBox with CourseBox children
+                    if (orChildren.length > 0) {
+                        const recursiveAlternatives: CourseBox[] = [];   
+                        // Recursively build boxes for each child                    
+                        for (const child of orChildren) {
+                            const childBoxes = await this.buildBoxesForPath(
+                                child, pathMap, childrenMap, programme
+                            );
+                            // Add all boxes from this child as alternatives
+                            recursiveAlternatives.push(...childBoxes);
+                        }
+
+                        if (recursiveAlternatives.length > 0) {
+                            boxes.push({
+                                kind: 'altPath',
+                                boxKey: `${path.pathKey}-altpath`,
+                                pathId: path.pathId,
+                                programmeId: programme.programmeId,
+                                pathAlternatives: recursiveAlternatives
+                            });
+                        }
+
+                    // Only modules -> DropdownBox
+                    } else if (path.moduleCodes && path.moduleCodes.length > 0) {
+                        let moduleOptions = path.moduleCodes as ModuleCode[];
+                        if (path.exceptionModules && path.exceptionModules.length > 0) {
+                            const exceptionsSet = new Set(path.exceptionModules as ModuleCode[]);
+                            moduleOptions = moduleOptions.filter(module => !exceptionsSet.has(module));
+                        }
+                        if (moduleOptions.length > 0) {
+                            boxes.push({
+                                kind: 'dropdown',
+                                boxKey: `${path.pathKey}-dropdown`,
+                                pathId: path.pathId,
+                                programmeId: programme.programmeId,
+                                moduleOptions: moduleOptions
+                            });
+                        }
+                    }
                 }
                 break;
-                
         }
-        return boxes;
-    }
-
-    /**
-     * Process AND logic recursively
-     */
-    private async processAndLogic(
-        andPath: ProcessedPath,
-        pathMap: Map<string, ProcessedPath>,
-        childrenMap: Map<string, ProcessedPath[]>,
-        programme: ProcessedProgramme
-    ): Promise<CourseBox[]> {
-        const boxes: CourseBox[] = [];
-        const children = childrenMap.get(andPath.pathKey) || [];
-        
-        for (const child of children) {
-            if (child.logicType === 'LEAF') {
-                let moduleOptions = child.moduleCodes as ModuleCode[];
-                if (child.exceptionModules && child.exceptionModules.length > 0) {
-                    const exceptionsSet = new Set(child.exceptionModules as ModuleCode[]);
-                    moduleOptions = moduleOptions.filter(module => !exceptionsSet.has(module));
-                }
-
-                boxes.push({
-                    kind: 'dropdown',
-                    boxKey: `${child.pathKey}-dropdown`,
-                    pathId: child.pathId,
-                    programmeId: programme.programmeId,
-                    moduleOptions: child.moduleCodes as ModuleCode[],
-                });
-                
-            } else if (child.logicType === 'OR') {
-                const orGrandchildren = childrenMap.get(child.pathKey) || [];
-                const alternativePathIds = orGrandchildren.map(grandchild => grandchild.pathId);
-                
-                boxes.push({
-                    kind: 'altPath',
-                    boxKey: `${child.pathKey}-altpath`,
-                    pathId: child.pathId,
-                    programmeId: programme.programmeId,
-                    pathAlternatives: alternativePathIds
-                });
-                
-            } else if (child.logicType === 'AND') {
-                const nestedAndBoxes = await this.processAndLogic(
-                    child, pathMap, childrenMap, programme
-                );
-                boxes.push(...nestedAndBoxes);
-            }
-        }
-        
         return boxes;
     }
 

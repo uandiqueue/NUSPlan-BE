@@ -76,7 +76,7 @@ export interface AltPathBox {
     boxKey: string;
     pathId: string;
     programmeId: string;
-    pathAlternatives: string[]; // List of direct children path IDs
+    pathAlternatives: CourseBox[]; // Can be nested ExactBox or DropdownBox or AltPathBox
 }
 
 // VALIDATION LOOKUP MAPS (For FE real-time validation)

@@ -33,7 +33,7 @@ async function parseAllPrerequisites() {
             // Process each module in the batch sequentially to avoid overwhelming the RPC
             for (const mod of batch) {
                 try {
-                    const { error: rpcError } = await supabaseAdmin.rpc('parse_prerequisite_tree', {
+                    const { error: rpcError } = await supabaseAdmin.rpc('new_parse_prerequisite_tree', {
                         p_module_code: mod.module_code,
                         p_prereq_tree: mod.rule
                     });

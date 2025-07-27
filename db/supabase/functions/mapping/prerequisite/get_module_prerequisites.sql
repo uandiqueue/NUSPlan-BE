@@ -1,30 +1,36 @@
 -- Lookup function for prerequisites
 CREATE OR REPLACE FUNCTION get_module_prerequisites(p_module_code TEXT)
-RETURNS TABLE(
+RETURNS TABLE (
+    id UUID,
+    module_code TEXT,
     rule_type TEXT,
+    rule_complexity TEXT,
+    depth INTEGER,
     required_modules TEXT[],
-    logic_operator TEXT,
+    children UUID[],
     quantity_required INTEGER,
     module_pattern TEXT,
-    grade_required TEXT,
-    pattern_quantity INTEGER,
+    grade_required TEXT[],
     original_text TEXT,
-    rule_complexity TEXT
+    parent_rule_id UUID
 ) AS $$
 BEGIN
     RETURN QUERY
-    SELECT 
+    SELECT
+        pr.id,
+        pr.module_code,
         pr.rule_type,
+        pr.rule_complexity,
+        pr.depth,
         pr.required_modules,
-        pr.logic_operator,
+        pr.children,
         pr.quantity_required,
         pr.module_pattern,
         pr.grade_required,
-        pr.pattern_quantity,
         pr.original_text,
-        pr.rule_complexity
-    FROM prerequisite_rules pr
+        pr.parent_rule_id
+    FROM public.prerequisite_rules pr
     WHERE pr.module_code = p_module_code
-    ORDER BY pr.rule_type, pr.id;
+    ORDER BY pr.depth, pr.id;
 END;
 $$ LANGUAGE plpgsql;

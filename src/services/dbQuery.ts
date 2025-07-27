@@ -194,20 +194,21 @@ export class DatabaseQueryService {
     }
 
     /**
-     * Batch fetch "simple" prerequisite data for multiple modules
+     * Batch fetch direct prerequisite data for multiple modules
      */
-    async getBatchSimplePrerequisites(moduleCodes: ModuleCode[]): Promise<PrerequisiteData[]> {
+    async getBatchDirectPrerequisites(moduleCodes: ModuleCode[]): Promise<PrerequisiteData[]> {
         if (moduleCodes.length === 0) return [];
 
         try {
             const { data, error } = await supabasePublic
                 .from('prerequisite_rules')
                 .select('module_code, required_modules')
-                .eq('rule_type', 'simple')
+                .in('rule_type', ['complex_and', 'simple_and', 'simple'])
+                .eq('depth', 1)
                 .in('module_code', moduleCodes);
 
             if (error) {
-                console.error('Error fetching batch simple prerequisites:', error);
+                console.error('Error fetching batch direct prerequisites:', error);
                 return [];
             }
 
