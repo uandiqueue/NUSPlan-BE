@@ -33,6 +33,10 @@ app.get("/api/test", (_req, res) => {
   res.json({ message: "Backend is alive!" });
 });
 
+app.get("/", (_req, res) => {
+  res.send("nusplan-backend is alive!");
+});
+
 // GLOBAL ERROR HANDLER
 app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
   console.error(err);
