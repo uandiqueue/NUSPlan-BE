@@ -5,6 +5,7 @@
     "dev": "tsx watch src/server.ts",
     "build:win": "tsc && xcopy src\\\\data dist\\\\data /E /I /Y",
     "build:linux": "tsc && cp -r src/data dist/data",
+    "build": "tsc",
     "start": "node dist/server.js",
     "test": "jest",
     "test:watch": "jest --watch"
