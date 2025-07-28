@@ -260,6 +260,18 @@ export class BackendPopulator {
         try {
             console.log('Building lookup maps...');
 
+            // Build path mappings
+            const pathIdToKey: Record<string, string> = {};
+            const pathKeyToId: Record<string, string> = {};
+            
+            // Collect all paths from all programmes
+            for (const programme of programmes) {
+                for (const path of programme.processedPaths) {
+                    pathIdToKey[path.pathId] = path.pathKey;
+                    pathKeyToId[path.pathKey] = path.pathId;
+                }
+            }
+
             // Build combination-specific module-to-paths mappings
             const { moduleToLeafPaths, leafPathToModules } = this.buildPathMappings(programmes);
             console.info('Built module-to-path mappings')
@@ -277,7 +289,9 @@ export class BackendPopulator {
                 leafPathToModules,
                 moduleToMaxRules,
                 doubleCountEligibility,
-                pathHierarchy: {} // Will be filled later
+                pathHierarchy: {}, // Will be filled later
+                pathIdToKey,
+                pathKeyToId
             };
         } catch (error) {
             this.contextService.addError({
@@ -320,6 +334,7 @@ export class BackendPopulator {
                 for (const path of programme.processedPaths) {
                     if (path.isLeaf) {
                         const leafMapping: LeafPathMapping = {
+                            pathKey: path.pathKey,
                             pathId: path.pathId,
                             programmeId: programme.programmeId,
                             displayLabel: path.displayLabel,

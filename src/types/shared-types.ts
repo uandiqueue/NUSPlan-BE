@@ -98,9 +98,14 @@ export interface LookupMaps {
 
     // Path hierarchy mapping
     pathHierarchy: Record<string, Record<string, string[]>>; // programmeId -> {parentPathId: [childPathIds]}
+
+    // Path id <-> path key mapping
+    pathIdToKey: Record<string, string>; // pathId -> pathKey
+    pathKeyToId: Record<string, string>; // pathKey -> pathId
 }
 
 export interface LeafPathMapping {
+    pathKey: string;
     pathId: string;
     programmeId: string;
     displayLabel: string;
