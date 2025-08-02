@@ -17,7 +17,7 @@ import type {
 export class BackendValidator {
     private dbQuery: DatabaseQueryService;
     private context: ProcessingContextService;
-
+    
     constructor() {
         this.dbQuery = new DatabaseQueryService();
         this.context = new ProcessingContextService();
@@ -35,9 +35,7 @@ export class BackendValidator {
                 await this.processProgramme(programmeId);
                 if (this.context.hasErrors()) return this.context;
             }
-
             await this.validatePreselectedConflicts();
-
         } catch (error) {
             this.context.addError({
                 type: 'HARD_ERROR',
@@ -45,7 +43,6 @@ export class BackendValidator {
                 programmeIds
             });
         }
-
         return this.context;
     }
 
@@ -53,11 +50,11 @@ export class BackendValidator {
      * Validates programme combinations to prevent invalid combinations
      */
     private async validateProgrammeCombinations(programmeIds: string[]): Promise<void> {
+
         // Check if programmes exist
         const programmes = await this.dbQuery.getProgrammes(programmeIds);
         const foundIds = programmes.map(p => p.id);
         const missingIds = programmeIds.filter(id => !foundIds.includes(id));
-        
         if (missingIds.length > 0) {
             this.context.addError({
                 type: 'HARD_ERROR',
@@ -80,12 +77,10 @@ export class BackendValidator {
 
         // Check programme combination preclusions
         const preclusions = await this.dbQuery.getProgrammePreclusions(programmeIds);
-        
         for (const preclusion of preclusions) {
             // Find programme names for better error messages
             const programmeA = programmes.find(p => p.id === preclusion.programme_id);
             const programmeB = programmes.find(p => p.id === preclusion.precluded_programme_id);
-
             this.context.addError({
             type: 'INVALID_PROGRAMME_COMBINATION',
             message: `${programmeA?.name ?? preclusion.programme_id} (${programmeA?.type ?? 'unknown'}) and ${programmeB?.name ?? preclusion.precluded_programme_id} (${programmeB?.type ?? 'unknown'}) cannot be taken together`,
@@ -101,7 +96,6 @@ export class BackendValidator {
         // Get programme metadata
         const programmes = await this.dbQuery.getProgrammes([programmeId]);
         const programme = programmes[0];
-        
         if (!programme) {
             this.context.addError({
                 type: 'HARD_ERROR',
@@ -145,17 +139,16 @@ export class BackendValidator {
             path.is_leaf && 
             path.group_type === 'coreEssentials'
         );
-
         const directPreselectedModules = new Set<ModuleCode>();
 
         // Extract direct preselected modules from coreEssentials
         for (const path of coreEssentialPaths) {
+
             // Only extract exact module codes (non-GMC codes are handled by populator)
             if (path.module_codes) {
                 for (let i = 0; i < path.module_codes.length; i++) {
                     const moduleCode = path.module_codes[i];
                     const moduleType = path.module_types?.[i] || 'exact';
-                    
                     if (moduleType === 'exact') {
                         directPreselectedModules.add(moduleCode as ModuleCode);
                     }
@@ -191,22 +184,20 @@ export class BackendValidator {
         moduleCodes: ModuleCode[]
     ): Promise<ModuleCode[]> {
         if (moduleCodes.length === 0) return [];
-
         const prerequisites = new Set<ModuleCode>();
         const visited = new Set<ModuleCode>();
         const toProcess = new Set<ModuleCode>(moduleCodes);
 
         // Build prerequisite map by fetching all prerequisites in batches
         const prereqMap = new Map<ModuleCode, ModuleCode[]>();
-        
         while (toProcess.size > 0) {
             const currentBatch = Array.from(toProcess);
             toProcess.clear();
-
             try {
+
                 // Batch fetch "and" prerequisite data for multiple modules
                 const prereqData = await this.dbQuery.getBatchDirectPrerequisites(currentBatch);
-                
+
                 // Build prerequisite map from batch results
                 for (const data of prereqData) {
                     const moduleCode = data.module_code as ModuleCode;
@@ -220,22 +211,18 @@ export class BackendValidator {
                 for (const moduleCode of currentBatch) {
                     if (visited.has(moduleCode)) continue;
                     visited.add(moduleCode);
-
                     const modulePrereqs = prereqMap.get(moduleCode) || [];
-                    
                     for (const prereqModule of modulePrereqs) {
                         prerequisites.add(prereqModule);
-                        
+
                         // Add to next batch if not already visited
                         if (!visited.has(prereqModule)) {
                             toProcess.add(prereqModule);
                         }
                     }
                 }
-
             } catch (error) {
                 console.error(`Error resolving prerequisites for batch ${currentBatch.join(', ')}:`, error);
-                
                 this.context.addError({
                     type: 'SOFT_ERROR',
                     message: 
@@ -245,7 +232,6 @@ export class BackendValidator {
                 break; // Avoid infinite loops
             }
         }
-
         return Array.from(prerequisites);
     }
 
@@ -254,7 +240,6 @@ export class BackendValidator {
      */
     private async validatePreselectedConflicts(): Promise<void> {
         const preselectedModules = Array.from(this.context.getPreselectedModules().keys());
-        
         if (preselectedModules.length === 0) return;
 
         // Get preclusion data for all preselected modules
@@ -268,21 +253,18 @@ export class BackendValidator {
 
         // Check conflicts
         const conflicts = this.context.checkPreselectedConflicts(preclusionMap);
-        
+
         // Add conflicts to context errors
         for (const conflict of conflicts) {
             this.context.addError(conflict);
         }
     }
-
     getContextService(): ProcessingContextService {
         return this.context;
     }
-
     isValid(): boolean {
         return !this.context.hasErrors();
     }
-
     getErrors(): ValidationError[] {
         return this.context.getErrors();
     }

@@ -31,7 +31,7 @@ export class BackendPopulator {
     private dbQuery: DatabaseQueryService;
     private contextService: ProcessingContextService;
     private context: ProcessingContext;
-
+    
     constructor(contextService: ProcessingContextService) {
         this.dbQuery = new DatabaseQueryService();
         this.contextService = contextService;
@@ -43,27 +43,22 @@ export class BackendPopulator {
      */
     async buildPayloads(): Promise<{ programmes: ProgrammePayload[]; lookup: LookupMaps }> {
         console.log('Building payloads...');
-
         try {
             const programmes = Array.from(this.context.programmes.values());
             for (const programme of programmes) {
                 await this.processProgramme(programme);
                 if (this.contextService.hasErrors()) return { programmes: [], lookup: {} as LookupMaps };
             }
-
             const sharedLookupMaps = this.buildLookupMaps(programmes);
             if (this.contextService.hasErrors()) return { programmes: [], lookup: {} as LookupMaps };
-
             const payloads: ProgrammePayload[] = [];
             for (const programme of programmes) {
                 const payload = await this.buildProgrammePayload(programme, sharedLookupMaps);
                 if (this.contextService.hasErrors()) return { programmes: [], lookup: {} as LookupMaps };
                 payloads.push(payload);
             }
-
             console.log(`Generated ${payloads.length} payloads`);
             return { programmes: payloads, lookup: sharedLookupMaps };
-
         } catch (error) {
             this.contextService.addError({
                 type: 'HARD_ERROR',
@@ -78,7 +73,6 @@ export class BackendPopulator {
      */
     private async processProgramme(programme: ProcessedProgramme): Promise<void> {
         const allPaths = await this.dbQuery.getRequirementPaths([programme.programmeId]);
-        
         if (allPaths.length === 0) {
             this.contextService.addError({
                 type: 'HARD_ERROR',
@@ -87,7 +81,6 @@ export class BackendPopulator {
             });
             return;
         }
-
         await this.processPathsByGroups(allPaths, programme);
     }
 
@@ -98,9 +91,9 @@ export class BackendPopulator {
         allPaths: any[], 
         programme: ProcessedProgramme
     ): Promise<void> {
+
         // Group paths by requirement type
         const pathsByGroup = new Map<RequirementGroupType, any[]>();
-        
         for (const path of allPaths) {
             const groupType = path.group_type as RequirementGroupType;
             if (groupType && groupType !== 'unrestrictedElectives') {
@@ -140,16 +133,14 @@ export class BackendPopulator {
         pathData: any,
         programme: ProcessedProgramme
     ): Promise<void> {
-
         if (!pathData || !pathData.id) {
             console.warn(`Invalid pathData provided for ${groupType} in programme ${programme.metadata.name}:`, pathData);
             return;
         }
-
+        
         // Map gmcs to actual module codes if this is a leaf path
         let mappedModules: ModuleCode[] = [];
         let gmcMappings: GMCMapping[] = [];
-
         if (pathData.is_leaf 
             && pathData.module_codes 
             && pathData.module_codes.length > 0
@@ -161,7 +152,6 @@ export class BackendPopulator {
             );
             mappedModules = result.mappedModules;
             gmcMappings = result.gmcMappings;
-
             this.contextService.incrementProcessedModules(mappedModules.length);
         }
 
@@ -185,7 +175,6 @@ export class BackendPopulator {
             moduleCodes: mappedModules,
             gmcMappings
         };
-
         programme.processedPaths.push(processedPath);
 
         // Handle max rules
@@ -199,7 +188,6 @@ export class BackendPopulator {
                 parentGroupType: groupType,
                 affectedModules: mappedModules
             };
-            
             programme.maxRules.push(maxRule);
             this.contextService.addMaxRule(maxRule);
         }
@@ -220,7 +208,6 @@ export class BackendPopulator {
         const exactCodes = gmcCodes.filter((_, i) => gmcTypes[i] === 'exact');
         if (exactCodes.length > 0) {
             const validCodes = await this.dbQuery.validateModuleCodes(exactCodes);
-            
             for (let i = 0; i < gmcCodes.length; i++) {
                 if (gmcTypes[i] === 'exact' && validCodes.includes(gmcCodes[i])) {
                     gmcMappings.push({
@@ -249,7 +236,6 @@ export class BackendPopulator {
                 mappedModules.push(mapping.module_code as ModuleCode);
             }
         }
-
         return { gmcMappings, mappedModules };
     }
 
@@ -283,7 +269,6 @@ export class BackendPopulator {
             // Analyze double-counting eligibility for this specific combination
             const doubleCountEligibility = this.analyzeDoubleCount(programmes, moduleToLeafPaths);
             console.info('Analyzed double-count eligibility');
-
             return {
                 moduleToLeafPaths,
                 leafPathToModules,
@@ -324,7 +309,6 @@ export class BackendPopulator {
                     }
                 }
             }
-
             for (const moduleCode of allModules) {
                 moduleToLeafPaths[moduleCode] = [];
             }
@@ -342,19 +326,16 @@ export class BackendPopulator {
                             rawTagName: path.rawTagName,
                             requiredUnits: path.requiredUnits
                         };
-
                         const pathModules: ModuleCode[] = [];
                         for (const moduleCode of path.moduleCodes) {
                             const modCode = moduleCode as ModuleCode;
                             moduleToLeafPaths[modCode].push(leafMapping);
                             pathModules.push(modCode);
                         }
-
                         leafPathToModules[path.pathId] = pathModules;
                     }
                 }
             }
-
             return { moduleToLeafPaths, leafPathToModules };
         } catch (error) {
             console.error("Error building path mappings:", error);
@@ -379,7 +360,6 @@ export class BackendPopulator {
                 }
             }
         }
-
         for (const moduleCode of allModules) {
             moduleToMaxRules[moduleCode] = [];
         }
@@ -404,11 +384,10 @@ export class BackendPopulator {
         moduleToLeafPaths: Record<ModuleCode, LeafPathMapping[]>
     ): Record<ModuleCode, DoubleCountInfo> {
         const doubleCountEligibility: Record<ModuleCode, DoubleCountInfo> = {};
-
         for (const [moduleCode, leafPaths] of Object.entries(moduleToLeafPaths)) {
+
             // Group paths by programme to determine which programmes this module can fulfill
             const pathsByProgramme = new Map<string, LeafPathMapping[]>();
-            
             for (const path of leafPaths) {
                 if (!pathsByProgramme.has(path.programmeId)) {
                     pathsByProgramme.set(path.programmeId, []);
@@ -424,19 +403,16 @@ export class BackendPopulator {
 
             // Analyze intra-programme opportunities (commonCore + others within same programme)
             const intraProgrammeOpportunities: LeafPathMapping[] = [];
-            
             for (const [programmeId, paths] of pathsByProgramme) {
                 if (paths.length >= 2) {
                     // Check if there's at least one commonCore and one non-commonCore requirement
                     const hasCommonCore = paths.some(p => p.groupType === 'commonCore');
                     const hasOtherGroup = paths.some(p => p.groupType !== 'commonCore');
-                    
                     if (hasCommonCore && hasOtherGroup) {
                         intraProgrammeOpportunities.push(...paths);
                     }
                 }
             }
-
             const intraProgrammeEligible = intraProgrammeOpportunities.length >= 2;
 
             // Calculate maximum possible double-count without considering restrictions
@@ -447,7 +423,6 @@ export class BackendPopulator {
             // Get all programme IDs that this module can fulfill requirements for
             const eligibleProgrammes = Array.from(pathsByProgramme.keys());
             const allEligiblePaths = (crossProgrammeEligible || intraProgrammeEligible) ? leafPaths : [];
-
             doubleCountEligibility[moduleCode as ModuleCode] = {
                 crossProgrammeEligible,
                 crossProgrammePaths,
@@ -458,7 +433,6 @@ export class BackendPopulator {
                 eligibleProgrammes
             };
         }
-
         return doubleCountEligibility;
     }
 
@@ -471,7 +445,6 @@ export class BackendPopulator {
     ): Promise<ProgrammePayload> {
         try {
             console.log(`Building payload for programme: ${programme.metadata.name}`);
-
             const pathsBySection = this.groupPathsBySection(programme.processedPaths);
             const sections = [] as ProgrammeSection[];
 
@@ -488,14 +461,11 @@ export class BackendPopulator {
             if (!sharedLookupMaps.pathHierarchy) {
                 sharedLookupMaps.pathHierarchy = {};
             }
-
             const childrenMap: Record<string, string[]> = {};
             for (const [parentKey, childIds] of programme.childrenMap.entries()) {
                 childrenMap[parentKey] = childIds;
             }
-
             sharedLookupMaps.pathHierarchy[programme.programmeId] = childrenMap;
-
             return {
                 programmeId: programme.programmeId,
                 metadata: programme.metadata,
@@ -551,7 +521,6 @@ export class BackendPopulator {
         const hiddenPaths = sectionPaths.filter(path => path.isOverallSource);
         const courseBoxes = await this.buildCourseBoxes(regularPaths, programme, groupType);
         const hiddenBoxes = await this.buildHiddenCourseBoxes(hiddenPaths, programme, groupType);
-        
         return {
             groupType,
             displayLabel: pathInfos[0].displayLabel,
@@ -570,7 +539,6 @@ export class BackendPopulator {
         groupType: RequirementGroupType
     ): Promise<any[]> {
         const courseBoxes = [] as CourseBox[];
-
         if (!paths || paths.length === 0) {
             return courseBoxes;
         }
@@ -578,16 +546,13 @@ export class BackendPopulator {
         // Build path hierarchy (easier traversal)
         const pathMap = new Map<string, ProcessedPath>();
         const childrenMap = new Map<string, ProcessedPath[]>();
-        
         for (const path of paths) {
             pathMap.set(path.pathId, path);
-            
             if (path.parentPathKey) {
                 if (!childrenMap.has(path.parentPathKey)) {
                     childrenMap.set(path.parentPathKey, []);
                 }
                 childrenMap.get(path.parentPathKey)!.push(path);
-
                 if (!programme.childrenMap.has(path.parentPathKey)) {
                     programme.childrenMap.set(path.parentPathKey, []);
                 }
@@ -616,7 +581,6 @@ export class BackendPopulator {
         // Process each main section's children (depth = 1)
         for (const mainSection of mainSections) {
             const children = childrenMap.get(mainSection.pathKey) || [];
-            
             for (const child of children) {
                 if (child.depth === 1) {
                     const childBoxes = await this.buildBoxesForPath(child, pathMap, childrenMap, programme);
@@ -624,7 +588,6 @@ export class BackendPopulator {
                 }
             }
         }
-
         return courseBoxes;
     }
 
@@ -646,26 +609,21 @@ export class BackendPopulator {
         // Build path hierarchy (easier traversal)
         const pathMap = new Map<string, ProcessedPath>();
         const childrenMap = new Map<string, ProcessedPath[]>();
-        
         for (const path of paths) {
             pathMap.set(path.pathId, path);
-            
             if (path.parentPathKey) {
                 if (!childrenMap.has(path.parentPathKey)) {
                     childrenMap.set(path.parentPathKey, []);
                 }
                 childrenMap.get(path.parentPathKey)!.push(path);
-
                 if (!programme.childrenMap.has(path.parentPathKey)) {
                     programme.childrenMap.set(path.parentPathKey, []);
                 }
                 programme.childrenMap.get(path.parentPathKey)!.push(path.pathId);
-
                 const childBoxes = await this.buildBoxesForPath(path, pathMap, childrenMap, programme);
                 courseBoxes.push(...childBoxes);
             }
         }
-
         return courseBoxes;
     }
 
@@ -749,16 +707,17 @@ export class BackendPopulator {
 
                     // With children -> AltPathBox with CourseBox children
                     if (orChildren.length > 0) {
-                        const recursiveAlternatives: CourseBox[] = [];   
+                        const recursiveAlternatives: CourseBox[] = [];  
+
                         // Recursively build boxes for each child                    
                         for (const child of orChildren) {
                             const childBoxes = await this.buildBoxesForPath(
                                 child, pathMap, childrenMap, programme
                             );
+
                             // Add all boxes from this child as alternatives
                             recursiveAlternatives.push(...childBoxes);
                         }
-
                         if (recursiveAlternatives.length > 0) {
                             boxes.push({
                                 kind: 'altPath',
@@ -814,14 +773,12 @@ export class BackendPopulator {
     // Helper
     private groupPathsBySection(paths: ProcessedPath[]): Map<RequirementGroupType, ProcessedPath[]> {
         const grouped = new Map<RequirementGroupType, ProcessedPath[]>();
-        
         for (const path of paths) {
             if (!grouped.has(path.groupType)) {
                 grouped.set(path.groupType, []);
             }
             grouped.get(path.groupType)!.push(path);
         }
-        
         return grouped;
     }
 }

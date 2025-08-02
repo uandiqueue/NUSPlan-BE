@@ -18,7 +18,6 @@ export async function fetchAndUpdateModuleList(): Promise<ModuleCondensed[]> {
 
         // Save to server database
         await fs.writeFile(filePath, JSON.stringify(moduleList, null, 2));
-
         return moduleList;
     } catch (err) {
         throw new Error("Failed to fetch and update module list");
@@ -38,6 +37,7 @@ export async function fetchAndUpdateUltraList(): Promise<Module[]> {
         const data = await fs.readFile(filePath, "utf8");
         ultraDetailedModules = JSON.parse(data);
     } catch (err) {
+
         // Start with an empty array if file is problematic
         ultraDetailedModules = [];
     }
@@ -67,7 +67,6 @@ export async function fetchAndUpdateUltraList(): Promise<Module[]> {
     // Save to server database
     try {
         await fs.writeFile(filePath, JSON.stringify(ultraDetailedModules, null, 2));
-
         return ultraDetailedModules;
     } catch (err) {
         throw new Error("Failed to update ultra detailed module list in file");

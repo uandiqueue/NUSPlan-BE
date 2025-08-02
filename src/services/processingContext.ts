@@ -132,16 +132,14 @@ export class ProcessingContextService {
      */
     checkPreselectedConflicts(preclusionMap: Map<string, string[]>): ValidationError[] {
         const conflicts: ValidationError[] = [];
-        
         for (const [moduleCode, programmes] of this.context.preselectedModules) {
             let precludedModules = preclusionMap.get(moduleCode) || [];
+
             // Fallback: filter out the module itself from its own preclusion list
             precludedModules = precludedModules.filter(m => m !== moduleCode);
-            
             for (const precludedModule of precludedModules) {
                 if (this.context.preselectedModules.has(precludedModule as ModuleCode)) {
                     const conflictingProgrammes = this.context.preselectedModules.get(precludedModule as ModuleCode) || [];
-                    
                     conflicts.push({
                         type: 'INVALID_PROGRAMME_COMBINATION',
                         message: `${moduleCode} and ${precludedModule} are precluded but both required`,
@@ -151,7 +149,6 @@ export class ProcessingContextService {
                 }
             }
         }
-        
         return conflicts;
     }
 
@@ -193,7 +190,7 @@ export class ProcessingContextService {
     getContext(): ProcessingContext {
         return this.context;
     }
-
+    
     /**
      * Reset the processing context
      */
@@ -226,7 +223,6 @@ export class ProcessingContextService {
             name: p.metadata.name,
             type: p.metadata.type
         }));
-
         return {
             programmes,
             preselectedCount: this.context.preselectedModules.size,
