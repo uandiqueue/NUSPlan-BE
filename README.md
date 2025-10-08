@@ -6,7 +6,7 @@
 
 ---
 
-**![NUSPlan Logo](assets/nusplan-logo.png)**
+**![NUSPlan Logo](assets/m3/Image1.png)**
 
 # NUS ORBITAL - MILESTONE 3
 
@@ -40,6 +40,8 @@
 
 ## **Project Scope**
 A centralized academic planning tool for NUS FoS and SoC students to explore and validate combinations of majors, second majors, and minors, optimising for double-counting and requirements fulfilment.
+
+---
 
 ## **Motivation** 
 During NUS Open House, a friend repeatedly asked where to find accurate information on module eligibility and requirement fulfilment. This brought back memories of how tedious and confusing it was to manually verify academic requirements while planning a study path.
@@ -88,6 +90,7 @@ This structured approach reduces the risk of invalid academic paths, supports ea
 9. **(Extension) As a department**, I want to update programme data securely via an admin interface.
 
 ---
+
 ## **Features and Implementation Status**
 ### **Core Features**
 #### I. Academic Plan (AP) Curated Database
@@ -188,6 +191,20 @@ The application’s interface is divided into three main pages. Below is an over
 
 Throughout these interfaces, the design philosophy is to guide the student step-by-step: first decide on programs, then pick the necessary courses (with guidance). At any point, if a decision invalidates an earlier step (for example, picking a combination of programs that isn’t allowed, or a course choice that violates a rule), the system provides feedback so the user can correct it.
 
+Below are screenshots of the different pages’ UI:
+
+![Program Selection Page 1](assets/m3/Image2.png)
+![Program Selection Page 2](assets/m3/Image3.png)
+![Program Selection Page 3](assets/m3/Image4.png)
+Program Selection Page
+
+![Course Selection & Tracker Page 1](assets/m3/Image5.png)
+![Course Selection & Tracker Page 2](assets/m3/Image6.png)
+Course Selection & Requirement Fulfilment Tracker Page
+
+![Authentication Page](assets/m3/Image7.png)
+Authentication Page
+
 ---
 
 ## **System Architecture and Design**
@@ -201,6 +218,8 @@ All validations are cleanly separated into:
 - A **frontend realtime validator** that maintains live validation as users interact with their plan (e.g. AU tracking, max rule enforcement, double-counting)
 
 The database serves as the authoritative source for programme structures, module metadata, preclusion/prerequisite mappings, and saved user plans, ensuring consistency across all layers of the system.
+
+![System Architecture and Design](assets/m3/Image8.png)
 
 ### **Data Curation & Schema**
 
@@ -235,6 +254,8 @@ Requirements are expressed as **nested logical trees** using ModuleRequirementGr
 This schema allows programme requirements to be consistently curated, validated, and eventually transformed into database-ready formats for backend and frontend consumption. It also enables fine-grained tracking, validation enforcement, and UI rendering based on rawTagName identifiers.
 
 ### **Database Architecture**
+
+![Database Architecture](assets/m3/Image9.png)
 
 **NUSPlan** uses a modular, relational schema in **Supabase (PostgreSQL)** to manage academic programme structures, user plans, and real-time validation data. The schema is designed for:
 - Nested requirement logic (AND/OR/min/max via programme\_requirement\_paths)
@@ -350,14 +371,40 @@ After the payload is received, all interactivity happens in real time on the fro
 
      * Dynamically adjusts UE requirements based on remaining unallocated AUs.
 
+### **Notable Design Decisions**
+
+- **Manual Schema Control**: All programme rules are manually encoded for precision and long-term control. This allows us to apply unified logic across diverse faculties and ensure consistency across validation layers. *Supports*: **Separation of Concerns**
+
+- **Indexed Database Queries (Supabase):** To support fast lookups across modules, programmes, and requirement paths, we implemented indexes on high-access tables such as modules, gmc\_mappings, and programme\_requirement\_paths. This improves performance for rule validation, double-count checks, and fulfilment mapping. *Supports*: **Performance Optimization**, **DRY**
+
+- **Separation of Validation Layers**: The backend is responsible for static payload validation (programme compatibility, prerequisite insertion), while the frontend handles dynamic interaction (e.g. AU tracking, rule enforcement). This split allows for better responsiveness and reduced backend load. *Supports*: **Separation of Concerns**
+
+- **Backend State Manager \+ Query Service:** The backend uses a lightweight ProcessingContextService state manager during request handling and a modular dbQueryService to orchestrate rule fetching and programme parsing. This ensures testability, reduces repeated query logic, and allows efficient batch resolution of rules during plan processing. *Supports*: **Encapsulation, DRY**
+
+- **Encapsulation of Core Services:** Key services such as the Validator, Populator, and dbService are encapsulated into dedicated classes with private state and public method access only. This improves code clarity, reusability, and maintainability while preventing accidental state leakage. *Supports*: **Encapsulation, Modular Design**
+
+- **Frontend-Driven Intelligence & Caching:** The frontend uses centralized services with **intelligent caching** (e.g. for AU values, rule lookups, fulfilment progress) to avoid redundant queries and reduce latency. Lookup maps (e.g. prereqMap, maxMap, boxMap) are precomputed and reused across validation layers. *Supports*: **Performance Optimization, DRY**
+
+- **Parallel Backend & DB Initialization:** On app launch, the frontend simultaneously requests static plan payloads from the backend and supporting data (e.g. AU lookups) from the database. This avoids post-initialization fetches and ensures the state is ready for immediate validation without delay. *Supports*: **Performance Optimization**
+
+- **Tag-Driven Architecture**: Tags (boxKeys, requirementKeys, etc.) allow fine-grained AU tracking and dynamic rule enforcement. This design keeps the validator flexible as more programmes are added.
+
+- **Modular Payload Structure**: The use of CourseBox abstractions (Exact, Dropdown, AltPath) ensures complex module groupings can be cleanly represented and manipulated. This allows features like variant selections or grouped selection options. *Supports*: **Modular Design**
+
+- **Frontend-Driven Intelligence**: By pushing all real-time validation to the frontend (with complex combination-specific maps generated by the backend), the app becomes more responsive and allows live updates of validation status.*Supports*: **Performance Optimization**
+
+This architecture enables a highly flexible and scalable academic planning system that can expand to support hundreds of programmes and more complex validation rules in the future.
+
+![Notable Design Decisions](assets/m3/Image10.png)
+
 ---
 
-## Testing
+## **Testing**
 Unit tests (Jest) were written for key validator components (backend and realtime) covering prerequisite logic, AU limits, and double-counting detection.
 
 ---
 
-## Current Limitations and Roadmap
+## **Current Limitations and Roadmap**
 - Time prioritisation led to incomplete UI polish.  
 - ID–key mismatch across backend/frontend introduces complexity.  
 - Limited programme coverage beyond FoS/SoC.  
@@ -368,9 +415,39 @@ Despite this, the system achieved scalable validation and backend integration ac
 
 ---
 
-## Deployment
+## **Deployment**
 **Live Demo (Discontinued)**  
 The AWS deployment used for Milestone 3 is no longer active.  
 This repository remains as a reference for academic and portfolio purposes only.
 
 ---
+
+## **Wireframe**
+
+### UI Sketch (version 1\)
+
+![Wireframe V1 1](assets/m3/Image11.jpg)
+
+![Wireframe V1 2](assets/m3/Image12.jpg)
+
+![Wireframe V1 3](assets/m3/Image13.jpg)
+
+### UI Sketch (version 2\)
+
+![Wireframe V2 1](assets/m3/Image14.jpg)
+
+![Wireframe V2 2](assets/m3/Image15.jpg)
+
+![Wireframe V2 3](assets/m3/Image16.jpg)
+
+![Wireframe V2 4](assets/m3/Image17.jpg)
+
+![Wireframe V2 5](assets/m3/Image18.jpg)
+
+![Wireframe V2 6](assets/m3/Image19.jpg)
+
+![Wireframe V2 7](assets/m3/Image20.jpg)
+
+![Wireframe V2 8](assets/m3/Image21.jpg)
+
+![Wireframe V2 9](assets/m3/Image22.jpg)
