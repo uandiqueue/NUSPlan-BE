@@ -12,7 +12,7 @@
 
 **Leong Jia Jing**  
 **Matthias Yim Wai Meng**  
-**GEMINI**
+**PROJECT GEMINI**
 
 ---
 
