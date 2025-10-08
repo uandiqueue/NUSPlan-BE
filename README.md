@@ -1,289 +1,376 @@
+> **⚠️ ARCHIVED NOTICE**
+>
+> This project is no longer maintained and the live demo site has been taken down.
+> The repository is kept online **for reference and learning purposes only**.  
+> Backend and frontend servers are no longer running, so setup or deployment instructions may not work as-is.
+
+---
+
 **![NUSPlan Logo](assets/nusplan-logo.png)**
 
-# **Orbital \- Milestone 1**
+# NUS ORBITAL - MILESTONE 3
+
+**Leong Jia Jing**  
+**Matthias Yim Wai Meng**  
+**GEMINI**
+
+---
+
+## **Contents**
+1. Project Scope  
+2. Motivation  
+3. Aim  
+4. User Stories  
+5. Features and Implementation Status  
+6. User Interface and Page Flow  
+7. System Architecture and Design  
+   a. Overview  
+   b. Data Curation & Schema  
+   c. Database Architecture  
+   d. Application Architecture  
+   e. Backend Logic Flow  
+   f. Frontend Real-Time Flow  
+   g. Notable Design Decisions  
+8. Tests  
+9. Current Limitations and Roadmap  
+10. Deployment  
+11. Wireframe  
+
+---
+
+## **Project Scope**
+A centralized academic planning tool for NUS FoS and SoC students to explore and validate combinations of majors, second majors, and minors, optimising for double-counting and requirements fulfilment.
+
+## **Motivation** 
+During NUS Open House, a friend repeatedly asked where to find accurate information on module eligibility and requirement fulfilment. This brought back memories of how tedious and confusing it was to manually verify academic requirements while planning a study path.
+
+Currently, academic planning at NUS is a fragmented and error-prone process. Each faculty publishes its programme requirements on different platforms, often in different formats. Students are expected to manually consolidate this information, interpret AU limits, track preclusions and prerequisites, and ensure they meet all conditions for graduation. Even determining whether a course fulfils a specific requirement, let alone multiple overlapping ones. This process can involve guesswork, trial-and-error, or reliance on hearsay.
+
+This challenge is especially pressing for Year 1 students, who must make key academic decisions early but are often overwhelmed by the transition into university life. They may only realise too late that:
+
+- Certain second majors and minors require careful pre-selection and prerequisite tracking from Year 1, making them difficult or even impossible to pursue later.
+- They have selected courses that do not satisfy the programme’s structured requirements, which may restrict future options such as going for SEP, applying for programmes like NOC, or exploring other academic opportunities they are more passionate about as they may need to make up for these missed requirements later, adding to their future workload and reducing flexibility.
+- They misread a requirement (course level restriction or module category) and end up missing fulfillment, leading to delayed graduation.
+- There is no live feedback system to validate that a study plan is on track.
+- They missed double-counting opportunities, which could have reduced their total workload.
+
+Requirement checking is central to solving this problem, at both the programme level (AU quotas, minimum AUs required, different paths) and course level (prerequisites, preclusions). Without automated tools that map student choices to these rules, planning becomes inefficient, error-prone, and discouraging.
+
+NUSPlan was created to make this process seamless and transparent. By integrating requirement validation into every stage of the planning journey, students can explore options with confidence, receive immediate feedback on feasibility, and avoid preventable delays to graduation.
+
+---
+
+## **Aim** 
+This project aims to streamline academic planning by building a validation-driven system that enables NUS students to construct feasible, multi-programme study plans with confidence and clarity.
+
+The focus is on **automated requirement checking**, ensuring students fulfil both programme-level rules (e.g. AU caps, minimum requirement) and course-level constraints (e.g. prerequisites, preclusions), while maintaining flexibility for exploring second majors, and minors. We aim to develop a modular academic planning platform that:
+
+- Curates structured requirement data for selected majors, second majors, and minors in SoC and FoS.
+- Provides an interactive UI for selecting and managing up to 5 academic programmes concurrently.
+- Automatically validates programme and course requirements in real time as users make selections.
+- Tracks fulfillment progress using a tag-based indicator system across nested requirement trees.
+- Enables plan saving and management through user authentication and cloud storage.
+- Supports prerequisite and preclusion validation across multiple programmes, ensuring selected modules form a conflict-free and coherent academic plan.
+
+This structured approach reduces the risk of invalid academic paths, supports early decision-making, and helps students balance their study load while preserving access to opportunities like SEP or NOC.
+
+---
+
+## **User Stories**
+1. **(Core) As a student**, I want access to accurate requirement data for majors, minors, and second majors so I can plan reliably.
+2. **(Core) As a faculty administrator**, I want to structure and update programme data centrally to support validation and planning tools.
+3. **(Core) As a student**, I want to select programmes and view their combined module requirements clearly categorised by type.
+4. **(Core) As a student**, I want the system to validate if my selected modules fulfil programme requirements and warn me of missing prerequisites or preclusions.
+5. **(Core) As a student**, I want instant feedback on course validity as I make selections, including prerequisite and preclusion conflicts.
+6. **(Core) As a student**, I want to track how many AUs I’ve fulfilled per requirement so I can monitor my progress.
+7. **(Extension) As a student**, I want the system to help me apply double-counting between programmes without exceeding the double-counting cap.
+8. **(Extension) As a student**, I want to save and revisit my academic plan across sessions.
+9. **(Extension) As a department**, I want to update programme data securely via an admin interface.
+
+---
+## **Features and Implementation Status**
+### **Core Features**
+#### I. Academic Plan (AP) Curated Database
+This is the foundation of the system. All programme data including requirement structures, AU limits, and course types, are manually curated and structured into a consistent schema. The data schema supports:
+- Nested requirement trees with and, or, min, max logic.
+- Separation of requirement groups (e.g. coreEssentials, coreElectives, commonCore, etc.).
+- Tagging system (rawTagName, requirementKey) that links each course to its parent requirement group.
+
+**Status:**
+- Milestone 1: Created requirement data for 5 programmes (3 majors, 1 minors, 1 second major).
+- Milestone 2: Added requirement data for Bioinformatics minors and commonCore data.
+- Milestone 3: Expanded to 20 programmes and added multi-programme exclusion data. Introduced a dedicated local workflow for JSON-to-database migration, and defined consistent TypeScript types for JSON schema formation.
 
-# **Members:**
+#### II. AP Validator
 
-* Name: Leong Jia Jing  
-  * Faculty: Faculty of Science  
-  * Major: Life Sciences  
-  * Year: 1
+AP Validator is a backend module triggered when the server receives a programme selection request. It performs critical early validation and preparation to ensure downstream components operate safely and efficiently. The validator:
+- Verifies that the selected combination of programmes is valid, rejecting any pairs that are mutually exclusive or precluded at the programme level
+- Detects hard conflicts between preselected modules (e.g. if modules are precluded across different programmes) and prevents invalid plans
+- Ensures all preselected modules have their required prerequisites fulfilled, auto-inserting missing prerequisite modules when necessary
+- Constructs a **programme-combination-specific lookup map** to support the AP Populator — since this map cannot be directly retrieved from the database
 
-* Name: Matthias Yim Wai Meng  
-  * Faculty: School of Computing  
-  * Major: Computer Science  
-  * Year: 1
+**Status:**
+- Milestone 2: Fully functional backend payload validator integrated.
+- Milestone 3: Expanded validator functionality to support preselection logic, cross-programme preclusion checks, and custom lookup map generation for downstream use
 
-# **Proposed Level of Achievement: Gemini**
+#### III. AP Populator
+AP Populator receives a set of selected programmes (max 5\) in the form of programmeIds from the frontend and generates a ProcessProgrammesResponse, including:
+- Programmes and requirements information (main payload).
+- Combination-specific lookup maps.
+- Validation result for debugging.
+In addition to resolving nested requirement trees into structured CourseBox (ExactBox, DropdownBox, AltPathBox), the populator:
+- Resolves all simple prerequisite rules and inserts the necessary modules into the plan upfront. 
+- Builds combination-specific max rule mappings for precise validation on the frontend. 
+- Analyzes and annotates modules with double-counting eligibility based on the selected combination
 
-# **Project Scope:** 
+**Status:**
+- Milestone 1: Basic module grouping with dummy requirements.
+- Milestone 2: Full backend logic implemented with requirement tags, caps, and category enforcement in payload.
+- Milestone 3: Full database integration with added prerequisite resolution, double-counting analysis, and combination-specific max rule and lookup map generation for leaner payloads
 
-A centralized academic planner for NUS FoS and SoC students, that generates and validates multi-program study plans with optimised double-counting.
+#### IV. AP Realtime Validator
+AP Realtime Validator runs on the frontend and provides live validation feedback as users interact with their academic plan. It evaluates each module selection or deselection in real time to enforce programme constraints and guide user decisions.
+The validator performs the following checks during each interaction:
+- **Triple-count violation detection**: Prevents any module from being counted toward more than two programmes.
+- **Prerequisite resolution**: Warns users if a selected module has unmet prerequisites, and flags if manual intervention is required.
+- **Max rule enforcement**: Checks if the module would exceed the AU cap for any requirement group and disables fulfilment contribution if so.
+- **Double-counting tracking**: Monitors double-count usage across programmes and warns if limits are approached or exceeded.
 
+**Status:**
+- Milestone 2: Core validation structure in place.
+- Milestone 3: Integrated multi-rule validation in a single workflow with contextual warnings and live fulfilment tracking, fully integrated with the database.
 
+#### V. AP Fulfilment Tracker
+The Fulfilment Tracker is the frontend visual layer that communicates to users how much progress they have made in satisfying programme requirements. It:
+- **Initialises fulfilment** by loading AU values of preselected modules at plan setup.
+- **Updates programme progress** live when a module is added or removed.
+- **Calculates total progress per programme**, differentiating between majors (which sum across all selected programmes) and minors/second majors (tracked individually)
+- **Returns detailed progress summaries** (required, fulfilled, and percentage complete) to support visual indicators.
 
-# **Motivation** 
+It is also **fully integrated with the backend AU data** via dbService, ensuring consistency across components and accurate AU computations.
 
-During NUS Open House, a friend kept asking about double counting and where to find information on module mappings. This brought back memories of the tedious and time-consuming work required when planning an academic journey.
+**Status:**
+- Milestone 2: Core visualisation and dynamic update logic in place.
+- Milestone 3: Refactored into a stateful service that integrates directly with backend AU queries and tracks live fulfillment per programme with versioned state updates for reactive UI sync.
 
-Currently, module planning is a complex and fragmented process because:
+---
 
-* Different faculties and programs list their requirements on separate websites, making consolidation difficult.
+### **Extension Features**
 
-* Double-counting rules are not easily accessible, requiring students to manually check multiple sources.
+#### VI. AP Optimiser (Partial)
+Detects modules that satisfy multiple programmes and enforces double-counting rules. Allows undo/redo actions.
 
-* There is no centralized system to explore second majors, minors, and their impact on study plans efficiently.
+**Status:** 
+- Implemented core logic; UI to be added post-Orbital.
 
-This issue is especially critical for Year 1 students, who need to make essential academic decisions early. However, they are also bombarded with the excitement of university life \- making friends, joining CCAs, and adapting to a new environment \- leaving little time to focus on planning. By the time they start considering their options, they may realize too late that:
+#### VII. NUSPlan Profile
+NUSPlan uses **Supabase Auth** and the plans table to support user-specific plan saving. Registered users can log in to **securely store and retrieve their academic plans** across devices.
 
-* Some second majors and minors require early planning, making them difficult or even impossible to pursue later.
+However, we deliberately designed the system to be **fully usable without requiring login**. This ensures accessibility for all users, including first-time visitors and those who just want to try the planner.
+- **Anonymous Access**: All users can select programmes, plan modules, and interact with validation features without creating an account.
+- **Authenticated Saving**: Logging in via Supabase Auth unlocks the ability to save plans to the cloud and resume them later.
+- Plans are stored in the plans, plan\_modules, and plan\_programmes tables, linked to the authenticated user's ID.
 
-* They missed double-counting opportunities, which could have reduced their total workload.
+**Status:**
+- Milestone 3: First implementation of Supabase-authenticated saving, with anonymous usage supported by default.
 
-* The lack of a centralized planning system made it hard to track how different academic choices impact their study plan.
+--- 
 
-Seeing how challenging this process is, it became clear that many students face similar struggles. A solution is needed to make academic planning seamless and intuitive, ensuring that students can navigate their options with clarity and confidence.
+## **User Interface and Page Flow**
 
+The application’s interface is divided into three main pages. Below is an overview of each page, its purpose, and implementation status.
 
+| Page | Description |
+| ----- | ----- |
+| **1\. Program Selection**  (*Choose Programmes*) | The user selects their primary major, and optionally one second major and up to three minors. The interface provides dropdowns to pick programs. Upon submission, the selection is sent to the backend and the course pool is fetched. |
+| **2\. Course Selection & Requirement Fulfilment Tracker**  (*Plan Courses*) | The user is presented with the course pool grouped by requirement categories. They can choose courses to fulfill each requirement. As they select courses, the system validates requirements in real-time: progress update, completed requirements are indicated, and any rule violations are flagged immediately. This page is the core of the interactive plan building. |
+| **3\. Authentication**  (*Save Plan*) | This page allows users to securely log in, save, and retrieve their academic plans using cloud storage. Once authenticated, users can preserve their selected programmes, module choices, and planner state across sessions. |
 
-# **Aim** 
+Throughout these interfaces, the design philosophy is to guide the student step-by-step: first decide on programs, then pick the necessary courses (with guidance). At any point, if a decision invalidates an earlier step (for example, picking a combination of programs that isn’t allowed, or a course choice that violates a rule), the system provides feedback so the user can correct it.
 
-This project aims to streamline academic planning by creating a centralized, automated system that eliminates confusion, optimizes double-counting, and provides students with an effortless way to structure their study plan before it’s too late.
+---
 
-#### We hope to develop a centralized academic planning system that:
+## **System Architecture and Design**
 
-* Consolidate requirement data across majors, second majors, and minors in SoC and FoS.
+### **Overview**
 
-* Provide a visual interface for selecting up to 5 academic programs and understanding how they interact.
+**NUSPlan** is a client–server academic planning platform built to help NUS students structure and validate their academic journey across multiple programmes. The system is designed with modularity and scalability in mind, combining a custom-curated **backend requirement schema and validator**, a centralised **Supabase database**, and a reactive **frontend interface** that offers real-time feedback on course selections.
 
-* Automatically validate and optimize requirements and double-counting.
+All validations are cleanly separated into:
+- A one-time **backend validator** that verifies the integrity of programme combinations, prerequisite fulfilment, and preclusion conflicts using data queried directly from the database
+- A **frontend realtime validator** that maintains live validation as users interact with their plan (e.g. AU tracking, max rule enforcement, double-counting)
 
-* Help students build valid, semester-wise roadmaps with pre-requisite and semester validation.
+The database serves as the authoritative source for programme structures, module metadata, preclusion/prerequisite mappings, and saved user plans, ensuring consistency across all layers of the system.
 
-# **User Stories**
+### **Data Curation & Schema**
 
-1. **(Core) As a first-year student,** I want to explore different second major and minor combinations so that I can optimize my study plan and avoid missing opportunities.
+Due to the lack of machine-readable APIs for NUS programme requirements, we manually curated requirement data from official faculty websites and pdfs. This curated data is structured using a unified, extensible schema built from scratch. Each programme is stored as a “blueprint” containing:
 
-2. **(Core) As a student considering a second major,** I want to see the exact modules required and which ones can be double-counted so that I can make an informed decision.
+- **Metadata**: Programme name, type (major/secondMajor/minor), total required AUs, double-count cap, etc.
 
-3. **(Core) As a student,**  I want the system to validate that my plan fulfills graduation rules.
+- **Requirement Tree**: Nested blocks grouped into categories:
 
-4. **(Core) As a student who wants to maximize my AUs,** I want the system to identify which modules can be double-counted across different programs so that I can take the most efficient path toward completion.
+  * coreEssentials: Fixed compulsory modules exclusive for selected programmes.
 
-5. **(Extension) As a student who wants a structured plan,**  I want to arrange my modules into a semester timetable that respects module prerequisites and preclusions.
+  * coreElectives: Elective modules grouped with logical constraints (min, max, and, or) for selected programmes.
 
-6. **(Extension) As a student who revisits my academic plan frequently,** I want my study plan to be saved automatically so that I don’t have to re-enter my selections every time.
+  * commonCore: Faculty- or university-wide requirements.
 
+  * coreOthers: Special programme requirements (e.g. internships, industry experience).
 
-# **Features**
+  * coreSpecials: Specialisation tracks (optional usage).
 
-## **Core Features (Milestone 1 & 2\)**
+  * unrestrictedElectives: Free electives (computed dynamically).
 
-1. ### **AP Explorer (Milestone 1\)**
+Requirements are expressed as **nested logical trees** using ModuleRequirementGroup and ModuleRequirement, supporting AND/OR logic and min/max AU constraints. Each module is encoded using the GeneralModuleCode type, which supports:
 
-This is the entry point of the planning tool and the only feature prototyped in Milestone 1\. AP Explorer lets users select up to 5 academic programs:
+- Exact matches (e.g. CS2100)
 
-* 1 Primary Major  
-* 1 Second Major (optional)  
-* Up to 3 Minors (optional)
+- Wildcard prefixes (e.g. LSM22xx)
 
-Based on the selected programs, the system generates a module pool, which is a list of all modules that could be used to fulfil the requirements of those programs.
+- Variant codes (e.g. CS1010S/T/X)
 
-The module pool is grouped by requirement type, including:
+- Special cases like NOC or UPIP modules with manual approval flags
 
-* Common Core (university/faculty-wide requirement, only SoC data is curated)  
-* Core Essentials (compulsory modules)  
-* Core Electives (electives modules of program)  
-* Core Others (other requirements)  
-* Core Specials (specialisation \- not in database yet)  
-* Unrestricted Electives (not implemented, depends on modules user chose)
+This schema allows programme requirements to be consistently curated, validated, and eventually transformed into database-ready formats for backend and frontend consumption. It also enables fine-grained tracking, validation enforcement, and UI rendering based on rawTagName identifiers.
 
-Limitations in Milestone 1:
+### **Database Architecture**
 
-* It does not yet check for overlap across programs (e.g., the same module appearing in both a major and a minor).  
-* It does not validate rules like minimum/maximum AU, double-counting caps, or variant groups.  
-* It treats all retrieved modules as equally valid, even if they duplicate or contradict across programs.
+**NUSPlan** uses a modular, relational schema in **Supabase (PostgreSQL)** to manage academic programme structures, user plans, and real-time validation data. The schema is designed for:
+- Nested requirement logic (AND/OR/min/max via programme\_requirement\_paths)
+- Programme-module mapping via gmc\_mappings, supporting exact, wildcard, and variant codes
+- Cross-programme double-counting and preclusion enforcement
+- User-specific plan persistence and replay
+- Real-time prerequisite and preclusion validation
 
-2. ### **AP Validator *(in progress for Milestone 2\)***
+To support authenticated plan saving, we use **Supabase Auth** to manage user identities. Each saved plan is linked to a unique user\_id (from Supabase Auth) in the plans table, with associated module selections stored in plan\_modules and plan\_programmes. While authenticated users can save and resume plans across devices, the system remains fully usable **without login**, allowing all users to freely explore programme combinations, plan modules, and receive validation feedback. This hybrid model balances accessibility with personalization.
 
-This feature validates the student's selected modules to ensure they meet **program requirements** for all selected programs. When students **drag modules from the module pool** into the **selection pool**, the Validator checks if:
+#### **Main Tables Overview**
 
-* All **required conditions** are fulfilled (e.g., all coreEssentials are present).
-* All **logic rules** are valid:
+| Table | Purpose |
+| ----- | ----- |
+| programmes | Stores programme metadata and structural definitions |
+| programme\_requirement\_paths | Nested recursive paths expressing AND/OR/min/max logic trees |
+| gmc\_mappings | Maps modules to requirement paths by exact, wildcard, variant, or custom |
+| modules | Stores full module metadata (from NUSMods and extended by backend logic) |
+| prerequisite\_rules/preclusion\_rules | Parsed prerequisite/preclusion rule logic by module |
+| plans, plan\_modules, plan\_programmes | User-specific saved plans and selected modules |
+| user\_programme\_selections, user\_planner\_data | Real-time UI state persistence and planner sync |
+| programme\_preclusions | Hard constraints between conflicting programme combinations |
+| module\_path\_mappings | Cached mapping of a module to all requirement paths it may fulfill |
 
-   1. `and`: All specified requirement groups must be fulfilled.  
-   2. `or`: At least one requirement in a group must be fulfilled  
-   3. `min`: Minimum number of units that must be fulfilled.  
-   4. `max`: Exceeding this limit causes extra modules to count only as unrestricted electives (UEs).
+### **Application Architecture**
+**Frontend:** React (Next.js) + TypeScript  
+**Backend:** Node.js (Express) + TypeScript  
+**Database & Auth:** Supabase
 
-Modules that can fulfill active requirements are highlighted. Modules that can **no longer fulfill any requirement** (e.g., exceeding a max rule) are dimmed but remain selectable to fulfill UEs. A **live counter** shows how many credits are fulfilled per requirement group.
+### **Backend Logic Flow**
 
-3. ### **AP Optimizer *(in progress for Milestone 2\)***
+1. **Programme Selection**
 
-AP Optimiser dynamically handles **double-counting** of modules across multiple programs. If a module can satisfy requirements in both the primary major and a second major/minor, the system:
+   * The user selects up to 5 programmes on the frontend (1 major, 1 second major, 3 minors).
 
-* Attempts to apply it to both programs.  
-* Tracks the **double-counting cap** defined by the program.
+   * These selections are sent to the backend via POST/populate.
 
-Once the double-count cap is reached, AP Optimiser stops allowing shared fulfillment for requirements.
+2. **Requirement Blueprint Loading**
 
-## **Extension Features (Milestone 3\)**
+   * Backend loads each programme’s JSON blueprint from the local store (cloud database in Milestone 3).
 
-4. ### **Module Validator**
+   * Each blueprint is parsed into a unified schema with nested requirement trees.
 
-This feature ensures **module dependencies are respected** in the academic plan. Module Validator Pulls **prerequisites and preclusions** rules from the NUSMods API. When a student selects a module (e.g., CS2105), it checks:
+3. **Populated Payload Construction (AP Populator)**
 
-* Are its prerequisites (e.g., CS2040) also in the selection pool?  
-* If not:  
-  * The system **automatically adds the missing prerequisites** to the selection pool.  
-  * These are visually “attached” to the original module (parent-child relation).  
-  * Students **cannot remove** these prerequisites unless they remove the dependent module.
+   * Merges requirement trees and flattens them into CourseBox structures:
 
-5. ### **Timetable Validator**
+     * ExactBox: fixed compulsory modules.
 
-Ensures that the **semester-wise arrangement** of modules is valid. Timetable Validator validates:
+     * DropdownBox: pick-one options.
 
-* Semester availability: Is the module offered in Sem 1 or Sem 2?  
-* Prerequisite sequencing: Are all dependencies fulfilled in earlier semesters?  
-* Eg: If CS3105 is placed in Sem 2 but its prerequisite CS2040 is missing in earlier semesters, the Validator flags the error.
+     * AltPathBox: logical groupings (or, and) for complex trees.
 
-6. ### **AP Constructor** 
+   * Applies max rules by stripping requirement tags from courses once the cap is fulfilled.
 
-An **auto-layout tool** that builds a valid semester-wise plan from the selection pool. AP Constructor uses the rules from Module Validator \+ Timetable Validator. It automatically assigns prerequisites to earlier semesters. For example, dragging CS3105 into Y3S1 will auto-place its prerequisite CS2040 into Y2S2 or earlier.
+   * Attaches requirement tags and maps for use in validation.
 
-7. ### **AP Saver**
+4. **Backend Validator (AP Payload Validator)**
 
-This feature ensures the user can **save, retrieve, and sync** academic plans across sessions/devices. AP Saver uses FirebaseUI for login/registration and Cloud Firestore to save academic plans in the cloud.
+   * Validates and corrects the payload **before it reaches the frontend**:
 
-# **Technical Proof of Concept**
+     * Aborts plan if hard preclusion conflicts are detected between selected modules.
 
-By Milestone 1, we have:
+     * Filters out any precluded electives from the pool (soft conflicts).
 
-* Integrated **Next.js (React)** frontend with **Express.js** backend.
+     * Ensures all selected modules have prerequisites; missing ones are inserted into the plan.
 
-* Built the **Academic Plan Explorer**:
+   * Final payload is safe for interactive frontend rendering.
 
-  * Users can select programs and get a module pool grouped by requirement type.
+5. **Frontend Receives Payload**
 
-  * Backend returns mocked module data for 5 sample programs:
+   * The frontend uses the payload to:
 
-    * Life Sciences Major  
-    * Business Analytics Major  
-    * Computer Science Major  
-    * Life Sciences Second Major  
-    * Business Analytics Second Major
+     * Render modules by category and requirementKey.
 
-* Created a mock database containing:
+     * Track selected modules.
 
-  * The 5 programs requirement
+     * Initiate real-time validation and double-count logic.
 
-  * School of Computing common curriculum requirement
+### **Frontend Real-Time Flow**
 
-* Defined custom schema (for AcadProgram class).
+After the payload is received, all interactivity happens in real time on the frontend:
 
-* Populated NUSMods module list locally on the developer tools’ console via backend fetch (Developer tools can be opened by pressing “F12” on the keyboard, then navigating to console). However, we realised that the NusMods API does not contain the programme requirement for each major, as such this caused the list of mods that are returned to be inaccurate.
+1. **Module Selection (AP Realtime Validator)**
 
-![Result Screenshot](assets/milestone_1_result.png)
+   * On every selection, the frontend:
 
-Part of the list of possible elective mods for Computer Science as a primary major obtained from NUSMods API based on requirement data in the local database.
+     * Validates min, max, prereq, and preclusion rules using the flattened maps.
 
-As seen in the picture above, the returned list shows that a student taking Computer Science as a primary major has the option to take CS1010 or its variants. However, when referring to the NUS CS website ([Curriculum (Prospective Students) \- NUS Computing](https://www.comp.nus.edu.sg/programmes/ug/cs/curr/)), it is stated that the student is required to take CS1101s over CS1010 or its variants. As such, we deemed it unfit to display all the mods that the user can take, given that the list of mods are inaccurate and requires further processing. The reason for this incorrect list of mods is explained below.
+     * Warns users if prerequisites are unmet (Milestone 2\) and auto-adds them (Milestone 3).
 
-Limitations and challenges:
+     * Dynamically filters precluded courses from all relevant boxes.
 
-**Module Curation & Schema Design** is the most significant challenge we faced for Milestone 1. NUS does **not offer a unified or machine-readable source** for academic program requirements. As a result, we had to:
+     * Recalculates valid courses once caps are hit and strips their tags if needed.
 
-* **Manually curate** all program requirements from multiple sources such as web pages, PDFs, etc.
+2. **Double-Counting (AP Optimiser)**
 
-* Each program has a **unique structure**, with:
+   * Tracks when a module satisfies multiple programmes.
 
-  * Nested logic (`and`, `or`) for requirements
+   * Caps double-counting based on the programme doubleCountCap.
 
-  * Special cases like industry or research requirement
+   * Prompts users to choose which two programmes to allocate the module toward if triple-counting is detected.
 
-  * Faculty exceptions (e.g. SoC-specific university common core modules)
+   * Enables undo/redo and automatic AltPath switching.
 
-  * Level-specific rules (e.g., minimum Level-3000 or Level-4000 modules)
+3. **Requirement Tracking (AP Fulfilment Indicator)**
 
-This required designing and iterating on a **custom schema**, which became the foundation of our backend logic. Every curated program is structured with requirement categories like:
+   * As modules are selected, the UI:
 
-* `coreEssentials`: fixed, must-take modules  
-* `coreElectives`: flexible requirements with min/max MC logic  
-* `coreOthers`: research/internships/thesis/FYP  
-* `commonCore`: general education or faculty shared requirements  
-* `unrestrictedElectives`: leftover modules not tied to a specific logic  
-* `coreSpecials`: specialisation-specific
+     * Updates fulfilment indicators for each requirementKey.
 
-Each module group in the schema is wrapped in logical rule blocks (`min`, `max`, `and`, `or`), which will later power validation and optimization logic. So far, we have completed and structured data for:
+     * Propagates fulfillment from child tags to parent tags.
 
-* **Life Sciences (FoS)** – Primary Major  
-* **Computer Science (SoC)** – Primary Major  
-* **Business Analytics (SoC)** – Primary Major  
-* **Life Sciences (FoS)** – Minor  
-* **Life Sciences (FoS)** – Second Major  
-* **SoC Common Core** – SoC shared requirements block
+     * Dynamically adjusts UE requirements based on remaining unallocated AUs.
 
-**This is extremely time-consuming as** each program had to be read line-by-line and translated into our nested schema manually. Moreover, many modules don’t fall neatly into categories and require subjective classification. There is **no standard formatting across faculties**, so rules must be interpreted differently for each one. We also had to plan for **future flexibility**, e.g., variant modules to appear as dropdowns, modules to be marked as "double-countable", and logic to be overridden by specific program rules. This schema design is essential not just for the Explorer, but also for:
+---
 
-* Validator logic (min/max enforcement, overlap resolution)  
-* Optimiser logic (double-count tracking)  
-* Constructor and Timetable
+## Testing
+Unit tests (Jest) were written for key validator components (backend and realtime) covering prerequisite logic, AU limits, and double-counting detection.
 
+---
 
+## Current Limitations and Roadmap
+- Time prioritisation led to incomplete UI polish.  
+- ID–key mismatch across backend/frontend introduces complexity.  
+- Limited programme coverage beyond FoS/SoC.  
+- Manual data updates still required.  
+- Frontend lacks full UX refinement.
 
-# **System Design**
+Despite this, the system achieved scalable validation and backend integration across multiple programmes.
 
-### **Architecture**
+---
 
-Double repo setup:
+## Deployment
+**Live Demo (Discontinued)**  
+The AWS deployment used for Milestone 3 is no longer active.  
+This repository remains as a reference for academic and portfolio purposes only.
 
-* **Frontend**: React \+ Firebase AuthUI  
-* **Backend**: Express \+ Node.js \+ Firebase Admin SDK \+ Cloud Firestore (planned for Milestone 3\)
-
-### **Backend Breakdown (Milestone 1\)**
-
-| Folder | Purpose |
-| :---- | :---- |
-| `/controllers` | Contains feature logic (e.g., AP Explorer) |
-| `/data` | Stores program JSON, NUSMods module list |
-| `/models` | Custom classes (e.g., AcadProgram) |
-| `/types` | Custom \+ NUSMods types (FE-BE types not unified yet) |
-| `/routes` | Includes routes to fetch from NUSMods API, update local database, and AP Explorer function (populate) |
-| `/services` | Reusable logic |
-| `/server.ts` | Entry point to run server |
-
-# **Tech Stack**
-
-| Layer | Technology |
-| :---- | :---- |
-| Frontend | Next.js (React), FirebaseUI |
-| Backend | Node.js, Express.js, Firebase Admin SDK |
-| Database | Cloud Firestore (local JSON for Milestone 1\) |
-| API | NUSMods API |
-
-## 
-
-# **Development Plan**
-
-| Milestone | Deliverables |
-| :---- | :---- |
-| 1\. Technical Proof of Concept (by 2 Jun) | Finish AP Explorer (basic module generation) Set up mock program data and schema |
-| 2\. Core Features (by 30 Jun) | Complete AP Validator and AP Optimiser Enable full logic-based validation with selection pool |
-| 3\. Extended System (by 31 Jul) | Finish Module Validator, Constructor, and Timetable Validator Enable cloud-based plan saving with Firebase |
-
-# **How to Run Locally**
-
-1. Clone both repos from Github.  
-   * BE repo: [https://github.com/uandiqueue/NUSPlan-BE](https://github.com/uandiqueue/NUSPlan-BE)  
-   * FE repo: [https://github.com/uandiqueue/NUSPlan-FE](https://github.com/uandiqueue/NUSPlan-FE)   
-2. Install node\_modules using yarn (yarn install):  
-   * BE uses yarn 4.6.0  
-   * FE uses yarn 1.22.22  
-   * Enable corepack if there are any issues.  
-3. Run yarn dev on the backend terminal.  
-4. Run yarn start on the frontend terminal.  
-5. You’ll see a minimal interface where you can select up to 5 academic programs (1 major, 1 second major, up to 3 minors). **For milestone 1, please select only 1 major, and for secondMajor/minor, only select Life Sciences.**  
-6. Once you make your selection, the app sends a POST request to the backend to fetch the corresponding module data.  
-7. Since the module pool is not yet validated or optimised, the current response is a raw, unfiltered list of modules.  
-8. Because of this, the frontend **does not yet render the module pool**. Displaying it would be overwhelming and potentially misleading.  
-9. To verify functionality, **check your backend terminal** showing “Populated \[selected program\].
+---
